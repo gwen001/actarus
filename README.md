@@ -11,9 +11,9 @@ Actarus is a tool designed to help ~~hackers~~ bounty hunters in their task of p
 
 Features
 ============== 
-project managment - create, edit, delete  
-server managment - create, edit, delete, search  
-domain managment - create, edit, delete, search  
+* project managment - create, edit, delete  
+* server managment - create, edit, delete, search  
+* domain managment - create, edit, delete, search  
 host (subdomain) managment - create, edit, delete, search  
 task managment - create, edit, delete, search  
 task automation - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
