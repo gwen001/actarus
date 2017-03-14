@@ -1,0 +1,30 @@
+
+delete from arus_entity_alert where id in (select * from (select t.id from arus_entity_alert as t left join arus_project as o on t.entity_id=o.entity_id where t.entity_id like '1%' and o.id is null) as n);
+delete from arus_entity_alert where id in (select * from (select t.id from arus_entity_alert as t left join arus_server as o on t.entity_id=o.entity_id where t.entity_id like '2%' and o.id is null) as n);
+delete from arus_entity_alert where id in (select * from (select t.id from arus_entity_alert as t left join arus_domain as o on t.entity_id=o.entity_id where t.entity_id like '3%' and o.id is null) as n);
+delete from arus_entity_alert where id in (select * from (select t.id from arus_entity_alert as t left join arus_host as o on t.entity_id=o.entity_id where t.entity_id like '4%' and o.id is null) as n);
+
+
+delete from arus_entity_comment where id in (select * from (select t.id from arus_entity_comment as t left join arus_project as o on t.entity_id=o.entity_id where t.entity_id like '1%' and o.id is null) as n);
+delete from arus_entity_comment where id in (select * from (select t.id from arus_entity_comment as t left join arus_server as o on t.entity_id=o.entity_id where t.entity_id like '2%' and o.id is null) as n);
+delete from arus_entity_comment where id in (select * from (select t.id from arus_entity_comment as t left join arus_domain as o on t.entity_id=o.entity_id where t.entity_id like '3%' and o.id is null) as n);
+delete from arus_entity_comment where id in (select * from (select t.id from arus_entity_comment as t left join arus_host as o on t.entity_id=o.entity_id where t.entity_id like '4%' and o.id is null) as n);
+
+
+delete from arus_entity_loot where id in (select * from (select t.id from arus_entity_loot as t left join arus_project as o on t.entity_id=o.entity_id where t.entity_id like '1%' and o.id is null) as n);
+delete from arus_entity_loot where id in (select * from (select t.id from arus_entity_loot as t left join arus_server as o on t.entity_id=o.entity_id where t.entity_id like '2%' and o.id is null) as n);
+delete from arus_entity_loot where id in (select * from (select t.id from arus_entity_loot as t left join arus_domain as o on t.entity_id=o.entity_id where t.entity_id like '3%' and o.id is null) as n);
+delete from arus_entity_loot where id in (select * from (select t.id from arus_entity_loot as t left join arus_host as o on t.entity_id=o.entity_id where t.entity_id like '4%' and o.id is null) as n);
+
+
+delete from arus_entity_task where id in (select * from (select t.id from arus_entity_task as t left join arus_project as o on t.entity_id=o.entity_id where t.entity_id like '1%' and o.id is null) as n);
+delete from arus_entity_task where id in (select * from (select t.id from arus_entity_task as t left join arus_server as o on t.entity_id=o.entity_id where t.entity_id like '2%' and o.id is null) as n);
+delete from arus_entity_task where id in (select * from (select t.id from arus_entity_task as t left join arus_domain as o on t.entity_id=o.entity_id where t.entity_id like '3%' and o.id is null) as n);
+delete from arus_entity_task where id in (select * from (select t.id from arus_entity_task as t left join arus_host as o on t.entity_id=o.entity_id where t.entity_id like '4%' and o.id is null) as n);
+
+
+delete from arus_entity_technology where id in (select * from (select t.id from arus_entity_technology as t left join arus_project as o on t.entity_id=o.entity_id where t.entity_id like '1%' and o.id is null) as n);
+delete from arus_entity_technology where id in (select * from (select t.id from arus_entity_technology as t left join arus_server as o on t.entity_id=o.entity_id where t.entity_id like '2%' and o.id is null) as n);
+delete from arus_entity_technology where id in (select * from (select t.id from arus_entity_technology as t left join arus_domain as o on t.entity_id=o.entity_id where t.entity_id like '3%' and o.id is null) as n);
+delete from arus_entity_technology where id in (select * from (select t.id from arus_entity_technology as t left join arus_host as o on t.entity_id=o.entity_id where t.entity_id like '4%' and o.id is null) as n);
+
