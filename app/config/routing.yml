@@ -1,0 +1,88 @@
+arus_host_server:
+    resource: "@ArusHostServerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+settings_task_callback:
+    resource: "@ArusTaskCallbackBundle/Resources/config/routing.yml"
+    prefix:   /
+
+settings_task:
+    resource: "@ArusTaskBundle/Resources/config/routing.yml"
+    prefix:   /
+
+settings_technology:
+    resource: "@ArusTechnologyBundle/Resources/config/routing.yml"
+    prefix:   /
+
+entity_technology:
+    resource: "@ArusEntityTechnologyBundle/Resources/config/routing.yml"
+    prefix:   /
+
+entity_loot:
+    resource: "@ArusEntityLootBundle/Resources/config/routing.yml"
+    prefix:   /
+
+entity_alert:
+    resource: "@ArusEntityAlertBundle/Resources/config/routing.yml"
+    prefix:   /
+
+help:
+    resource: "@HelpBundle/Resources/config/routing.yml"
+    prefix:   /
+
+changelog:
+    resource: "@ChangelogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+entity_task:
+    resource: "@ArusEntityTaskBundle/Resources/config/routing.yml"
+    prefix:   /
+
+entity_comment:
+    resource: "@ArusEntityCommentBundle/Resources/config/routing.yml"
+    prefix:   /
+
+server:
+    resource: "@ArusServerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+domain:
+    resource: "@ArusDomainBundle/Resources/config/routing.yml"
+    prefix:   /
+
+host:
+    resource: "@ArusHostBundle/Resources/config/routing.yml"
+    prefix:   /
+
+sqlmap:
+    resource: "@SqlmapBundle/Resources/config/routing.yml"
+    prefix:   /
+
+settings:
+    resource: "@SettingsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+requete:
+    resource: "@RequeteBundle/Resources/config/routing.yml"
+    prefix:   /
+
+project:
+    resource: "@ArusProjectBundle/Resources/config/routing.yml"
+    prefix:   /
+
+dashboard:
+    resource: "@DashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+home:
+    defaults: { "_controller": FOSUserBundle:Security:login}
+    path:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix:   /

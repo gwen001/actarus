@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <meta name="description" content="Actarus is a custom tool for bug bounty">
+
+        <title>Time to make money!</title>
+
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="{{ asset("css/font-awesome.min.css") }}">
+        <!-- Sandstone Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset("css/bootstrap.min.css") }}">
+        <!-- Bootstrap Datatables -->
+        <link rel="stylesheet" href="{{ asset("css/dataTables.bootstrap.min.css") }}">
+        <!-- Bootstrap social button library -->
+        <link rel="stylesheet" href="{{ asset("css/bootstrap-social.css") }}">
+        <!-- Bootstrap select -->
+        <link rel="stylesheet" href="{{ asset("css/bootstrap-select.css") }}">
+        <!-- Bootstrap file input -->
+        <link rel="stylesheet" href="{{ asset("css/fileinput.min.css") }}">
+        <!-- Awesome Bootstrap checkbox -->
+        <link rel="stylesheet" href="{{ asset("css/awesome-bootstrap-checkbox.css") }}">
+        <!-- tools -->
+        <link rel="stylesheet" href="{{ asset("css/easy-autocomplete.min.css") }}">
+        <!-- Admin Stye -->
+        <link rel="stylesheet" href="{{ asset("css/style.css") }}">
+        <link rel="stylesheet" href="{{ asset("css/custom.css") }}">
+
+        <script src="{{ asset("js/jquery.min.js") }}"></script>
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <style>
+            {% block stylesheets %}
+            {% endblock %}
+        </style>
+    </head>
+
+    <body>
+        <div class="ts-main-content">
+            {% include 'nav2.html.twig' %}
+
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for type,t_message in app.session.flashbag.all %}
+                                {% for message in t_message %}
+                                    <div class="alert alert-dismissible alert-{{ type }}">
+                                        <button type="button" class="close" data-dismiss="alert"><i class="fa fa-remove"></i></button>
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {% block body %}{% endblock %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Scripts -->
+        <script src="{{ asset("js/jquery.min.js") }}"></script>
+        <script src="{{ asset("js/jquery-ui.min.js") }}"></script>
+        <script src="{{ asset("js/bootstrap-select.min.js") }}"></script>
+        <script src="{{ asset("js/bootstrap.min.js") }}"></script>
+        <script src="{{ asset("js/jquery.dataTables.min.js") }}"></script>
+        <script src="{{ asset("js/dataTables.bootstrap.min.js") }}"></script>
+        <script src="{{ asset("js/Chart.min.js") }}"></script>
+        <script src="{{ asset("js/chartData.js") }}"></script>
+        <script src="{{ asset("js/fileinput.min.js") }}"></script>
+        <script src="{{ asset("js/main.js") }}"></script>
+        <script src="{{ asset("js/jquery.easy-autocomplete.min.js") }}"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.datatable').DataTable();
+				$('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,32 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    {% if error %}
+        <div class="text-yellow">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path("fos_user_security_check") }}" method="post" class="mt">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <label for="" class="text-uppercase text-sm text-white">Your Username</label>
+        <input type="text" id="username" name="_username" placeholder="Username" class="form-control mb" required="required">
+        <label for="" class="text-uppercase text-sm text-white">Password</label>
+        <input type="password" id="password" name="_password" placeholder="Password" class="form-control mb" required="required">
+        <!-- <div class="checkbox checkbox-circle checkbox-info">
+            <input id="checkbox7" type="checkbox" checked>
+            <label for="checkbox7">
+                Keep me signed in
+            </label>
+        </div> -->
+        <button class="btn btn-primary btn-block" type="submit" id="_submit" name="_submit">LOGIN</button>
+    </form>
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('form.mt').find('#username').focus();
+        });
+    </script>
+{% endblock %}

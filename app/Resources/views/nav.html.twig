@@ -1,0 +1,25 @@
+<nav class="ts-sidebar">
+    <ul class="ts-sidebar-menu">
+        <!-- <li class="ts-label">Search</li>
+        <li><input class="ts-sidebar-search" placeholder="Search here..." type="text"></li> -->
+        <li class="ts-label">{{ random(fortunes) }}</li>
+        <li><a href="{{ url('dashboard_homepage') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li class="open"><a href="#">Entities</a>
+            <ul>
+                <li><a href="{{ url('project_homepage') }}"><i class="fa fa-briefcase"></i> Project</a></li>
+                <li><a href="{{ url('server_homepage') }}"><i class="fa fa-sitemap"></i> Server</a></li>
+                <li><a href="{{ url('domain_homepage') }}"><i class="fa fa-globe"></i> Domain</a></li>
+                <li><a href="{{ url('host_homepage') }}"><i class="fa fa-arrow-right"></i> Host</a></li>
+                <!-- <li><a href="{{ url('requete_homepage') }}"><i class="fa fa-external-link"></i> Request</a></li> -->
+            </ul>
+        </li>        
+        <li><a href="{{ url('task_homepage') }}"><i class="fa fa-terminal"></i> Task</a></li>
+        <li><a href="{{ url('alert_homepage') }}"><i class="fa fa-bell-o"></i> Alert</a></li>
+        <!-- <li><a href="{{ url('technology_homepage') }}"><i class="fa fa-cubes"></i> Technology</a></li>
+        <li><a href="{{ url('comment_homepage') }}"><i class="fa fa-commenting-o"></i> Comment</a></li>
+        <li><a href="{{ url('dashboard_homepage') }}"><i class="fa fa-edit"></i> Report</a></li> -->
+        <li><a href="{{ url('settings_homepage') }}"><i class="fa fa-gear"></i> Settings</a></li>
+        <!-- <li><a href="{{ url('changelog_homepage') }}"><i class="fa fa-align-left"></i> Changelog</a></li>
+        <li><a href="{{ url('help_homepage') }}"><i class="fa fa-question"></i> Help</a></li> -->
+    </ul>
+</nav>

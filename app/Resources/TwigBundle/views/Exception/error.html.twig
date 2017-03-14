@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-error">
+        <h2 class="page-title">Error</h2>
+
+        <div class="well">
+            <p>
+                An error occured, feel free to
+                <a href="{{ path('home') }}#contact">contact us</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            window.setTimeout("location=('{{ path('home') }}');",5000);
+        });
+    </script>
+{% endblock %}

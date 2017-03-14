@@ -1,0 +1,21 @@
+# This file is auto-generated during the composer install
+imports:
+    -
+        resource: myparameters.yml
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: actarus
+    database_user: actarus
+    database_password: actarus
+    mailer_transport: mail
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: c7c3effd737a9a9a4e6455e74b191f5d6e15f393
+    daemon_cluster_id: 1
+    daemon_interpret_max_child: 20
+    daemon_kill_max_child: 2
+    daemon_run_max_child: 10
+    daemon_run_task_priority: []
+    daemon_run_task_ignore: []

@@ -24,6 +24,7 @@ Features
 * technology gathering - Actarus can link an entity with certain technology. See `db.actarus.arus_technology`
 * multi processing - the three daemons fork to many childs. See `parameters/*_max_child`
 * clustering - Actarus can be installed on many servers, while the gui frontend in enabled on only one, the daemon (task runner) can be launched on all of them, admitting that the servers can access the database
+* HackerOne cron for project and scope grabbing - see `src/AppBundle/Command/CronCommand.php`
 
 Required
 ============== 
