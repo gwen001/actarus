@@ -1,0 +1,89 @@
+
+aptitude install apache2 fail2ban nmap
+aptitude install php5 php5-dev php5-curl php5-pecl-http
+aptitude install mysql-server mysql-client libmysqlclient-dev phpmyadmin
+
+aptitude install libyaml-0-2 libyaml-dev libv8-dev
+pecl install yaml-beta
+
+aptitude install libv8-dev
+pecl install v8js-0.1.3
+
+aptitude install python-pip python-2.7-dev python-curl libcurl4-openssl-dev
+pip2 install dnsknife netaddr requests paramiko python-mysqldb
+
+aptitude install git whois hydra nikto sqlmap whatweb awscli
+
+git clone git@github.com:gwen001/SecLists
+git clone git@github.com:gwen001/Wappalyzer
+git clone git@github.com:gwen001/dnsexpire
+git clone git@github.com:gwen001/github-search
+git clone git@github.com:gwen001/pentest-tools
+git clone git@github.com:gwen001/s3-buckets-extractor
+
+git clone git://git.kali.org/packages/theharvester.git
+git clone git://git.kali.org/packages/davtest.git
+git clone git://git.kali.org/packages/dirb.git
+git clone git://git.kali.org/packages/dnsrecon.git
+git clone git://git.kali.org/packages/patator.git
+git clone git://git.kali.org/packages/smtp-user-enum.git
+git clone https://github.com/wpscanteam/wpscan
+
+git clone https://github.com/urbanadventurer/WhatWeb
+
+tar -xvzf dirb222.tar.gz
+mv dirb222 dirb
+cd dirb/
+chmod +x configure
+./configure
+make
+ln -s /opt/dirb/dirb /opt/bin/dirb
+
+ln -s /opt/dnsexpire/dnsexpire.php /opt/bin/dnsexpire
+ln -s /opt/dnsrecon/dnsrecon.py /opt/bin/dnsrecon
+ln -s /opt/github-search/gsearch.sh /opt/bin/github-search
+ln -s /usr/bin/host /opt/bin/host
+ln -s /usr/bin/hydra /opt/bin/hydra
+ln -s /usr/bin/nikto /opt/bin/nikto
+ln -s /usr/bin/nmap /opt/bin/nmap
+ln -s /opt/pentest-tools/portscan-nc.sh /opt/bin/portscan-nc
+ln -s /opt/s3-buckets-extractor/s3-buckets-bruteforce.sh /opt/bin/s3-buckets-bruteforce
+ln -s /opt/smtp-user-enum/smtp-user-enum.pl /opt/bin/smtp-user-enum
+ln -s /opt/pentest-tools/subthreat.php /opt/bin/subthreat
+ln -s /opt/pentest-tools/testhttp.php /opt/bin/testhttp
+ln -s /opt/theharvester/theHarvester.py /opt/bin/theharvester
+ln -s /usr/bin/whatweb /opt/bin/whatweb
+ln -s /usr/bin/whois /opt/bin/whois
+
+aptitude install python-paramiko
+pip install paramiko==1.16.0
+ln -s /opt/patator/patator.py /opt/bin/patator
+
+aptitude install ruby2.1-dev
+gem install libv8 --verbose
+gem install therubyracer
+ln -s /opt/Wappalyzer/src/drivers/ruby/wappalyzer.rb /opt/bin/wappalyzer
+
+gem install bundler
+gem install typhoeus
+gem install nokogiri
+gem install addressable
+gem install yajl-ruby
+gem install terminal-table
+gem install ruby-progressbar
+gem install webmock
+gem install simplecov
+gem install rspec
+gem install rspec-its
+ln -s /opt/wpscan/wpscan.rb /opt/bin/wpscan
+
+git clone https://github.com/gwen001/actarus.git
+
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+rm composer-setup.php
+chown www-data.www-data composer.phar
+php composer.phar install
+
+./app/console doctrine:schema:update --force
+./app/console fos:user:create
