@@ -1,0 +1,33 @@
+domain_homepage:
+    path:     /domain
+    defaults: { _controller: "ArusDomainBundle:Default:index" }
+
+domain_show:
+    path:     /domain/{id}/show
+    defaults: { _controller: "ArusDomainBundle:Default:show" }
+    methods:  [GET]
+
+domain_view:
+    path:     /domain/{id}/view
+    defaults: { _controller: "ArusDomainBundle:Default:view" }
+    methods:  [GET]
+
+domain_new:
+    path:     /domain/new
+    defaults: { _controller: "ArusDomainBundle:Default:new" }
+    methods:  [GET, POST]
+
+domain_edit:
+    path:     /domain/{id}/edit
+    defaults: { _controller: "ArusDomainBundle:Default:edit" }
+    methods:  [GET, POST]
+
+domain_quickedit:
+    path:     /domain/{id}/quickedit
+    defaults: { _controller: "ArusDomainBundle:Default:quickedit" }
+    methods:  [GET, POST]
+
+domain_delete:
+    path:     /domain/{id}/delete
+    defaults: { _controller: "ArusDomainBundle:Default:delete" }
+    methods:  [DELETE]

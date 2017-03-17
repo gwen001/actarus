@@ -1,0 +1,129 @@
+<div class="mod mod-alerts panel panel-danger">
+    <div class="panel-heading">
+        Alerts ({{ t_alert|length }})
+        <a href="#" class="pull-right btn btn-warning btn-xs alert-add">Add alert</a>
+    </div>
+    <div class="panel-body">
+        {% for alt in t_alert %}
+            {{ include('ArusEntityAlertBundle:Default:unit.html.twig') }}
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        if( $('.panel-info') ) {
+            window.setTimeout( function(){$('.mod-alerts .panel-body').css('height', $('.panel-info .panel-body').css('height'))}, 300 );
+            window.setTimeout( function(){$('.mod-alerts .panel-body').css('max-height', $('.panel-info .panel-body').css('height'))}, 300 );
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.alert-confirm').unbind();
+        $('.alert-confirm').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $.ajax({
+                url: url,
+                method: 'POST'
+            }).done(function(){
+                reloadBlock( '.mod-alerts', '{{ url('alert_getlist',{'entity_id':entity_id}) }}' );
+            });
+        });
+
+        $('.alert-cancel').unbind();
+        $('.alert-cancel').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $.ajax({
+                url: url,
+                method: 'POST'
+            }).done(function(){
+                reloadBlock( '.mod-alerts', '{{ url('alert_getlist',{'entity_id':entity_id}) }}' );
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAlertAdd').unbind();
+        $('.alert-add').on('click', function(e) {
+            e.preventDefault();
+            $('#modalAlertAdd').modal();
+            $('#modalAlertAdd').on('click','#confirm-save',function(e){
+                e.preventDefault();
+                form = $('#modalAlertAdd form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalAlertAdd').find('.close').click();
+                    reloadBlock( '.mod-alerts', '{{ url('alert_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalAlertAdd').on('shown.bs.modal', function () {
+            $('#modalAlertAdd form').find('#arus_entity_alert_add_descr').focus();
+        });
+        $('#modalAlertAdd').on('hide.bs.modal',function(){
+            $('#modalAlertAdd form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAlertEdit').unbind();
+        $('.alert-edit').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            level = parseInt( obj.parent().parent().find('.alert-level').html() );
+            $('#modalAlertEdit').modal();
+
+            form = $('#modalAlertEdit form');
+            form.attr( 'action', url );
+            form.find('#arus_entity_alert_edit_limited_level_'+level).prop('checked',true);
+            form.find('#arus_entity_alert_edit_limited_descr').val( obj.parent().parent().find('.alert-descr').html() );
+            form.find('#arus_entity_alert_edit_limited_entity_id').val( obj.attr('data-entity-id') );
+
+            $('#modalAlertEdit').on('click','#confirm-save',function(e){
+                form = $('#modalAlertEdit form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalAlertEdit').find('.close').click();
+                    reloadBlock( '.mod-alerts', '{{ url('alert_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalAlertEdit').on('shown.bs.modal', function () {
+            $('#modalAlertEdit form').find('#arus_entity_alert_edit_limited_descr').focus();
+        });
+        $('#modalAlertEdit').on('hide.bs.modal',function(){
+            $('#modalAlertEdit form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAlertDelete').unbind();
+        $('.alert-delete').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalAlertDelete').modal();
+            $('#modalAlertDelete').on('click','#confirm-delete',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'DELETE'
+                }).done(function(){
+                    $('#modalAlertDelete').find('.close').click();
+                    reloadBlock( '.mod-alerts', '{{ url('alert_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+    });
+</script>

@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-task-show">
+
+        {{ include('ArusEntityTaskBundle:Default:delete.html.twig') }}
+        {{ form_start(delete_form,{'attr':{'id':'delete-form'}}) }}
+        <input type="submit" id="delete" value="Delete" class="task-delete btn btn-danger pull-right">
+        {{ form_end(delete_form) }}
+
+        {% if task.getStatus() < 3 %}
+            {{ include('ArusEntityTaskBundle:Default:stop.html.twig') }}
+            {{ form_start(stop_form,{'attr':{'id':'stop-form'}}) }}
+            <input type="submit" id="stop" value="Stop" class="task-stop btn btn-warning pull-right" style="margin-right:20px;">
+            {{ form_end(stop_form) }}
+        {% endif %}
+        
+        <a href="{{ url('task_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+        
+        <h2 class="page-title">Task #{{ task.getId() }}</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Basic infos
+                    </div>
+                    <div class="panel-body">
+                        <div class="object-info">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Id</label>
+                                    <div class="col-sm-10">
+                                        {{ task.getId() }}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Pid</label>
+                                    <div class="col-sm-10">
+                                        {{ task.getPid() }} - {{ task.getRealPid() }}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Project</label>
+                                    <div class="col-sm-10">
+                                        <a href="{{ url('project_show',{'id':task.getProject().getId()}) }}">{{ task.getProject().getName()|capitalize }}</a>
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Entity</label>
+                                    <div class="col-sm-10">
+                                        <a href="{{ url(t_entity_type[task.getEntity().getType()]~'_show',{'id':task.getEntity().getId()}) }}">{{ task.getEntity().getName() }}</a>
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Command</label>
+                                    <div class="col-sm-10">
+                                        {{ task.getCommand() }}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Status</label>
+                                    <div class="col-sm-10">
+                                        {{ t_status[task.getStatus()] }}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Created date</label>
+                                    <div class="col-sm-10">
+                                        {% if task.getCreatedAt() %}{{ task.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Last update</label>
+                                    <div class="col-sm-10">
+                                        {% if task.getUpdatedAt() %}{{ task.getUpdatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Start date</label>
+                                    <div class="col-sm-10">
+                                        {% if task.getStartedAt() %}{{ task.getStartedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">End date</label>
+                                    <div class="col-sm-10">
+                                        {% if task.getEndedAt() %}{{ task.getEndedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                        {% if task.getStartedAt() %}({{ task.getDuration() }}){% endif %}
+                                    </div>
+                                </div>
+                                <div class="hr-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <a href="{{ url('task_edit',{'id':task.getId()}) }}" class="btn btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <pre>{{ task.getOutput() }}</pre>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#delete').on('click', function(e) {
+                e.preventDefault();
+                $('#modalTaskDelete').modal().one('click','#confirm-delete',function(e){
+                    $('#delete-form').submit();
+                });
+            });
+            $('#stop').on('click', function(e) {
+                e.preventDefault();
+                $('#modalTaskStop').modal().one('click','#confirm-stop',function(e){
+                    $('#stop-form').submit();
+                });
+            });
+        });
+    </script>
+{% endblock %}

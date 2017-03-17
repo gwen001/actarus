@@ -1,0 +1,78 @@
+<div class="mod mod-task-callback-add">
+    <div class="panel panel-success">
+        <div class="panel-heading">Add/edit callback</div>
+        <div class="panel-body">
+            <div class="object-info">
+                {{ form_start(callback_add_form,{'attr':{'class':'form-horizontal'}}) }}
+                {{ form_row(callback_add_form._token) }}
+                {{ form_widget(callback_add_form.task,{'attr':{'class':'hidden'}}) }}
+                <div class="form-group">
+                    {{ form_label(callback_add_form.regex,'Regexp *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(callback_add_form.regex,{'attr':{'class':'form-control'}}) }}
+                        <span class="help-block m-b-none">{{ form_errors(callback_add_form.regex) }}</span>
+                    </div>
+                </div>
+                <div class="hr-dashed"></div>
+                <div class="form-group">
+                    {{ form_label(callback_add_form.action,'Action *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(callback_add_form.action,{'attr':{'class':'form-control'}}) }}
+                        <span class="help-block m-b-none">{{ form_errors(callback_add_form.action) }}</span>
+                    </div>
+                </div>
+                <div class="hr-dashed"></div>
+                <div class="params">
+                    <div class="param" data-task-param="addTask">
+                        <div class="form-group">
+                            {{ form_label(callback_add_form.param_task,'Task',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                            <div class="col-sm-10">
+                                {{ form_widget(callback_add_form.param_task,{'attr':{'class':'form-control'}}) }}
+                                <span class="help-block m-b-none">{{ form_errors(callback_add_form.param_task) }}</span>
+                            </div>
+                        </div>
+                        <div class="hr-dashed"></div>
+                    </div>
+                    <div class="param" data-task-param="addAlert">
+                        <div class="form-group">
+                            {{ form_label(callback_add_form.param_alert_level,'Alert Level',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                            <div class="col-sm-10">
+                                {{ form_widget(callback_add_form.param_alert_level,{'attr':{'class':'form-control'}}) }}
+                                <span class="help-block m-b-none">{{ form_errors(callback_add_form.param_alert_level) }}</span>
+                            </div>
+                        </div>
+                        <div class="hr-dashed"></div>
+                    </div>
+                    <div class="param" data-task-param="addTechnology">
+                        <div class="form-group">
+                            {{ form_label(callback_add_form.param_technology,'Technology',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                            <div class="col-sm-10">
+                                <input id="technology-ac" class="form-control" />
+                                {{ form_widget(callback_add_form.param_technology,{'attr':{'class':'form-control hidden'}}) }}
+                                <span class="help-block m-b-none">{{ form_errors(callback_add_form.param_technology) }}</span>
+                            </div>
+                        </div>
+                        <div class="hr-dashed"></div>
+                    </div>
+                    <div class="param" data-task-param="addAlert,addComment,addTechnology">
+                        <div class="form-group">
+                            {{ form_label(callback_add_form.param_text,'Text',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                            <div class="col-sm-10">
+                                {{ form_widget(callback_add_form.param_text,{'attr':{'class':'form-control'}}) }}
+                                <span class="help-block m-b-none">{{ form_errors(callback_add_form.param_text) }}</span>
+                            </div>
+                        </div>
+                        <div class="hr-dashed"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                        <a href="javascript:;" id="callback-cancel" class="btn btn-default pull-left" style="margin-right:20px;">Cancel</a>
+                    </div>
+                </div>
+                {{ form_end(callback_add_form) }}
+            </div>
+        </div>
+    </div>
+</div>

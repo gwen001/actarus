@@ -1,0 +1,48 @@
+host_homepage:
+    path:     /host
+    defaults: { _controller: "ArusHostBundle:Default:index" }
+
+host_show:
+    path:     /host/{id}/show
+    defaults: { _controller: "ArusHostBundle:Default:show" }
+    methods:  [GET]
+
+host_view:
+    path:     /host/{id}/view
+    defaults: { _controller: "ArusHostBundle:Default:view" }
+    methods:  [GET]
+
+host_new:
+    path:     /host/new
+    defaults: { _controller: "ArusHostBundle:Default:new" }
+    methods:  [GET, POST]
+
+host_import:
+    path:     /host/import/{project_id}
+    defaults: { _controller: "ArusHostBundle:Default:import", project_id: 0 }
+    methods:  [GET, POST]
+
+host_edit:
+    path:     /host/{id}/edit
+    defaults: { _controller: "ArusHostBundle:Default:edit" }
+    methods:  [GET, POST]
+
+host_quickedit:
+    path:     /host/{id}/quickedit
+    defaults: { _controller: "ArusHostBundle:Default:quickedit" }
+    methods:  [GET, POST]
+
+host_delete:
+    path:     /host/{id}/delete
+    defaults: { _controller: "ArusHostBundle:Default:delete" }
+    methods:  DELETE
+
+host_getinfo:
+    path:     /host/getinfo
+    defaults: { _controller: "ArusHostBundle:Default:getInfo", _format:"json" }
+    methods:  POST
+
+host_getcomments:
+    path:     /host/{id}/getcomments
+    defaults: { _controller: "ArusHostBundle:Default:getComments" }
+    methods:  GET

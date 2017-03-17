@@ -1,0 +1,10 @@
+<div id="technologies-panel">
+    {% if t_techno|length %}
+        {% for t in t_techno %}
+            {% set tname = t.getTechnology().getName()~' '~t.getVersion() %}
+            <a href="{{ url('technology_edit',{'id':t.getId()}) }}" data-entity-id="{{ t.entityId() }}" class="technology-edit" data-toggle="tooltip" data-placement="bottom" title="{{ tname }}"><img src="{{ asset('/img/technology/'~t.getTechnology().getIcon()) }}" title="{{ tname }}" alt="{{ tname }}" class="techno" data-technology-id="{{ t.getTechnology().getId() }}" data-version="{{ t.getVersion() }}" /></a>
+        {% endfor %}
+    {% else %}
+        -
+    {% endif %}
+</div>

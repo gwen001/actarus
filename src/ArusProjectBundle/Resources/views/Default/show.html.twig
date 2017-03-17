@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-project-show">
+
+        {{ include('ArusProjectBundle:Default:delete.html.twig') }}
+
+        {{ form_start(delete_form,{'attr':{'id':'delete-form'}}) }}
+        <input type="submit" id="delete" value="Delete" class="btn btn-danger pull-right">
+        {{ form_end(delete_form) }}
+        <a href="{{ url('project_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+        <a href="{{ url('host_import',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Import host</a>
+        <a href="{{ url('server_import',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Import server</a>
+
+        <h2 class="page-title">Project {{ project.getName()|capitalize }}</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Basic infos
+                        <a href="#" class="pull-right btn btn-primary btn-xs task-add">Launch command</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="object-info">
+                            {{ include('ArusProjectBundle:Default:view.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {{ alert_mod|raw }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mod mod-servers panel panel-success">
+                    <div class="panel-heading">Server list ({{ project.servers|length }})</div>
+                    <div class="panel-body">
+                        {% if t_server|length %}
+                            <table class="table table-bordered table-striped dataTable">
+                                <thead>
+                                    <tr>
+                                        <th width="70" style="text-align:center;">#</th>
+                                        <th width="180">IP</th>
+                                        <th>Alias</th>
+                                        <th width="70" style="text-align:center;">Hosts</th>
+                                        <th width="170" style="text-align:center;">Created date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for s in t_server %}
+                                        {% set class =  'server_status_' ~ t_status[s.getStatus()]|replace({' ':'_'}) %}
+                                        <tr class="{{ class }}">
+                                            <td align="right"><a href="{{ path('server_show', { 'id': s.getId() }) }}" class="{{ class }}">{{ s.getId() }}</a></td>
+                                            <td>
+				                                {% if s.getMaxAlertLevel()[0] >= 0 %}
+				                                    {% if s.getMaxAlertLevel()[1] == 0 %}
+				                                   		{% set aclass = 'fa-bell-o' %}
+				                                    {% else %}
+				                                   		{% set aclass = 'fa-bell' %}
+				                                    {% endif %}
+				                                {% else %}
+				                               		{% set aclass = 'alert-none' %}
+				                                {% endif %}
+				                                {% set aclass = aclass~' alert_level_'~s.getMaxAlertLevel()[0] %}
+				                                <i class="fa {{ aclass }}"></i>
+                                                <a href="{{ path('server_show', { 'id': s.getId() }) }}" class="text-default">{{ s.getName() }}</a>
+                                            </td>
+                                            <td>{{ s.getAlias()|default('-') }}</td>
+                                            <td align="center">{{ s.getHostServers()|length }}</td>
+                                            <td align="center">{% if s.getCreatedAt() %}{{ s.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mod mod-domains panel panel-success">
+                    <div class="panel-heading">Domain list ({{ project.domains|length }})</div>
+                    <div class="panel-body">
+                        {% if t_domain|length %}
+                            <table class="table table-bordered table-striped dataTable">
+                                <thead>
+                                    <tr>
+                                        <th width="70" style="text-align:center;">#</th>
+                                        <th>Name</th>
+                                        <th width="70" style="text-align:center;">Hosts</th>
+                                        <th width="170" style="text-align:center;">Created date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for d in t_domain %}
+                                        {% set class =  'domain_status_' ~ t_status[d.getStatus()]|replace({' ':'_'}) %}
+                                        <tr class="{{ class }}">
+                                            <td align="right"><a href="{{ path('domain_show', { 'id': d.getId() }) }}" class="{{ class }}">{{ d.getId() }}</a></td>
+                                            <td>
+				                                {% if d.getMaxAlertLevel()[0] >= 0 %}
+				                                    {% if d.getMaxAlertLevel()[1] == 0 %}
+				                                   		{% set aclass = 'fa-bell-o' %}
+				                                    {% else %}
+				                                   		{% set aclass = 'fa-bell' %}
+				                                    {% endif %}
+				                                {% else %}
+				                               		{% set aclass = 'alert-none' %}
+				                                {% endif %}
+				                                {% set aclass = aclass~' alert_level_'~d.getMaxAlertLevel()[0] %}
+				                                <i class="fa {{ aclass }}"></i>
+                                                <a href="{{ path('domain_show', { 'id': d.getId() }) }}" class="text-default">{{ d.getName() }}</a>
+                                            </td>
+                                            <td align="center">{{ d.getHosts()|length }}</td>
+                                            <td align="center">{% if d.getCreatedAt() %}{{ d.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ task_mod|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#delete').on('click', function(e) {
+                e.preventDefault();
+                $('#myModal').modal().one('click','#confirm-delete',function(e){
+                    $('#delete-form').submit();
+                });
+            });
+        });
+    </script>
+{% endblock %}

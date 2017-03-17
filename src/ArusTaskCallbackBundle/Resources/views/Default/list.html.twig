@@ -1,0 +1,146 @@
+<div class="mod mod-callbacks">
+    <ul id="sortable">
+        {% for c in t_callback %}
+            <li>{{ include('ArusTaskCallbackBundle:Default:unit.html.twig') }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#sortable').sortable({
+            axis: 'y',
+            cursor: 'move',
+            opacity: 0.5,
+            stop: function( event, ui ) {
+                priority=[];
+                a=$('#sortable').find('a.callback-edit');
+                $.each(a,function(){
+                    priority.push( $(this).attr('data-callback-id') );
+                });
+                console.log(priority.join(','));
+                
+                $.post( '{{ url('settings_task_callback_priorize',{'task_id':task_id}) }}', {'p':priority.join(',')}, function(data) {
+                    p=1;
+                    sp=$('#sortable').find('span.priority');
+                    $.each(sp,function(){
+                        $(this).html( p );
+                        p++;
+                    });
+                });
+            }
+        });
+        $('#sortable').disableSelection();
+    });
+</script>
+
+<script type="text/javascript">
+    var ac_options = {
+        url: '{{ url('settings_technology_getlist') }}',
+        getValue: 'name',
+        list: {
+            match: {
+                enabled: true
+            },
+            maxNumberOfElements: 10,
+            onSelectItemEvent: function() {
+                var technology_id = $('#technology-ac').getSelectedItemData().id;
+                $('#arus_task_callback_param_technology').val( technology_id );
+                //console.log(technology_id);
+            },
+            onHideListEvent: function() {
+                //var selectedItemValue = $('#modalTechnologyAdd #technology-ac').getSelectedItemData().id;
+                //console.log(selectedItemValue);
+            }
+        },
+        template: {
+            type: 'iconLeft',
+            fields: {
+                iconSrc: 'icon'
+            }
+        },
+        theme: 'none'
+    };
+    $(document).ready(function(){
+        $('#technology-ac').easyAutocomplete(ac_options);
+        $('.easy-autocomplete').css('width','100%');
+        $('#callback-cancel').on('click',function(){
+            form = $('form[name="arus_task_callback"]');
+            form[0].reset();
+            form.find('div.params > div.param').hide();
+            form.attr( 'action', '{{ url('settings_task_callback_new') }}' );
+        });
+        $('#arus_task_callback_action').on('change',function(){
+            v=$(this).val();
+            form = $('form[name="arus_task_callback"]');
+            form.find('div.params > div.param').hide();
+            if( v.length ) {
+                form.find('div.params > div.param[data-task-param*="' + v + '"]').show();
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.callback-edit').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+
+            pb = obj.parents('.panel').find('.panel-body');
+            regex = pb.find('.regex');
+            action = pb.find('.action');
+            params = pb.find('.params');
+            form = $('form[name="arus_task_callback"]');
+
+            form.attr( 'action', url );
+            form.find('#arus_task_callback_regex').val( regex.html() );
+            form.find('#arus_task_callback_action').val( action.html() );
+            $.each(params.find('span.param'),function(){
+                k=$(this).find('span.key').html();
+                v=$(this).find('span.value').html();
+                r=$(this).find('span.render > span.render_value').html();
+                $('#arus_task_callback_param_'+k).val( v );
+                // special case for technology autocomplete input
+                if( k == 'technology' ) {
+                    $('#technology-ac').val( r );
+                }
+            });
+
+            $('#arus_task_callback_action').change();
+            form.find('#arus_task_callback_regex').focus();
+
+            form.on('submit',function(e){
+                e.preventDefault();
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    reloadBlock( '.mod-callbacks', '{{ url('settings_task_callback_getlist',{'task_id':task.getId()}) }}' );
+                    form[0].reset();
+                    form.find('div.params > div.param').hide();
+                });
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalCallbackDelete').unbind();
+        $('.callback-delete').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalCallbackDelete').modal();
+            $('#modalCallbackDelete').on('click','#confirm-delete',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'DELETE'
+                }).done(function(){
+                    $('#modalCallbackDelete').find('.close').click();
+                    reloadBlock( '.mod-callbacks', '{{ url('settings_task_callback_getlist',{'task_id':task.getId()}) }}' );
+                });
+            });
+        });
+    });
+</script>

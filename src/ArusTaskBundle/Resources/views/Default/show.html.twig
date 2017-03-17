@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-task-show">
+
+        {{ include('ArusTaskBundle:Default:delete.html.twig') }}
+        
+        {{ form_start(delete_form,{'attr':{'id':'delete-form'}}) }}
+        <input type="submit" id="delete" value="Delete" class="btn btn-danger pull-right">
+        {{ form_end(delete_form) }}
+        <a href="{{ url('settings_task') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+
+        <h2 class="page-title">Task {{ task.getName() }}</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Basic infos</div>
+                    <div class="panel-body">
+                        <div class="object-info">
+                            {{ include('ArusTaskBundle:Default:view.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {{ callback_add_mod|raw }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ callback_mod|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#delete').on('click', function(e) {
+                e.preventDefault();
+                $('#myModal').modal().one('click','#confirm-delete',function(e){
+                    $('#delete-form').submit();
+                });
+            });
+        });
+    </script>
+{% endblock %}

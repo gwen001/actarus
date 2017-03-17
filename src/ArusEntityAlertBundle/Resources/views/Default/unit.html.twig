@@ -1,0 +1,42 @@
+<div class="well well-sm alert-unit">
+    <div class="pull-right">
+        {% if alt.isConfirmed() %}
+            <a href="{{ url('alert_cancel',{'id':alt.getId()}) }}" title="Cancel" class="alert-cancel" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-bell-slash-o"></i></a>
+        {% elseif alt.isCancelled() %}
+            <a href="{{ url('alert_confirm',{'id':alt.getId()}) }}" title="Confirm" class="alert-confirm" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-bell"></i></a>
+        {% else %}
+            <a href="{{ url('alert_cancel',{'id':alt.getId()}) }}" title="Cancel" class="alert-cancel" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-bell-slash-o"></i></a>
+            <a href="{{ url('alert_confirm',{'id':alt.getId()}) }}" title="Confirm" class="alert-confirm" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-bell"></i></a>
+        {% endif %}
+        <a href="{{ url('alert_edit',{'id':alt.getId()}) }}" title="Edit" class="alert-edit" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-edit"></i></a>
+        <a href="{{ url('alert_delete',{'id':alt.getId()}) }}" title="Delete" class="alert-delete"><i class="fa fa-fw fa-trash"></i></a>
+    </div>
+    {% if alt.getLevel() == 1 %}
+        {% set class = 'success' %}
+    {% elseif alt.getLevel() == 2 %}
+        {% set class = 'warning' %}
+    {% elseif alt.getLevel() == 3 %}
+        {% set class = 'danger' %}
+    {% else %}
+        {% set class = 'info' %}
+    {% endif %}
+    {% if alt.isCancelled() %}
+        {% set class = class ~ ' text-strike' %}
+    {% endif %}
+    <div class="alert-level hidden">
+        {{ alt.getLevel() }}
+    </div>
+    <div>
+        {% if alt.isConfirmed() %}
+			{% set aclass = 'fa-bell' %}
+        {% elseif alt.isCancelled() %}
+			{% set aclass = 'fa-bell-slash-o' %}
+        {% else %}
+			{% set aclass = 'fa-bell-o' %}
+        {% endif %}
+        {% set aclass = aclass~' alert_level_'~alt.getLevel() %}
+        <i class="fa {{ aclass }}"></i>
+        <strong><span {% if not alt.isNew() %}class="text-{{ class }}"{% endif %}>{{ alt.getCreatedAt()|date('d/m/Y H:i:s') }}</span></strong>
+    </div>
+    <div class="alert-descr">{{ alt.getDescr()|raw }}</div>
+</div>

@@ -1,0 +1,33 @@
+project_homepage:
+    path:     /project
+    defaults: { _controller: "ArusProjectBundle:Default:index" }
+
+project_new:
+    path:     /project/new
+    defaults: { _controller: "ArusProjectBundle:Default:new" }
+    methods:  [GET, POST]
+
+project_show:
+    path:     /project/{id}/show
+    defaults: { _controller: "ArusProjectBundle:Default:show" }
+    methods:  [GET]
+
+project_view:
+    path:     /project/{id}/view
+    defaults: { _controller: "ArusProjectBundle:Default:view" }
+    methods:  [GET]
+
+project_edit:
+    path:     /project/{id}/edit
+    defaults: { _controller: "ArusProjectBundle:Default:edit" }
+    methods:  [GET, POST]
+
+project_quickedit:
+    path:     /project/{id}/quickedit
+    defaults: { _controller: "ArusProjectBundle:Default:quickedit" }
+    methods:  [GET, POST]
+
+project_delete:
+    path:     /project/{id}/delete
+    defaults: { _controller: "ArusProjectBundle:Default:delete" }
+    methods:  DELETE

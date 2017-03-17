@@ -1,0 +1,3 @@
+dashboard_homepage:
+    path:     /dashboard
+    defaults: { _controller: DashboardBundle:Default:index }

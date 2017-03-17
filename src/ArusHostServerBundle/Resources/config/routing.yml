@@ -1,0 +1,3 @@
+#arus_host_server_homepage:
+#    path:     /
+#    defaults: { _controller: ArusHostServerBundle:Default:index }

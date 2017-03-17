@@ -1,0 +1,80 @@
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10">
+            {{ project.getId() }} - {{ project.getEntityId() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            {{ project.getName() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Handle</label>
+        <div class="col-sm-10">
+            {{ project.getHandle() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Status</label>
+        <div class="col-sm-10">
+        	{{ form_start(quick_edit) }}
+                <div id="arus_project_quick_edit_status">
+                	{% for k,v in t_status %}
+	                    <div class="radio radio-inline col-md-2">
+	                        {{ form_widget(quick_edit.status[k]) }}
+	                        {{ form_label(quick_edit.status[k]) }}
+	                    </div>
+                	{% endfor %}
+                </div>
+        	{{ form_end(quick_edit) }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Created date</label>
+        <div class="col-sm-10">
+            {% if project.getCreatedAt() %}{{ project.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Last update</label>
+        <div class="col-sm-10">
+            {% if project.getUpdatedAt() %}{{ project.getUpdatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+            <button class="btn btn-primary" id="btn-edit" type="submit">Edit</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#btn-edit').click(function() {
+            $.get( '{{ url('project_edit',{'id':project.getId()}) }}', function(data) {
+                $('.object-info').html( data );
+            });
+        });
+        $('input[name="arus_project_quick_edit[status]"]').on('change',function(e){
+        	e.preventDefault();
+        	form = $(this).parents('form');
+        	url = form.attr( 'action' );
+        	method = form.attr( 'method' );
+            $.ajax({
+                url: url,
+                data: form.serialize(),
+                dataType: 'json',
+                method: method
+            });
+        });
+    });
+</script>

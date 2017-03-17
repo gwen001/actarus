@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-settings">
+        <h2 class="page-title">Settings</h2>
+
+        <div>
+            &gt; <a href="{{ url('settings_task') }}">Manage Task and their Callback</a>
+            <p></p>
+            &gt; <a href="{{ url('changelog_homepage') }}">Changelog</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,3 @@
+changelog_homepage:
+    path:     /changelog
+    defaults: { _controller: ChangelogBundle:Default:index }

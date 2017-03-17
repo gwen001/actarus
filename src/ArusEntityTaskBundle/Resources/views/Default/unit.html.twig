@@ -1,0 +1,47 @@
+<div id="task-{{ t.getId() }}" class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a href="{{ url('task_show',{'id':t.getId()}) }}">#{{ t.getId() }}</a> - {{ t.getCreatedAt()|date('d/m/Y H:i:s') }} - {{ t.getStartedAt()|date('d/m/Y H:i:s') }}
+                {% if t.getStatus() >= 3 and t.getEndedAt() %}
+                    - {{ t.getDuration() }}
+                {% endif %}
+                <div class="pull-right">
+                    {% if t.getStatus() < 3 %}
+                        <a href="{{ url('task_stop',{'id':t.getId()}) }}" title="Stop" class="task-stop text-muted"><i class="fa fa-fw fa-hand-stop-o"></i></a>
+                        &nbsp;
+                    {% else %}
+                        <a href="{{ url('task_interpret',{'id':t.getId()}) }}" title="Interpret" class="task-interpret text-muted" data-task-id="{{ t.getTask.getId() }}"><i class="fa fa-fw fa-gears"></i></a>
+                        &nbsp;
+                        <a href="javascript:;" title="Replay" class="task-replay text-muted" data-task-id="{{ t.getTask.getId() }}"><i class="fa fa-fw fa-refresh"></i></a>
+                        &nbsp;
+                    {% endif %}
+                    <a href="{{ url('task_delete',{'id':t.getId()}) }}" title="Delete" class="task-delete text-muted"><i class="fa fa-fw fa-trash"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    > <span class="command">{{ t.getCommand() }}</span>
+                </div>
+                <div>
+                    {% if t.getStatus() == 0 %}
+                        <i>Queued...</i>
+                    {% elseif t.getStatus() == 1 or t.getStatus() == 2 %}
+                        <i>Running...</i>
+                        <pre>{{ t.getOutput() }}</pre>
+                    {% elseif t.getStatus() >= 3 %}
+                        <pre>{{ t.getOutput() }}</pre>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if t.getStatus() == 1 or t.getStatus() == 2 %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        //window.setTimeout( "reloadBlock('#task-{{ t.getId() }}', '{{ url('task_unit',{'id':t.getId()}) }}');", 5000 );
+    });
+</script>
+{% endif %}

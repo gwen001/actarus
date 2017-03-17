@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-dashboard">
+        <h2 class="page-title">Dashboard</h2>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-default text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_project }}</div>
+                            <div class="stat-panel-title text-uppercase">projects</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('project_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-primary text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_server }}</div>
+                            <div class="stat-panel-title text-uppercase">servers</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('server_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-success text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_domain }}</div>
+                            <div class="stat-panel-title text-uppercase">domains</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('domain_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-info text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_host }}</div>
+                            <div class="stat-panel-title text-uppercase">hosts</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('host_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <!--
+            <div class="col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-warning text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_task }}</div>
+                            <div class="stat-panel-title text-uppercase">tasks performed</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('task_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-danger text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-number h1 ">{{ n_alert }}</div>
+                            <div class="stat-panel-title text-uppercase">alerts generated</div>
+                        </div>
+                    </div>
+                    <a href="{{ url('alert_homepage') }}" class="block-anchor panel-footer text-center">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Actarus last alert
+                        <a href="{{ url('alert_homepage') }}" class="pull-right">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover ">
+                            <tbody>
+                                {% for a in a_last_alert %}
+                                    <tr>
+                                        <td width="50" align="right"><a href="{{ url('alert_show',{'id':a.getId()}) }}">{{ a.getId() }}</a></td>
+                                        <td>
+                                            {% if a.getStatus() == 1 %}
+		                                   		{% set aclass = 'fa-bell' %}
+                                            {% else %}
+		                                   		{% set aclass = 'fa-bell-o' %}
+                                            {% endif %}
+		                                    {% set aclass = aclass~' alert_level_'~a.getLevel() %}
+		                                    <i class="fa {{ aclass }}"></i>
+                                            {% set d = a.getDescr()|striptags %}
+                                            {% if d|length > 60 %}
+	                                            {{ d|slice(0,60) }}...
+                                            {% else %}
+    	                                        {{ d }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr><td colspan="100">Nothing happened :/</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+	         <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Last alert created
+                        <a href="{{ url('alert_homepage') }}" class="pull-right">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover ">
+                            <tbody>
+                                {% for a in t_last_alert %}
+                                    <tr>
+                                        <td width="50" align="right"><a href="{{ url('alert_show',{'id':a.getId()}) }}">{{ a.getId() }}</a></td>
+                                        <td>
+                                            <a href="{{ url('project_show',{'id':a.getProject().getId()}) }}" class="text-default">{{ a.getProject().getName()|capitalize }}
+                                        </td>
+                                        <td>
+                                            {% if a.getStatus() == 1 %}
+		                                   		{% set aclass = 'fa-bell' %}
+                                            {% else %}
+		                                   		{% set aclass = 'fa-bell-o' %}
+                                            {% endif %}
+		                                    {% set aclass = aclass~' alert_level_'~a.getLevel() %}
+		                                    <i class="fa {{ aclass }}"></i>
+                                            <a href="{{ url(t_entity_type[a.getEntity().getType()]~'_show',{'id':a.getEntity().getId()}) }}">{{ a.getEntity().getName()|default('-') }}</a>
+                                        </td>
+                                        <td>
+                                            {% set d = a.getDescr()|striptags %}
+                                            {% if d|length > 60 %}
+	                                            {{ d|slice(0,60) }}...
+                                            {% else %}
+    	                                        {{ d }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr><td colspan="100">wtf ??</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Last task performed
+                        <a href="{{ url('task_homepage') }}" class="pull-right">See All &nbsp; <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover ">
+                            <tbody>
+                                {% for t in t_last_task %}
+                                    <tr>
+                                        <td width="50" align="right"><a href="{{ url('task_show',{'id':t.getId()}) }}">{{ t.getId() }}</a></td>
+                                        <td>
+                                            <a href="{{ url('project_show',{'id':t.getProject().getId()}) }}" class="text-default">{{ t.getProject().getName()|capitalize }}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url(t_entity_type[t.getEntity().getType()]~'_show',{'id':t.getEntity().getId()}) }}">{{ t.getEntity().getName() }}</a>
+                                        </td>
+                                        <td>{{ t.getTask().getName() }}</td>
+                                        <td align="right">{{ t.getDuration() }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr><td colspan="100">wtf ??</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

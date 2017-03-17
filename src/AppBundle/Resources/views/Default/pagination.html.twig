@@ -1,0 +1,55 @@
+{% set s = 0 %}
+{% set e = 0 %}
+{% for tmp in 1..3 %}
+    {% if (page-tmp) > 0 %}{% set s = tmp %}{% endif %}
+    {% if (page+tmp) <= n_page %}{% set e = tmp %}{% endif %}
+{% endfor %}
+{% set s = page-s %}
+{% set e = page+e %}
+
+<div class="mypagination">
+    <div class="row">
+        <div class="col-sm-5 valign">
+            <div>
+                Showing {{ p_showing }} to {{ p_to }} of {{ p_of }} entries
+            </div>
+        </div><!--
+        --><div class="col-sm-7 valign">
+            <div>
+                <ul class="pagination">
+                    <li class="paginate_button previous {% if page <= 1 %}disabled{% endif %}"><a href="javascript:;" {% if page > 1 %}data-page="{{ 1 }}"{% endif %}>&lt;&lt;</a></li>
+                    <li class="paginate_button previous {% if page <= 1 %}disabled{% endif %}"><a href="javascript:;" {% if page > 1 %}data-page="{{ page-1 }}"{% endif %}>&lt;</a></li>
+                    {% for p in s..e %}
+                    <li class="paginate_button {% if p == page %}active{% endif %}"><a href="javascript:;" data-page="{{ p }}">{{ p }}</a></li>
+                    {% endfor %}
+                    <li class="paginate_button next {% if page >= n_page %}disabled{% endif %}"><a href="javascript:;" {% if page < n_page %}data-page="{{ page+1 }}"{% endif %}>&gt;</a></li>
+                    <li class="paginate_button next {% if page >= n_page %}disabled{% endif %}"><a href="javascript:;" {% if page < n_page %}data-page="{{ n_page }}"{% endif %}>&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        done = false;
+        form = $('form[name="search"]');
+        form.find('input[type="submit"]').on('click',function(e){
+            e.preventDefault();
+            p = form.find('input[name="search[page]"]');
+            p.val( 1 );
+            form.submit();
+        });
+        $('.mypagination').find('ul.pagination > li.paginate_button').on('click',function(){
+            if( !done ) {
+                i = form.find('input[name="search[page]"]');
+                p = $(this).find('a').attr('data-page');
+                if( p ) {
+                    done = true;
+                    i.val(p);
+                    form.submit();
+                }
+            }
+        });
+    });
+</script>

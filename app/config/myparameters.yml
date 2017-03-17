@@ -8,7 +8,6 @@ parameters:
     daemon:
         cluster:
             0: dev
-            1: 10d
 
     entity:
         status:
@@ -25,7 +24,7 @@ parameters:
         recon:
             project: [s3_buckets]
             server: [portscan_nc]
-            domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat]
+			domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat]
             host: [host]
 
     task:

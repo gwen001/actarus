@@ -1,0 +1,87 @@
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10">
+            {{ task.getId() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Pid</label>
+        <div class="col-sm-10">
+            {{ task.getPid() }} - {{ task.getRealPid() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Project</label>
+        <div class="col-sm-10">
+            <a href="{{ url('project_show',{'id':task.getProject().getId()}) }}">{{ task.getProject().getName()|capitalize }}</a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Entity</label>
+        <div class="col-sm-10">
+            <a href="{{ url(t_entity_type[task.getEntity().getType()]~'_show',{'id':task.getEntity().getId()}) }}">{{ task.getEntity().getName() }}</a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Command</label>
+        <div class="col-sm-10">
+            {{ task.getCommand() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Status</label>
+        <div class="col-sm-10">
+            {{ t_status[task.getStatus()] }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Created date</label>
+        <div class="col-sm-10">
+            {% if task.getCreatedAt() %}{{ task.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Last update</label>
+        <div class="col-sm-10">
+            {% if task.getUpdatedAt() %}{{ task.getUpdatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Start date</label>
+        <div class="col-sm-10">
+            {% if task.getStartedAt() %}{{ task.getStartedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">End date</label>
+        <div class="col-sm-10">
+            {% if task.getEndedAt() %}{{ task.getEndedAt()|date('d/m/Y H:i:s') }} ({{ task.getDuration() }}){% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+            <button class="btn btn-primary" id="btn-edit" type="submit">Edit</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#btn-edit').click(function() {
+            $.get( '{{ url('task_edit',{'id':task.getId()}) }}', function(data) {
+                $('.object-info').html( data );
+            });
+        });
+    });
+</script>

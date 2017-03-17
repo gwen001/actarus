@@ -1,0 +1,10 @@
+<div class="well well-sm comment-unit">
+    <div class="pull-right">
+        <a href="{{ url('comment_edit',{'id':com.getId()}) }}" title="Edit" class="comment-edit" data-entity-id="{{ com.getEntityId() }}"><i class="fa fa-fw fa-edit"></i></a>
+        <a href="{{ url('comment_delete',{'id':com.getId()}) }}" title="Delete" class="comment-delete"><i class="fa fa-fw fa-trash"></i></a>
+    </div>
+    <div>
+        <strong>{{ com.getCreatedAt()|date('d/m/Y H:i:s') }}</strong>
+    </div>
+    <div class="comment-comment">{{ com.getComment()|raw }}</div>
+</div>

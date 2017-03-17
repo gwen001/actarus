@@ -1,0 +1,48 @@
+task_homepage:
+    path:     /task
+    defaults: { _controller: "ArusEntityTaskBundle:Default:index" }
+
+task_show:
+    path:     /task/{id}/show
+    defaults: { _controller: "ArusEntityTaskBundle:Default:show" }
+    methods:  [GET]
+
+task_view:
+    path:     /task/{id}/view
+    defaults: { _controller: "ArusEntityTaskBundle:Default:view" }
+    methods:  [GET]
+
+task_new:
+    path:     /task/new
+    defaults: { _controller: "ArusEntityTaskBundle:Default:new" }
+    methods:  [GET, POST]
+
+task_edit:
+    path:     /task/{id}/edit
+    defaults: { _controller: "ArusEntityTaskBundle:Default:edit" }
+    methods:  [GET, POST]
+
+task_unit:
+    path:     /task/{id}/unit
+    defaults: { _controller: "ArusEntityTaskBundle:Default:unit" }
+    methods:  [GET]
+
+task_stop:
+    path:     /task/{id}/stop
+    defaults: { _controller: "ArusEntityTaskBundle:Default:stop" }
+    methods:  [GET, POST]
+
+task_interpret:
+    path:     /task/{id}/interpret
+    defaults: { _controller: "ArusEntityTaskBundle:Default:interpret" }
+    methods:  [GET]
+
+task_delete:
+    path:     /task/{id}/delete
+    defaults: { _controller: "ArusEntityTaskBundle:Default:delete" }
+    methods:  [DELETE]
+
+task_getlist:
+    path:     /task/getlist/{entity_id}
+    defaults: { _controller: "ArusEntityTaskBundle:Default:getList" }
+    methods:  [GET]

@@ -1,0 +1,10 @@
+<div class="well well-sm loot-unit">
+    <div class="pull-right">
+        <a href="{{ url('loot_edit',{'id':alt.getId()}) }}" title="Edit" class="loot-edit" data-entity-id="{{ alt.getEntityId() }}"><i class="fa fa-fw fa-edit"></i></a>
+        <a href="{{ url('loot_delete',{'id':alt.getId()}) }}" title="Delete" class="loot-delete"><i class="fa fa-fw fa-trash"></i></a>
+    </div>
+    <div>
+        <strong>{{ alt.getCreatedAt()|date('d/m/Y H:i:s') }}</strong>
+    </div>
+    <div class="loot-descr">{{ alt.getDescr()|raw }}</div>
+</div>

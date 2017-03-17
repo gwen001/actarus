@@ -1,0 +1,97 @@
+<div class="mod mod-comments panel panel-primary">
+    <div class="panel-heading">
+        Comments ({{ t_comment|length }})
+        <a href="#" class="pull-right btn btn-info btn-xs comment-add">Add comment</a>
+    </div>
+    <div class="panel-body">
+        {% for com in t_comment %}
+            {{ include('ArusEntityCommentBundle:Default:unit.html.twig') }}
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        if( $('.panel-info') ) {
+            window.setTimeout( function(){$('.mod-comments .panel-body').css('max-height', $('.panel-info .panel-body').css('height'))}, 300 );
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalCommentAdd').unbind();
+        $('.comment-add').on('click', function(e) {
+            e.preventDefault();
+            $('#modalCommentAdd').modal();
+            $('#modalCommentAdd').on('click','#confirm-save',function(e){
+                e.preventDefault();
+                form = $('#modalCommentAdd form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalCommentAdd').find('.close').click();
+                    reloadBlock( '.mod-comments', '{{ url('comment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalCommentAdd').on('shown.bs.modal', function () {
+            $('#modalCommentAdd form').find('#arus_entity_comment_comment').focus();
+        });
+        $('#modalCommentAdd').on('hide.bs.modal',function(){
+            $('#modalCommentAdd form')[0].reset();
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalCommentEdit').unbind();
+        $('.comment-edit').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalCommentEdit').modal();
+
+            form = $('#modalCommentEdit form');
+            form.attr( 'action', url );
+            form.find('#arus_entity_comment_comment').val( obj.parent().parent().find('.comment-comment').html() );
+            form.find('#arus_entity_comment_entity_id').val( obj.attr('data-entity-id') );
+
+            $('#modalCommentEdit').on('click','#confirm-save',function(e){
+                form = $('#modalCommentEdit form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalCommentEdit').find('.close').click();
+                    reloadBlock( '.mod-comments', '{{ url('comment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalCommentEdit').on('shown.bs.modal', function () {
+            $('#modalCommentEdit form').find('#arus_entity_comment_comment').focus();
+        });
+        $('#modalCommentEdit').on('hide.bs.modal',function(){
+            $('#modalCommentEdit form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalCommentDelete').unbind();
+        $('.comment-delete').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalCommentDelete').modal();
+            $('#modalCommentDelete').on('click','#confirm-delete',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'DELETE'
+                }).done(function(){
+                    $('#modalCommentDelete').find('.close').click();
+                    reloadBlock( '.mod-comments', '{{ url('comment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+    });
+</script>

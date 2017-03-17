@@ -7,12 +7,12 @@
         <div class="text-yellow">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path("fos_user_security_check") }}" method="post" class="mt">
+    <form action="{{ path("fos_user_security_check") }}" method="post" class="mt" autocomplete="false">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
         <label for="" class="text-uppercase text-sm text-white">Your Username</label>
-        <input type="text" id="username" name="_username" placeholder="Username" class="form-control mb" required="required">
+        <input type="text" id="username" name="_username" placeholder="Username" class="form-control mb" required="required" autocomplete="false">
         <label for="" class="text-uppercase text-sm text-white">Password</label>
-        <input type="password" id="password" name="_password" placeholder="Password" class="form-control mb" required="required">
+        <input type="password" id="password" name="_password" placeholder="Password" class="form-control mb" required="required" autocomplete="false">
         <!-- <div class="checkbox checkbox-circle checkbox-info">
             <input id="checkbox7" type="checkbox" checked>
             <label for="checkbox7">

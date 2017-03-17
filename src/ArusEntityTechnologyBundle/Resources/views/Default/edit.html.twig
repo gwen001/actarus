@@ -1,0 +1,80 @@
+<div style="display:none;" class="modal fade" id="modalTechnologyEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="myModalLabel">Edit a technology</h4>
+            </div>
+            <div class="modal-body">
+                {{ form_start(techno_edit_form,{'attr':{'class':'form-horizontal'}}) }}
+                    {{ form_row(techno_edit_form._token) }}
+                    {{ form_widget(techno_edit_form.entity_id,{'attr':{'class':'form-control','value':entity.getEntityId()}}) }}
+                    {{ form_widget(techno_edit_form.technology,{'attr':{'class':'form-control hidden'}}) }}
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            {{ form_widget(techno_edit_form.version,{'attr':{'class':'form-control','placeholder':'Version number here...'}}) }}
+                        </div>
+                    </div>
+                {{ form_end(techno_edit_form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-save">Save</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#modalTechnologyEdit').unbind();
+        $('.technology-edit').on('click', function(e){
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            img = obj.find('img');
+            $('#modalTechnologyEdit').modal();
+
+            form = $('#modalTechnologyEdit form');
+            form.attr( 'action', url );
+            form.find('#arus_technology_entity_id').val( obj.attr('data-entity-id') );
+            form.find('#arus_entity_technology_technology').find('option[value="'+img.attr('data-technology-id')+'"]').prop('selected',true);
+            form.find('#arus_entity_technology_version').val( img.attr('data-version') );
+
+            $('#modalTechnologyEdit').on('click','#confirm-save',function(e){
+                form = $('#modalTechnologyEdit form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    data = jQuery.parseJSON( data );
+                    if( !data.error ) {
+                        $('#modalTechnologyEdit').find('.close').click();
+                        reloadBlock('#technologies-panel', '{{ url('technology_getlist',{'entity_id':entity.getEntityId()}) }}');
+                    }
+                });
+            });
+
+            $('#modalTechnologyEdit').on('click','#confirm-delete',function(e){
+                durl = url.replace('edit','delete')
+
+                e.preventDefault();
+                $.ajax({
+                    url: durl,
+                    method: 'DELETE'
+                }).done(function(data){
+                    data = jQuery.parseJSON( data );
+                    if( !data.error ) {
+                        $('#modalTechnologyEdit').find('.close').click();
+                        reloadBlock('#technologies-panel', '{{ url('technology_getlist',{'entity_id':entity.getEntityId()}) }}');
+                    }
+                });
+            });
+
+        });
+        $('#modalTechnologyEdit').on('shown.bs.modal', function () {
+            $('#modalTechnologyEdit form').find('#arus_entity_technology_version').focus();
+        });
+        $('#modalTechnologyEdit').on('hide.bs.modal',function(){
+            $('#modalTechnologyEdit form')[0].reset();
+        });
+    });
+</script>

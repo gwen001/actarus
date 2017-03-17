@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-task">
+        <h2 class="page-title">Task managment</h2>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <!-- <div class="panel-heading">
+                        Search task
+                    </div> -->
+                    <div class="panel-body well">
+                        {{ form_start(form,{'attr':{'class':'form-horizontal'}}) }}
+                        {{ form_row(form._token) }}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.id,'Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.id,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.entity_type,'E. Type',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.entity_type,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.entity_id,'E. Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.entity_id,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.cluster_id,'Cluster',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.cluster_id,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-3">
+                                    {{ form_widget(form.min_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+                                </div>
+                                <label class="col-sm-4 control-label" style="text-align:center;">&lt;&nbsp;&nbsp;&nbsp;Created at&nbsp;&nbsp;&nbsp;&lt;</label>
+                                <div class="col-sm-3">
+                                    {{ form_widget(form.max_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.project,'Project',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.project,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.command,'Command',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.command,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.output,'Output',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.output,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.status,'Status',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.status,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <input type="submit" value="Search" class="btn btn-primary" />
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if t_task|length %}
+            {{ pagination|raw }}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="zctb" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th width="70" style="text-align:center;">#</th>
+                            <th width="200">Project</th>
+                            <th>Entity</th>
+                            <th>Command</th>
+                            <th width="100">Status</th>
+                            <th>Output</th>
+                            <th width="70" style="text-align:center;">Cluster</th>
+                            <th width="170" style="text-align:center;">Created date</th>
+                            <th width="100" style="text-align:center;">Duration</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in t_task %}
+                            <tr>
+                                <td align="right"><a href="{{ url('task_show',{'id':t.getId()}) }}">{{ t.getId() }}</a></td>
+                                <td>
+                                    <a href="{{ url('project_show',{'id':t.getProject().getId()}) }}" class="text-default">{{ t.getProject().getName()|capitalize }}
+                                </td>
+                                <td>
+                                    <a href="{{ url(t_entity_type[t.getEntity().getType()]~'_show',{'id':t.getEntity().getId()}) }}">{{ t.getEntity().getName() }}</a>
+                                </td>
+                                <td>
+                                    {% set cmd = t.getCommand() %}
+                                    {% if cmd|length > 50 %}
+                                        {{ cmd|slice(0,50) }}...
+                                    {% else %}
+                                        {{ cmd }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ t_status[t.getStatus()] }}</td>
+                                <td>
+                                    {% set output = t.getOutput() %}
+                                    {% if output|length > 250 %}
+                                        {{ output|slice(0,250) }}...
+                                    {% else %}
+                                        {{ output }}
+                                    {% endif %}
+                                </td>
+                                <td>{% if t.getClusterId() >= '0' %}{{ t.getClusterId() }} ({{ t_cluster[t.getClusterId()] }}){% else %}-{% endif %}</td>
+                                <td align="center">
+                                    {% if t.getCreatedAt() %}{{ t.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                    {% if t.getStartedAt() %}{{ t.getStartedAt()|date('d/m/Y H:i:s') }}{% endif %}
+                                </td>
+                                <td align="center">{% if t.getStartedAt() %}{{ t.getDuration() }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{ pagination|raw }}
+        {% else %}
+            <div class="text-danger">No result, try again.</div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/bootstrap-datetimepicker.css") }}">
+    <style>
+        .panel {
+            overflow: inherit;
+        }
+        .input-group {
+            float: left !important;
+        }
+    </style>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset("js/moment.js") }}"></script>
+    <script src="{{ asset("js/bootstrap-datetimepicker.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#search_output').focus();
+            $('.datetimepicker').datetimepicker({format: 'DD/MM/YYYY'});
+        });
+    </script>
+{% endblock %}

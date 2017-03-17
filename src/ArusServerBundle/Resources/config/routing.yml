@@ -1,0 +1,38 @@
+server_homepage:
+    path:     /server
+    defaults: { _controller: "ArusServerBundle:Default:index" }
+
+server_show:
+    path:     /server/{id}/show
+    defaults: { _controller: "ArusServerBundle:Default:show" }
+    methods:  [GET]
+
+server_view:
+    path:     /server/{id}/view
+    defaults: { _controller: "ArusServerBundle:Default:view" }
+    methods:  [GET]
+
+server_new:
+    path:     /server/new
+    defaults: { _controller: "ArusServerBundle:Default:new" }
+    methods:  [GET, POST]
+
+server_import:
+    path:     /server/import/{project_id}
+    defaults: { _controller: "ArusServerBundle:Default:import", project_id: 0 }
+    methods:  [GET, POST]
+
+server_edit:
+    path:     /server/{id}/edit
+    defaults: { _controller: "ArusServerBundle:Default:edit" }
+    methods:  [GET, POST]
+
+server_quickedit:
+    path:     /server/{id}/quickedit
+    defaults: { _controller: "ArusServerBundle:Default:quickedit" }
+    methods:  [GET, POST]
+
+server_delete:
+    path:     /server/{id}/delete
+    defaults: { _controller: "ArusServerBundle:Default:delete" }
+    methods:  DELETE

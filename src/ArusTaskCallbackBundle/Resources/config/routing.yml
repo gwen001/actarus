@@ -1,0 +1,23 @@
+settings_task_callback_new:
+    path:     /settings/taskcallback/new
+    defaults: { _controller: "ArusTaskCallbackBundle:Default:new" }
+
+settings_task_callback_edit:
+    path:     /settings/taskcallback/{id}/edit
+    defaults: { _controller: "ArusTaskCallbackBundle:Default:edit" }
+    methods:  [GET, POST]
+
+settings_task_callback_delete:
+    path:     /settings/taskcallback/{id}/delete
+    defaults: { _controller: "ArusTaskCallbackBundle:Default:delete" }
+    methods:  DELETE
+
+settings_task_callback_getlist:
+    path:     /settings/taskcallback/getlist/{task_id}
+    defaults: { _controller: "ArusTaskCallbackBundle:Default:getList" }
+    methods:  GET
+
+settings_task_callback_priorize:
+    path:     /settings/taskcallback/priorize/{task_id}
+    defaults: { _controller: "ArusTaskCallbackBundle:Default:priorize" }
+    methods:  [POST]

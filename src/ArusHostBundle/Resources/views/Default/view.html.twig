@@ -1,0 +1,95 @@
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10">
+            {{ host.getId() }} - {{ host.getEntityId() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Project</label>
+        <div class="col-sm-10">
+            <a href="{{ url('project_show',{'id':host.getProject().getId()}) }}">{{ host.getProject().getName()|capitalize }}</a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            {{ host.getName() }}
+            <a href="http://{{ host.getName() }}" target="_blank"><i class="fa fa-fw fa-external-link"></i></a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Domain</label>
+        <div class="col-sm-10">
+            <a href="{{ url('domain_show',{'id':host.getDomain().getId()}) }}">{{ host.getDomain().getName() }}</a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Technology</label>
+        <div class="col-sm-10">
+            {{ techno_mod|raw }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Status</label>
+        <div class="col-sm-10">
+        	{{ form_start(quick_edit) }}
+                <div id="arus_host_quick_edit_status">
+                	{% for k,v in t_status %}
+	                    <div class="radio radio-inline col-md-2">
+	                        {{ form_widget(quick_edit.status[k]) }}
+	                        {{ form_label(quick_edit.status[k],null,{'label_attr':{'class':'host_status_'~k}}) }}
+	                    </div>
+                	{% endfor %}
+                </div>
+        	{{ form_end(quick_edit) }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Created date</label>
+        <div class="col-sm-10">
+            {% if host.getCreatedAt() %}{{ host.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Last update</label>
+        <div class="col-sm-10">
+            {% if host.getUpdatedAt() %}{{ host.getUpdatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <div class="col-sm-8 col-sm-offset-2">
+            <button class="btn btn-primary" id="btn-edit" type="submit">Edit</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#btn-edit').click(function() {
+            $.get( '{{ url('host_edit',{'id':host.getId()}) }}', function(data) {
+                $('.object-info').html( data );
+            });
+        });
+        $('input[name="arus_host_quick_edit[status]"]').on('change',function(e){
+        	e.preventDefault();
+        	form = $(this).parents('form');
+        	url = form.attr( 'action' );
+        	method = form.attr( 'method' );
+            $.ajax({
+                url: url,
+                data: form.serialize(),
+                dataType: 'json',
+                method: method
+            });
+        });
+    });
+</script>

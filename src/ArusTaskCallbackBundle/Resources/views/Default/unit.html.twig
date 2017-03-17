@@ -1,0 +1,38 @@
+<div id="callback-{{ c.getId() }}" class="row">
+    <div class="col-md-1 text-center vcenter">
+        <i class="fa fa-fw fa-arrows"></i>
+    </div><!--
+    --><div class="col-md-11 vcenter">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                #<span class="priority">{{ c.getPriority() }}</span> - {{ c.getCreatedAt()|date('d/m/Y H:i:s') }} - {{ c.getUpdatedAt()|date('d/m/Y H:i:s') }}
+                <div class="pull-right">
+                    <a href="{{ url('settings_task_callback_edit',{'id':c.getId()}) }}" title="Edit" class="callback-edit text-muted" data-callback-id="{{ c.getId() }}"><i class="fa fa-fw fa-edit"></i></a>
+                    &nbsp;
+                    <a href="{{ url('settings_task_callback_delete',{'id':c.getId()}) }}" title="Delete" class="callback-delete text-muted" ><i class="fa fa-fw fa-trash"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <b>Regexp:</b> <span class="regex">{{ c.getRegex() }}</span>
+                    ,
+                    <b>Action:</b> <span class="action">{{ c.getAction() }}</span>
+                    ,
+                    <b>Parameters:</b>
+                    <span class="params">
+                        {% for k,v in c.getParams() %}
+                            {% set vv = t_params[k][v]|default(v) %}
+                            <span class="param">
+                                <span class="key hidden">{{ k }}</span>
+                                <span class="value hidden">{{ v|raw }}</span>
+                                <span class="render"><span class="render_key">{{ k }}</span>=<span class="render_value">{{ vv|raw }}</span></span>
+                            </span>
+                        {% else %}
+                            -
+                        {% endfor %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

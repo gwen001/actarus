@@ -1,0 +1,18 @@
+services:
+    tools.sqlmap:
+        class: SqlmapBundle\Controller\DefaultController
+    
+    tools.form.sqlmap:
+            factory_method: createNamed
+            factory_service: form.factory
+            class: Symfony\Component\Form\Form
+            arguments:
+                - sqlmap_form                        # name of the form
+                - sqlmap                             # alias of the form type
+                - null                             # data to bind, this is where your entity could go if you have that defined as a service
+                - { validation_groups: [Default] } # validation groups
+     
+    tools.form.type.sqlmap:
+        class: SqlmapBundle\Form\Type\SqlmapType
+        tags:
+            - { name: form.type, alias: sqlmap }

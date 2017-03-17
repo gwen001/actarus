@@ -1,0 +1,23 @@
+technology_homepage:
+    path:     /technology
+    defaults: { _controller: ArusEntityTechnologyBundle:Default:index }
+
+technology_new:
+    path:     /technology/new
+    defaults: { _controller: "ArusEntityTechnologyBundle:Default:new" }
+    methods:  [GET, POST]
+
+technology_edit:
+    path:     /technology/{id}/edit
+    defaults: { _controller: "ArusEntityTechnologyBundle:Default:edit" }
+    methods:  [GET, POST]
+
+technology_delete:
+    path:     /technology/{id}/delete
+    defaults: { _controller: "ArusEntityTechnologyBundle:Default:delete" }
+    methods:  DELETE
+
+technology_getlist:
+    path:     /technology/getlist/{entity_id}
+    defaults: { _controller: "ArusEntityTechnologyBundle:Default:getList" }
+    methods:  GET

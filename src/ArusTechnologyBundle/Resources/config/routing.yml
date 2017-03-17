@@ -1,0 +1,3 @@
+settings_technology_getlist:
+    path:     /settings/technology/getlist
+    defaults: { _controller: ArusTechnologyBundle:Default:getList }

@@ -465,3 +465,10 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
 	margin-left: 5px;
 	width: 13px;
 }
+
+
+
+.mod-host-new input[type="radio"], input[type="checkbox"] {
+    margin: 0px;
+    width: 15px;
+}

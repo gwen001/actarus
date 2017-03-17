@@ -1,0 +1,137 @@
+<div class="mod mod-tasks">
+    {% for t in t_task %}
+        {{ include('ArusEntityTaskBundle:Default:unit.html.twig') }}
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    t_task = {{ t_task_list|raw }};
+    $(document).ready(function() {
+        $('#modalTaskAdd').unbind();
+        $('.task-add').unbind();
+        $('.task-add').on('click', function(e) {
+            e.preventDefault();
+            $('#modalTaskAdd').modal();
+            $('#modalTaskAdd').on('click','#confirm-save',function(e){
+                e.preventDefault();
+                form = $('#modalTaskAdd form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalTaskAdd').find('.close').click();
+                    reloadBlock( '.mod-tasks', '{{ url('task_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#arus_entity_task_add_task').on('change',function(){
+            $('#arus_entity_task_add_command').val( t_task[$(this).val()].command );
+        });
+        $('#modalTaskAdd').on('shown.bs.modal', function () {
+            $('#modalTaskAdd form').find('#arus_entity_task_add_command').focus();
+        });
+        $('#modalTaskAdd').on('hide.bs.modal',function(){
+            $('#modalTaskAdd form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalTaskInterpret').unbind();
+        $('.task-interpret').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalTaskInterpret').modal();
+            $('#modalTaskInterpret').on('click','#confirm-interpret',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'GET'
+                }).done(function(){
+                    $('#modalTaskInterpret').find('.close').click();
+                    //reloadBlock( '.mod-tasks', '{{ url('task_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalTaskAdd').unbind();
+        $('.task-replay').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            $('#modalTaskAdd').modal();
+
+            form = $('#modalTaskAdd form');
+            form.find('#arus_entity_task_add_task').find('option[value="'+obj.attr('data-task-id')+'"]').prop('selected',true);
+            form.find('#arus_entity_task_add_command').val( obj.parents('.panel').find('.command').html() );
+
+            $('#modalTaskAdd').on('click','#confirm-save',function(e){
+                e.preventDefault();
+                form = $('#modalTaskAdd form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalTaskAdd').find('.close').click();
+                    reloadBlock( '.mod-tasks', '{{ url('task_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#arus_entity_task_add_task').on('change',function(){
+            $('#arus_entity_task_add_command').val( t_task[$(this).val()].command );
+        });
+        $('#modalTaskAdd').on('shown.bs.modal', function () {
+            $('#modalTaskAdd form').find('#arus_entity_task_add_command').focus();
+        });
+        $('#modalTaskAdd').on('hide.bs.modal',function(){
+            $('#modalTaskAdd form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalTaskStop').unbind();
+        $('.task-stop').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalTaskStop').modal();
+            $('#modalTaskStop').on('click','#confirm-stop',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'GET'
+                }).done(function(){
+                    $('#modalTaskStop').find('.close').click();
+                    if( $('.mod-tasks') ) {
+                        reloadBlock('.mod-tasks', '{{ url('task_getlist',{'entity_id':entity_id}) }}');
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalTaskDelete').unbind();
+        $('.task-delete').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalTaskDelete').modal();
+            $('#modalTaskDelete').on('click','#confirm-delete',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'DELETE'
+                }).done(function(){
+                    $('#modalTaskDelete').find('.close').click();
+                    if( $('.mod-tasks') ) {
+                        reloadBlock( '.mod-tasks', '{{ url('task_getlist',{'entity_id':entity_id}) }}' );
+                    }
+                });
+            });
+        });
+    });
+</script>

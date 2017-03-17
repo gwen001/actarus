@@ -1,0 +1,38 @@
+alert_homepage:
+    path:     /alert
+    defaults: { _controller: "ArusEntityAlertBundle:Default:index" }
+
+alert_show:
+    path:     /alert/{id}/show
+    defaults: { _controller: "ArusEntityAlertBundle:Default:show" }
+    methods:  [GET]
+
+alert_new:
+    path:     /alert/new
+    defaults: { _controller: "ArusEntityAlertBundle:Default:new" }
+    methods:  [GET, POST]
+
+alert_edit:
+    path:     /alert/{id}/edit
+    defaults: { _controller: "ArusEntityAlertBundle:Default:edit" }
+    methods:  [GET, POST]
+
+alert_confirm:
+    path:     /alert/{id}/confirm
+    defaults: { _controller: "ArusEntityAlertBundle:Default:confirm" }
+    methods:  POST
+
+alert_cancel:
+    path:     /alert/{id}/cancel
+    defaults: { _controller: "ArusEntityAlertBundle:Default:cancel" }
+    methods:  POST
+
+alert_delete:
+    path:     /alert/{id}/delete
+    defaults: { _controller: "ArusEntityAlertBundle:Default:delete" }
+    methods:  DELETE
+
+alert_getlist:
+    path:     /alert/getlist/{entity_id}
+    defaults: { _controller: "ArusEntityAlertBundle:Default:getList" }
+    methods:  GET

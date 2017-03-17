@@ -1,0 +1,28 @@
+settings_task:
+    path:     /settings/task
+    defaults: { _controller: ArusTaskBundle:Default:index }
+
+settings_task_new:
+    path:     /settings/task/new
+    defaults: { _controller: "ArusTaskBundle:Default:new" }
+    methods:  [GET, POST]
+
+settings_task_show:
+    path:     /settings/task/{id}/show
+    defaults: { _controller: "ArusTaskBundle:Default:show" }
+    methods:  [GET]
+
+settings_task_view:
+    path:     /settings/task/{id}/view
+    defaults: { _controller: "ArusTaskBundle:Default:view" }
+    methods:  [GET]
+
+settings_task_edit:
+    path:     /settings/task/{id}/edit
+    defaults: { _controller: "ArusTaskBundle:Default:edit" }
+    methods:  [GET, POST]
+
+settings_task_delete:
+    path:     /settings/task/{id}/delete
+    defaults: { _controller: "ArusTaskBundle:Default:delete" }
+    methods:  DELETE

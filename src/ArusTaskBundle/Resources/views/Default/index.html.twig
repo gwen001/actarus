@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-task">
+        <a href="{{ url('settings_task_new') }}" class="btn btn-primary pull-right">Create new task</a>
+        <h2 class="page-title">Task managment</h2>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th width="70" style="text-align:center;">#</th>
+                        <th width="200">Name</th>
+                        <th>Command</th>
+                        <th width="100" style="text-align:center;">Callbacks</th>
+                        <th width="170" style="text-align:center;">Created date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for t in t_task %}
+                        <tr {% if not t.getBinaryExists() %}class="danger"{% endif %}>
+                            <td align="right"><a href="{{ path('settings_task_show', { 'id': t.getId() }) }}">{{ t.getId() }}</a></td>
+                            <td><a href="{{ path('settings_task_show', { 'id': t.getId() }) }}">{{ t.getName() }}</a></td>
+                            <td>
+                            	{% if t.getCommand()|length > 200 %}
+	                            	{{ t.getCommand()|slice(0,200) }}...
+                            	{% else %}
+    	                        	{{ t.getCommand() }}
+                            	{% endif %}
+                            </td>
+                            <td align="center">{{ t.callbacks|length }}</td>
+                            <td align="center">{% if t.getCreatedAt() %}{{ t.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="100">What are you waiting for ?</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+	        </div>
+        </div>
+    </div>
+{% endblock %}
