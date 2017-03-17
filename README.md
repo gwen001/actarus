@@ -65,4 +65,4 @@ Feel free to do whatever you want with this program.
 
 
 
-[![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g)
+[![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g){:target="_blank"}
