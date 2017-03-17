@@ -87,3 +87,5 @@ php composer.phar install
 
 ./app/console doctrine:schema:update --force
 ./app/console fos:user:create
+
+launch daemons, make money...
