@@ -65,7 +65,7 @@ Supposed to be the data collected, like credentials, I finally decide to merge t
 
 Finally
 ============== 
-This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deals with many targets.  
+This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deals with many targets.
 Unfortunately I don't like Symfony and I am to lazy now to continue this project.  
 
 I don't believe in license.  
