@@ -17,7 +17,7 @@ Features
 * host (subdomain) managment - create, import, edit, delete, search  
 * task managment - create, edit, delete, search  
 * task priority 
-* task auto killing - when a task is longer than x minutes/hours. See `parameters/task/max_duration`
+* task autokill - when a task is longer than x minutes/hours. See `parameters/task/max_duration`
 * auto recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
 * result interpretation and callback - when a task is finished a callback is immediatly executed and performed some actions. See _"Settings/Manage Task and their Callback"_ and `src/AppBundle/Command/InterpretTaskCommand.php`
 * alert managment - create, edit, delete, search
@@ -71,6 +71,6 @@ Unfortunately I don't like Symfony and I am to lazy now to continue this project
 I don't believe in license.  
 Feel free to do whatever you want with this program.
 
-
-
-[![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g){:target="_blank"}
+Demo
+============== 
+[![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g)
