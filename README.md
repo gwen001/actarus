@@ -16,7 +16,9 @@ Features
 * domain managment - create, edit, delete, search  
 * host (subdomain) managment - create, import, edit, delete, search  
 * task managment - create, edit, delete, search  
-* task automation - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
+* task priority 
+* task auto killing - when a task is longer than x minutes/hours. See `parameters/task/max_duration`
+* auto recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
 * result interpretation and callback - when a task is finished a callback is immediatly executed and performed some actions. See _"Settings/Manage Task and their Callback"_ and `src/AppBundle/Command/InterpretTaskCommand.php`
 * alert managment - create, edit, delete, search
 * alert generation - the callbacks can generate alert, 4 levels available: info, low, medium, high. See `parameters/alerts/level`
@@ -46,6 +48,12 @@ chmod -R 700 app/cache app/logs
 Create a user
 ============== 
 `php app/console fos:user:create <username> <email> <password> --super-admin`
+
+Run daemons
+============== 
+`[...]/actarus/vendor/actarus/custom/daemon_run_task.php`
+`[...]/actarus/vendor/actarus/custom/daemon_interpret_task.php`
+`[...]/actarus/vendor/actarus/custom/daemon_kill_task.php`
 
 Faq
 ============== 
