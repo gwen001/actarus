@@ -13,8 +13,3 @@
 /.tmp/
 /.sass-cache/
 /.idea/*
-/web/*
-!/web/css
-!/web/fonts
-!/web/img
-!/web/js
