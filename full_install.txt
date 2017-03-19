@@ -1,13 +1,17 @@
 
-aptitude install apache2 fail2ban nmap
+Server
+============
+aptitude install apache2 nmap
 aptitude install php5 php5-dev php5-curl php5-pecl-http
 aptitude install mysql-server mysql-client libmysqlclient-dev phpmyadmin
 
-aptitude install libyaml-0-2 libyaml-dev libv8-dev
+aptitude install libyaml-0-2 libyaml-dev
 pecl install yaml-beta
 
-aptitude install libv8-dev
-pecl install v8js-0.1.3
+
+Tools
+============
+aptitude install nmap
 
 aptitude install python-pip python-2.7-dev python-curl libcurl4-openssl-dev
 pip2 install dnsknife netaddr requests paramiko python-mysqldb
@@ -59,6 +63,8 @@ aptitude install python-paramiko
 pip install paramiko==1.16.0
 ln -s /opt/patator/patator.py /opt/bin/patator
 
+aptitude install libv8-dev
+pecl install v8js-0.1.3
 aptitude install ruby2.1-dev
 gem install libv8 --verbose
 gem install therubyracer
@@ -77,6 +83,9 @@ gem install rspec
 gem install rspec-its
 ln -s /opt/wpscan/wpscan.rb /opt/bin/wpscan
 
+
+Acatarus
+============
 git clone https://github.com/gwen001/actarus.git
 
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -88,4 +97,48 @@ php composer.phar install
 ./app/console doctrine:schema:update --force
 ./app/console fos:user:create
 
-launch daemons, make money...
+
+Basic task
+============
+INSERT INTO `arus_task` (`id`, `name`, `command`, `default_options`, `created_at`, `updated_at`) VALUES
+(1, 'nmap_full', 'nmap -A -T4 -sT -p 1-65535 --open __E_NAME__ -Pn', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:32'),
+(2, 'host', 'host __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:11'),
+(3, 'whois', 'whois __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:59'),
+(4, 'nikto', 'nikto -h http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-04 22:43:13'),
+(5, 'whatweb', 'whatweb -v http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-07 16:30:49'),
+(6, 'dirb', 'dirb http__O_SSL__://__E_NAME__:__O_PORT__ /opt/SecLists/dirb/big.txt -S', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-22 12:25:23'),
+(7, 'theharvester', 'theharvester -d __E_NAME__ -b all -l 1000 -n', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:27'),
+(8, 'wappalyzer', 'wappalyzer http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-14 11:14:04', '2016-09-23 14:01:33'),
+(9, 'testssl', 'testssl --color 0 -U __E_NAME__', 'N;', '2016-08-24 16:43:08', '2016-09-02 19:55:21'),
+(10, 'wpscan', 'wpscan --url http__O_SSL__://__E_NAME__:__O_PORT__ --enumerate u -r --update --batch', 'a:1:{s:4:"PORT";i:80;}', '2016-09-23 15:18:17', '2016-10-10 15:05:25');
+
+
+Apache vhost
+============
+<VirtualHost *:80>
+        ServerName local.actarus.10degres.net
+        DocumentRoot <your_apache_root_here>/actarus/web
+        
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <Directory <your_apache_root_here>/actarus>
+                # Options FollowSymLinks
+                AllowOverride all
+                Require all granted
+        </Directory>
+</VirtualHost>
+
+and you probably want to add an entry in /etc/hosts
+127.0.0.1 local.actarus.10degres.net
+
+
+Run daemons (as a priviligied user that can run all the tools previously configured)
+============== 
+<your_apache_root_here>/actarus/vendor/actarus/custom/daemon_run_task.php
+<your_apache_root_here>/actarus/vendor/actarus/custom/daemon_interpret_task.php
+<your_apache_root_here>/actarus/vendor/actarus/custom/daemon_kill_task.php
+
+
+make money...
+

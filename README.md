@@ -36,7 +36,7 @@ PHP and php-dev
 libyaml and libyaml-dev  
 pecl yaml  
 
-Installation
+Quick Install
 ============
 git clone https://github.com/gwen001/actarus.git  
 php composer.phar install  
