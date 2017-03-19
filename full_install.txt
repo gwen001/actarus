@@ -8,7 +8,7 @@ aptitude install phpmyadmin (optional)
 
 aptitude install libyaml-0-2 libyaml-dev
 pecl install yaml-beta
-
+(enable yaml.so in your php conf, apache and cli)
 
 
 Database
