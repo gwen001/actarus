@@ -124,7 +124,7 @@ mysql -u actarus_user -pactarus_pass actarus_db < arus_technology.sql
 Apache vhost
 ============
 <VirtualHost *:80>
-        ServerName local.actarus.10degres.net
+        ServerName local.actarus.net
         DocumentRoot /var/www/html/actarus/web
         
         ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -142,7 +142,7 @@ service apache2 restart
 
 
 and you probably want to add an entry in /etc/hosts
-127.0.0.1 local.actarus.10degres.net
+127.0.0.1 local.actarus.net
 
 
 Run daemons (as a priviligied user that can run all the tools previously configured)
