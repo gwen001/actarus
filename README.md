@@ -2,15 +2,15 @@ ACTARUS
 ===================
 
 Purpose
-============== 
+==============
 I started the development of Actarus to learn Symfony framework.
 
 Description
-============== 
+==============
 Actarus is a tool designed to help ~~hackers~~ bounty hunters in their task of performing information gathering about their ~~targets~~ clients.
 
 Features
-============== 
+==============
 * project managment - create, edit, delete  
 * server managment - create, import, edit, delete, search  
 * domain managment - create, edit, delete, search  
@@ -29,7 +29,7 @@ Features
 * HackerOne cron for project and scope grabbing - see `src/AppBundle/Command/CronCommand.php`
 
 Required
-============== 
+==============
 Mysql  
 Apache  
 PHP and php-dev  
@@ -37,7 +37,7 @@ libyaml and libyaml-dev
 pecl yaml  
 
 Quick Install
-============
+==============
 git clone https://github.com/gwen001/actarus.git  
 php composer.phar install  
 php app/console doctrine:schema:update --dump-sql  
@@ -46,25 +46,31 @@ chmod -R 500 .
 chmod -R 700 app/cache app/logs  
 
 Create a user
-============== 
+==============
 `php app/console fos:user:create <username> <email> <password> --super-admin`
 
 Run daemons
-============== 
+==============
 `[...]/actarus/vendor/actarus/custom/daemon_run_task.php`
 `[...]/actarus/vendor/actarus/custom/daemon_interpret_task.php`
 `[...]/actarus/vendor/actarus/custom/daemon_kill_task.php`
 
 Faq
-============== 
+==============
 What the purpose of the table `db.actarus.requete`?  
 Supposed to be a feature to performed tasks on specific url, like sqlmap. It's not currently used, you can delete it.  
 
 What the purpose of the table `db.actarus.arus_entity_loot`?  
 Supposed to be the data collected, like credentials, I finally decide to merge those datas with alerts, so it's not used anymore.  
 
+It doesn't work !
+Try to read the `full_install.txt`
+
+It still doesn't work !
+Contact me :)
+
 Finally
-============== 
+==============
 This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deals with many targets.
 Unfortunately I don't like Symfony and I am to lazy now to continue this project.  
 
@@ -72,5 +78,5 @@ I don't believe in license.
 Feel free to do whatever you want with this program.
 
 Demo
-============== 
+==============
 [![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g)
