@@ -80,8 +80,9 @@ It works with PHP7, I currently use it, you could meet some deprecated error but
 
 Finally
 ==============
-This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deal with many targets.  
-I had the opportunity to test it on 3 dedicated servers at the same time, the result was awesome.  
+This tool help me a lot. It performs basics redundant actions and it keeps things classified. 
+It's pretty interesting when you deal with many targets.
+I had the opportunity to test it on 3 dedicated servers at the same time, the result was awesome. 
 Unfortunately I don't like Symfony and I am to lazy now to continue this project.  
 
 I don't believe in license.  
