@@ -100,7 +100,7 @@ chown www-data.www-data composer.phar
 php composer.phar install
 
 ./app/console doctrine:schema:update --force
-./app/console fos:user:create
+./app/console fos:user:create <username> <email> <password> --super-admin
 
 
 Import basic datas
