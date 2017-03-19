@@ -65,14 +65,17 @@ Supposed to be a feature to performed tasks on specific url, like sqlmap. It's n
 What the purpose of the table `db.actarus.arus_entity_loot`?  
 Supposed to be the data collected, like credentials, I finally decide to merge those datas with alerts, so it's not used anymore.  
 
-It doesn't work!
-Try to read the `full_install.txt`
+It doesn't work!  
+Try to read the `full_install.txt`  
 
-It still doesn't work !
-Contact me :)
+It still doesn't work !  
+Contact me :)  
 
-What if I use a mac?
-I have no fucking idea!
+What if I use a mac?  
+I have no fucking idea!  
+
+What about PHP7?
+It works with PHP7, I currently use it, you could meet some deprecated error but not a big deal.
 
 Finally
 ==============

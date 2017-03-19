@@ -3,10 +3,12 @@ Server
 ============
 aptitude install apache2
 aptitude install php5 php5-dev php5-curl php5-pecl-http
-aptitude install mysql-server mysql-client libmysqlclient-dev phpmyadmin
+aptitude install mysql-server mysql-client libmysqlclient-dev
+aptitude install phpmyadmin (optional)
 
 aptitude install libyaml-0-2 libyaml-dev
 pecl install yaml-beta
+
 
 
 Database
@@ -14,7 +16,7 @@ Database
 Create your own mysql user and database for Actarus
 
 
-Tools (optionnal)
+Tools (optional)
 ============
 aptitude install nmap
 
