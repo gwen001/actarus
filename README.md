@@ -17,7 +17,7 @@ Features
 * host (subdomain) managment - create, import, edit, delete, search  
 * task managment - create, edit, delete, search  
 * task priority 
-* task autokill - when a task is longer than x minutes/hours. See `parameters/task/max_duration`
+* task autokill - when a task is longer than x hours. See `parameters/task/max_duration`
 * auto recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
 * result interpretation and callback - when a task is finished a callback is immediatly executed and performed some actions. See _"Settings/Manage Task and their Callback"_ and `src/AppBundle/Command/InterpretTaskCommand.php`
 * alert managment - create, edit, delete, search
@@ -39,6 +39,7 @@ pecl yaml
 Quick Install
 ==============
 git clone https://github.com/gwen001/actarus.git  
+cd actarus  
 php composer.phar install  
 php app/console doctrine:schema:update --dump-sql  
 php app/console doctrine:schema:update --force  
@@ -63,10 +64,10 @@ What the purpose of the table `db.actarus.requete`?
 Supposed to be a feature to performed tasks on specific url, like sqlmap. It's not currently used, you can delete it.  
 
 What the purpose of the table `db.actarus.arus_entity_loot`?  
-Supposed to be the data collected, like credentials, I finally decide to merge those datas with alerts, so it's not used anymore.  
+Supposed to be the data collected, like credentials, I finally decided to merge those datas with alerts, so it's not used anymore.  
 
 It doesn't work!  
-Try to read the `full_install.txt`  
+Try to read the `full_install.txt`.  
 
 It still doesn't work !  
 Contact me :)  
@@ -74,16 +75,17 @@ Contact me :)
 What if I use a mac?  
 I have no fucking idea!  
 
-What about PHP7?
-It works with PHP7, I currently use it, you could meet some deprecated error but not a big deal.
+What about PHP7?  
+It works with PHP7, I currently use it, you could meet some deprecated error but not a big deal.  
 
 Finally
 ==============
-This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deals with many targets.
+This tool help me a lot. It performs basics redundant actions and it keeps things classified. It's pretty interesting when you deal with many targets.  
+I had the opportunity to test it on 3 dedicated servers at the same time, the result was awesome.  
 Unfortunately I don't like Symfony and I am to lazy now to continue this project.  
 
 I don't believe in license.  
-Feel free to do whatever you want with this program.
+Feel free to do whatever you want with this program.  
 
 Demo
 ==============
