@@ -45,6 +45,8 @@ php app/console doctrine:schema:update --force
 chmod -R 500 .  
 chmod -R 700 app/cache app/logs  
 
+The tools configuration is up to you, depending what kind of recon you want to perform.
+
 Create a user
 ==============
 `php app/console fos:user:create <username> <email> <password> --super-admin`
@@ -63,11 +65,14 @@ Supposed to be a feature to performed tasks on specific url, like sqlmap. It's n
 What the purpose of the table `db.actarus.arus_entity_loot`?  
 Supposed to be the data collected, like credentials, I finally decide to merge those datas with alerts, so it's not used anymore.  
 
-It doesn't work !
+It doesn't work!
 Try to read the `full_install.txt`
 
 It still doesn't work !
 Contact me :)
+
+What if I use a mac?
+I have no fucking idea!
 
 Finally
 ==============

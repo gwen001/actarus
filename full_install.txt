@@ -11,10 +11,10 @@ pecl install yaml-beta
 
 Database
 ============
-Create your own mysql user and database for actarus
+Create your own mysql user and database for Actarus
 
 
-Tools
+Tools (optionnal)
 ============
 aptitude install nmap
 
@@ -113,12 +113,12 @@ Apache vhost
 ============
 <VirtualHost *:80>
         ServerName local.actarus.10degres.net
-        DocumentRoot <your_apache_root_here>/actarus/web
+        DocumentRoot <patch_to_actarus_here>/actarus/web
         
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-        <Directory <your_apache_root_here>/actarus>
+        <Directory <patch_to_actarus_here>/actarus>
                 # Options FollowSymLinks
                 AllowOverride all
                 Require all granted
