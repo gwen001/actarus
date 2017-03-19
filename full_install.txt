@@ -1,7 +1,7 @@
 
 Server
 ============
-aptitude install apache2 nmap
+aptitude install apache2
 aptitude install php5 php5-dev php5-curl php5-pecl-http
 aptitude install mysql-server mysql-client libmysqlclient-dev phpmyadmin
 
