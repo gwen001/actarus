@@ -3,27 +3,31 @@ Server
 ============
 aptitude install apache2
 aptitude install php5 php5-dev php5-curl php5-pecl-http
-aptitude install mysql-server mysql-client libmysqlclient-dev
+aptitude install mysql-server mysql-client
 aptitude install phpmyadmin (optional)
 
 aptitude install libyaml-0-2 libyaml-dev
 pecl install yaml-beta
-(enable yaml.so in your php conf, apache and cli)
+echo "extension=yaml.so" > /etc/php5/mods-available/yaml.ini
+ln -s /etc/php5/mods-available/yaml.ini /etc/php5/apache2/conf.d/20-yaml.ini
+ln -s /etc/php5/mods-available/yaml.ini /etc/php5/cli/conf.d/20-yaml.ini
 
 
 Database
 ============
-Create your own mysql user and database for Actarus
+mysql -u root -p -e "CREATE DATABASE actarus_db COLLATE utf8_general_ci;"
+CREATE USER 'actarus_user'@'localhost' IDENTIFIED BY 'actarus_pass';
+GRANT ALL PRIVILEGES ON actarus_db.* TO 'actarus_user'@'localhost' WITH GRANT OPTION;
 
 
 Tools (optional)
 ============
-aptitude install nmap
+aptitude install git nmap
 
 aptitude install python-pip python-2.7-dev python-curl libcurl4-openssl-dev
 pip2 install dnsknife netaddr requests paramiko python-mysqldb
 
-aptitude install git whois hydra nikto sqlmap whatweb awscli
+aptitude install whois hydra nikto sqlmap whatweb awscli
 
 git clone git@github.com:gwen001/SecLists
 git clone git@github.com:gwen001/Wappalyzer
@@ -95,6 +99,7 @@ Acatarus
 ============
 git clone https://github.com/gwen001/actarus.git
 
+cd actarus
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 rm composer-setup.php
