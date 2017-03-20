@@ -17,7 +17,7 @@ Features
 * host (subdomain) managment - create, import, edit, delete, search  
 * task managment - create, edit, delete, search  
 * task priority 
-* task autokill - when a task is longer than x hours. See `parameters/task/max_duration`
+* task autokill - when a task is longer than x minutes. See `parameters/task/max_duration`
 * auto recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
 * result interpretation and callback - when a task is finished a callback is immediatly executed and performed some actions. See _"Settings/Manage Task and their Callback"_ and `src/AppBundle/Command/InterpretTaskCommand.php`
 * alert managment - create, edit, delete, search

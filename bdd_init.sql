@@ -4,16 +4,46 @@ INSERT INTO `arus_project` (`id`, `entity_id`, `name`, `handle`, `status`, `crea
 
 
 INSERT INTO `arus_task` (`id`, `name`, `command`, `default_options`, `created_at`, `updated_at`) VALUES
-(1, 'nmap_full', 'nmap -A -T4 -sT -p 1-65535 --open __E_NAME__ -Pn', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:32'),
-(2, 'host', 'host __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:11'),
-(3, 'whois', 'whois __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:59'),
-(4, 'nikto', 'nikto -h http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-04 22:43:13'),
-(5, 'whatweb', 'whatweb -v http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-07 16:30:49'),
-(6, 'dirb', 'dirb http__O_SSL__://__E_NAME__:__O_PORT__ /opt/SecLists/dirb/big.txt -S', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-22 12:25:23'),
-(7, 'theharvester', 'theharvester -d __E_NAME__ -b all -l 1000 -n', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:27'),
-(8, 'wappalyzer', 'wappalyzer http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-14 11:14:04', '2016-09-23 14:01:33'),
-(9, 'testssl', 'testssl --color 0 -U __E_NAME__', 'N;', '2016-08-24 16:43:08', '2016-09-02 19:55:21'),
-(10, 'wpscan', 'wpscan --url http__O_SSL__://__E_NAME__:__O_PORT__ --enumerate u -r --update --batch', 'a:1:{s:4:"PORT";i:80;}', '2016-09-23 15:18:17', '2016-10-10 15:05:25');
+(1, 'nmap_top10', 'nmap -A -T4 --top_ports=10 --open __E_NAME__ -Pn', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:32'),
+(2, 'nmap_full', 'nmap -A -T4 -sT -p 1-65535 --open __E_NAME__ -Pn', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:32'),
+(3, 'host', 'host __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:54:11'),
+(4, 'whois', 'whois __E_NAME__', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:59'),
+(5, 'nikto', 'nikto -h http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-04 22:43:13'),
+(6, 'whatweb', 'whatweb -v http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-07 16:30:49'),
+(7, 'dirb', 'dirb http__O_SSL__://__E_NAME__:__O_PORT__ /opt/SecLists/dirb/big.txt -S', 'a:1:{s:4:"PORT";i:80;}', '2016-08-01 22:28:44', '2016-09-22 12:25:23'),
+(13, 'theharvester', 'theharvester -d __E_NAME__ -b all -l 1000 -n', 'N;', '2016-08-01 22:28:44', '2016-09-02 19:55:27'),
+(18, 'wappalyzer', 'wappalyzer http__O_SSL__://__E_NAME__:__O_PORT__', 'a:1:{s:4:"PORT";i:80;}', '2016-08-14 11:14:04', '2016-09-23 14:01:33'),
+(19, 'testssl', 'testssl --color 0 -U __E_NAME__', 'N;', '2016-08-24 16:43:08', '2016-09-02 19:55:21'),
+(25, 'patator_ssh', 'patator ssh_login host=__E_NAME__ port=__O_PORT__ user=root password=FILE0 0=/opt/SecLists/Passwords/passwords_john.txt', 'a:1:{s:4:"PORT";i:22;}', '2016-09-14 18:46:31', '2016-09-15 20:02:24'),
+(26, 'patator_ftp', 'patator ftp_login host=__E_NAME__ port=__O_PORT__ user=root password=FILE0 0=/opt/SecLists/Passwords/passwords_john.txt', 'a:1:{s:4:"PORT";i:21;}', '2016-09-14 18:48:25', '2016-09-15 20:02:32'),
+(27, 'patator_mysql', 'patator mysql_login host=__E_NAME__ port=__O_PORT__ user=root password=FILE0 0=/opt/SecLists/Passwords/passwords_john.txt', 'a:1:{s:4:"PORT";i:3306;}', '2016-09-14 18:49:08', '2016-09-15 20:02:29'),
+(33, 'wpscan', 'wpscan --url http__O_SSL__://__E_NAME__:__O_PORT__ --enumerate u -r --update --batch', 'a:1:{s:4:"PORT";i:80;}', '2016-09-23 15:18:17', '2016-10-10 15:05:25');
+
+
+INSERT INTO `arus_task_callback` (`id`, `task_id`, `priority`, `regex`, `action`, `params`, `created_at`, `updated_at`) VALUES
+(9, 6, 1, 'String     : Apache', 'addTechnology', 'a:1:{s:10:"technology";i:42;}', '2016-08-07 10:01:55', '2016-09-25 20:42:05'),
+(10, 6, 7, 'PHP\\[', 'addTechnology', 'a:1:{s:10:"technology";i:485;}', '2016-08-07 10:28:57', '2016-09-25 20:41:37'),
+(11, 6, 9, 'JQuery', 'addTechnology', 'a:1:{s:10:"technology";i:797;}', '2016-08-07 10:29:12', '2016-09-25 20:42:47'),
+(12, 6, 6, 'Plesk', 'addTechnology', 'a:1:{s:10:"technology";i:506;}', '2016-08-07 10:29:34', '2016-09-25 20:41:30'),
+(13, 6, 3, 'String     : nginx', 'addTechnology', 'a:1:{s:10:"technology";i:447;}', '2016-08-07 10:31:22', '2016-09-25 20:41:05'),
+(14, 6, 5, 'CloudFlare', 'addTechnology', 'a:1:{s:10:"technology";i:121;}', '2016-08-07 10:33:13', '2016-09-25 20:41:22'),
+(15, 6, 8, 'ASP\\.NET', 'addTechnology', 'a:1:{s:10:"technology";i:400;}', '2016-08-07 10:34:32', '2016-09-25 20:42:29'),
+(16, 6, 2, 'String     : Microsoft-IIS', 'addTechnology', 'a:1:{s:10:"technology";i:294;}', '2016-08-07 10:42:38', '2016-09-25 20:40:44'),
+(17, 6, 4, 'Os         : Ubuntu', 'addTechnology', 'a:1:{s:10:"technology";i:683;}', '2016-08-07 10:47:50', '2016-09-25 20:41:15'),
+(23, 7, 1, '\\.svn|\\.git', 'addAlert', 'a:2:{s:4:"text";s:73:"<a href="__URL__" target="_blank">__TERM__</a> repository has been found.";s:11:"alert_level";i:3;}', '2016-08-24 17:03:28', '2016-10-25 21:00:44'),
+(25, 7, 3, 'server-info', 'addAlert', 'a:2:{s:4:"text";s:62:"<a href="__URL__" target="_blank">__TERM__</a> has been found.";s:11:"alert_level";i:2;}', '2016-08-24 17:19:12', '2016-08-29 21:53:20'),
+(26, 7, 4, 'server-status', 'addAlert', 'a:2:{s:4:"text";s:62:"<a href="__URL__" target="_blank">__TERM__</a> has been found.";s:11:"alert_level";i:1;}', '2016-08-24 17:19:31', '2016-09-21 22:40:26'),
+(27, 7, 5, '\\.htaccess|\\.htpasswd', 'addAlert', 'a:2:{s:4:"text";s:65:"<a href="__URL__" target="_blank">__TERM__</a> is world readable.";s:11:"alert_level";i:1;}', '2016-08-24 17:20:09', '2016-09-21 15:24:00'),
+(28, 7, 6, 'phpmyadmin', 'addAlert', 'a:2:{s:4:"text";s:94:"<a href="__URL__" target="_blank">PhpMyAdmin</a> is available, try to brute force credentials.";s:11:"alert_level";i:0;}', '2016-08-25 11:46:37', '2016-08-29 21:55:04'),
+(29, 7, 7, 'phpmyadmin', 'addTechnology', 'a:1:{s:10:"technology";i:827;}', '2016-08-25 11:46:49', '2016-10-29 10:57:34'),
+(30, 6, 11, 'Google-Analytics', 'addTechnology', 'a:1:{s:10:"technology";i:244;}', '2016-08-25 12:11:16', '2016-10-13 11:44:48'),
+(36, 19, 1, 'VULNERABLE \\(NOT ok\\)', 'addAlert', 'a:2:{s:4:"text";s:54:"SSL certificate is vulnerable to well known attack(s).";s:11:"alert_level";i:1;}', '2016-08-28 22:40:18', '2016-08-28 22:43:28'),
+(46, 6, 12, '\\[CentOS\\]', 'addTechnology', 'a:1:{s:10:"technology";i:108;}', '2016-09-05 18:24:16', '2016-09-25 20:43:09'),
+(60, 27, 1, 'INFO - 0', 'addAlert', 'a:2:{s:4:"text";s:24:"MySQL credentials found.";s:11:"alert_level";i:3;}', '2016-09-14 20:23:50', '2016-09-14 20:23:50'),
+(63, 5, 3, '/(host-)?manager/html: Default Tomcat Manager', 'addAlert', 'a:2:{s:4:"text";s:53:"Tomcat manager has been found, try to upload payload.";s:11:"alert_level";i:2;}', '2016-10-10 16:50:33', '2017-03-17 11:54:38'),
+(64, 5, 1, 'WebDAV enabled', 'addAlert', 'a:2:{s:4:"text";s:71:"WebDAV is configured, check file permissions for potential file upload.";s:11:"alert_level";i:2;}', '2016-10-13 11:45:07', '2017-03-17 11:54:38'),
+(69, 5, 2, 'phpmyadmin', 'addAlert', 'a:2:{s:4:"text";s:17:"phpmyadmin found!";s:11:"alert_level";i:1;}', '2017-03-17 11:54:23', '2017-03-17 11:54:38'),
+(70, 5, 4, 'phpmyadmin', 'addTechnology', 'a:1:{s:10:"technology";i:827;}', '2017-03-17 11:54:34', '2017-03-17 11:54:34');
 
 
 INSERT INTO `arus_technology` (`id`, `name`, `implies`, `icon`) VALUES

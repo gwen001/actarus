@@ -484,6 +484,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function nmap_top10( $task )
+	{
+        return $this->nmap_full( $task );
+	}
 	private function nmap_custom( $task )
 	{
         return $this->nmap_full( $task );

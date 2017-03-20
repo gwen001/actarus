@@ -22,6 +22,8 @@ mysql -u root -p -e "GRANT ALL PRIVILEGES ON actarus_db.* TO 'actarus_user'@'127
 
 Tools (optional)
 ============
+mkdir /opt/bin
+
 aptitude install git nmap
 
 aptitude install python-pip python-2.7-dev python-curl libcurl4-openssl-dev
@@ -108,17 +110,13 @@ chown www-data.www-data composer.phar
 php composer.phar install
 
 ./app/console doctrine:schema:update --force
+mysql -u actarus_user -pactarus_pass actarus_db < bdd_init.sql
+
 ./app/console fos:user:create <username> <email> <password> --super-admin
 
 chown -R www-data.www-data /var/www/html/actarus
 chmod -R 500 /var/www/html/actarus
 chmod -R 700 /var/www/html/actarus/app/cache /var/www/html/actarus/app/logs  
-
-
-Import basic datas
-============
-mysql -u actarus_user -pactarus_pass actarus_db < arus_task.sql
-mysql -u actarus_user -pactarus_pass actarus_db < arus_technology.sql
 
 
 Apache vhost

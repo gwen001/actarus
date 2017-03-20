@@ -13,7 +13,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: c7c3effd737a9a9a4e6455e74b191f5d6e15f393
-    daemon_cluster_id: 1
+    daemon_cluster_id: 0
     daemon_interpret_max_child: 20
     daemon_kill_max_child: 2
     daemon_run_max_child: 10
