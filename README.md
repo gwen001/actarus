@@ -78,7 +78,7 @@ I have no fucking idea!
 What about PHP7?  
 It works with PHP7, I currently use it, you could meet deprecated errors but not a big deal.  
 
-Can I delete the project Actarus?
+Can I delete the project Actarus?  
 Never do that!
 
 How to properly stop the daemons?
