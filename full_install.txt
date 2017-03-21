@@ -142,10 +142,8 @@ cat > /etc/apache2/sites-available/actarus.conf
 
 ln -s /etc/apache2/sites-available/actarus.conf /etc/apache2/sites-enabled/actarus.conf
 
-
 a2enmod rewrite
 service apache2 restart
-
 
 and you probably want to add an entry in /etc/hosts
 127.0.0.1 local.actarus.net
