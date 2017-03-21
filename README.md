@@ -99,4 +99,5 @@ Demo
 ==============
 If you want to test Actarus but you can't (or don't want) install it, I created a "small" Debian virtual machine with VirtualBox where it's ready to use in a very basic configuration.
 [Give it a try](http://10degres.net/assets/actarus.ova)
+<br>
 [![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g)
