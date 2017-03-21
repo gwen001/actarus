@@ -78,6 +78,9 @@ I have no fucking idea!
 What about PHP7?  
 It works with PHP7, I currently use it, you could meet deprecated errors but not a big deal.  
 
+Can I delete the project Actarus?
+Never do that!
+
 How to properly stop the daemons?
 Simply create the file `daemon_run_task.php.stop`, `daemon_run_task.php.stop` or `daemon_run_task.php.stop` in the daemons folder and the corresponding daemon will immediatly stop
 (note that the daemon will shutdown but not the current running task).
