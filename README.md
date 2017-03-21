@@ -18,7 +18,7 @@ Features
 * task managment - create, edit, delete, search  
 * task priority 
 * task autokill - when a task is longer than x minutes. See `parameters/task/max_duration`
-* auto recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
+* automatic recon - when an entity is created some tasks are immediatly performed. See `parameters/entity/recon`
 * result interpretation and callback - when a task is finished a callback is immediatly executed and performed some actions. See _"Settings/Manage Task and their Callback"_ and `src/AppBundle/Command/InterpretTaskCommand.php`
 * alert managment - create, edit, delete, search
 * alert generation - the callbacks can generate alert, 4 levels available: info, low, medium, high. See `parameters/alerts/level`
@@ -70,13 +70,21 @@ It doesn't work!
 Try to read the `full_install.txt`.  
 
 It still doesn't work !  
-Contact me :)  
+I would be happy to answer any question about Actarus installation/configuration but for problem related to Apache configuration or Linux problem I'm definitly not your man.
 
 What if I use a mac?  
 I have no fucking idea!  
 
 What about PHP7?  
-It works with PHP7, I currently use it, you could meet some deprecated error but not a big deal.  
+It works with PHP7, I currently use it, you could meet deprecated errors but not a big deal.  
+
+How to properly stop the daemons?
+Simply create the file `daemon_run_task.php.stop`, `daemon_run_task.php.stop` or `daemon_run_task.php.stop` in the daemons folder and the corresponding daemon will immediatly stop
+(note that the daemon will shutdown but not the current running task).
+
+Bugs
+==============
+They are, yes.
 
 Finally
 ==============
@@ -89,4 +97,6 @@ Feel free to do whatever you want with this program.
 
 Demo
 ==============
+If you want to test Actarus but you can't (or don't want) install it, I created a "small" Debian virtual machine with VirtualBox where it's ready to use in a very basic configuration.
+[Give it a try](http://10degres.net/assets/actarus.ova)
 [![ScreenShot](http://10degres.net/images/actarus_video_preview.jpg)](https://www.youtube.com/watch?v=_u1-L0YjI7g)

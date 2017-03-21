@@ -1,6 +1,8 @@
 
 Server
 ============
+apt-get install aptitude
+aptitude update && aptitude upgrade
 aptitude install apache2
 aptitude install php5 php5-dev php5-curl php5-pecl-http
 aptitude install mysql-server mysql-client
@@ -18,29 +20,31 @@ Database
 mysql -u root -p -e "CREATE DATABASE actarus_db COLLATE utf8_general_ci;"
 mysql -u root -p -e "CREATE USER 'actarus_user'@'127.0.0.1' IDENTIFIED BY 'actarus_pass';"
 mysql -u root -p -e "GRANT ALL PRIVILEGES ON actarus_db.* TO 'actarus_user'@'127.0.0.1' WITH GRANT OPTION;"
+mysql -u root -p -e "FLUSH PRIVILEGES;"
 
 
-Tools (optional)
+Tools (up to you)
 ============
-mkdir /opt/bin
+mkdir /opt/bin && cd /opt/
 
-aptitude install git nmap
+aptitude install nmap whois host git
 
-aptitude install python-pip python-2.7-dev python-curl libcurl4-openssl-dev
-pip2 install dnsknife netaddr requests paramiko python-mysqldb
+aptitude install python-pip python2.7-dev libcurl4-openssl-dev
+pip2 install dnsknife netaddr requests paramiko pycurl python-mysqldb
 
-aptitude install whois hydra nikto sqlmap whatweb awscli
+aptitude install hydra nikto sqlmap whatweb awscli
 
-git clone git@github.com:gwen001/SecLists
-git clone git@github.com:gwen001/Wappalyzer
-git clone git@github.com:gwen001/dnsexpire
-git clone git@github.com:gwen001/github-search
-git clone git@github.com:gwen001/pentest-tools
-git clone git@github.com:gwen001/s3-buckets-extractor
+https://github.com/gwen001/s3-buckets-extractor
+
+git clone https://github.com/gwen001/SecLists
+git clone https://github.com/gwen001/Wappalyzer
+git clone https://github.com/gwen001/dnsexpire
+git clone https://github.com/gwen001/github-search
+git clone https://github.com/gwen001/pentest-tools
+git clone https://github.com/gwen001/s3-buckets-extractor
 
 git clone git://git.kali.org/packages/theharvester.git
 git clone git://git.kali.org/packages/davtest.git
-git clone git://git.kali.org/packages/dirb.git
 git clone git://git.kali.org/packages/dnsrecon.git
 git clone git://git.kali.org/packages/patator.git
 git clone git://git.kali.org/packages/smtp-user-enum.git
@@ -48,12 +52,9 @@ git clone https://github.com/wpscanteam/wpscan
 
 git clone https://github.com/urbanadventurer/WhatWeb
 
-tar -xvzf dirb222.tar.gz
-mv dirb222 dirb
-cd dirb/
-chmod +x configure
-./configure
-make
+wget "https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz?r=https%3A%2F%2Fwww.google.com.ua%2F&ts=1490093083&use_mirror=netcologne" -O dirb222.tar.gz
+tar -xvzf dirb222.tar.gz && mv dirb222 dirb && cd dirb/ && chmod +x configure
+./configure && make
 ln -s /opt/dirb/dirb /opt/bin/dirb
 
 ln -s /opt/dnsexpire/dnsexpire.php /opt/bin/dnsexpire
@@ -78,9 +79,12 @@ ln -s /opt/patator/patator.py /opt/bin/patator
 
 aptitude install libv8-dev
 pecl install v8js-0.1.3
+echo "extension=v8js.so" > /etc/php5/mods-available/v8js.ini
+ln -s /etc/php5/mods-available/v8js.ini /etc/php5/apache2/conf.d/20-v8js.ini
+ln -s /etc/php5/mods-available/v8js.ini /etc/php5/cli/conf.d/20-v8js.ini
 aptitude install ruby2.1-dev
 gem install libv8 --verbose
-gem install therubyracer
+gem install therubyracer --verbose
 ln -s /opt/Wappalyzer/src/drivers/ruby/wappalyzer.rb /opt/bin/wappalyzer
 
 gem install bundler
@@ -110,7 +114,7 @@ chown www-data.www-data composer.phar
 php composer.phar install
 
 ./app/console doctrine:schema:update --force
-mysql -u actarus_user -pactarus_pass actarus_db < bdd_init.sql
+mysql -h 127.0.0.1 -u actarus_user -pactarus_pass actarus_db < bdd_init.sql
 
 ./app/console fos:user:create <username> <email> <password> --super-admin
 
@@ -121,6 +125,7 @@ chmod -R 700 /var/www/html/actarus/app/cache /var/www/html/actarus/app/logs
 
 Apache vhost
 ============
+cat > /etc/apache2/sites-available/actarus.conf
 <VirtualHost *:80>
         ServerName local.actarus.net
         DocumentRoot /var/www/html/actarus/web
@@ -134,6 +139,9 @@ Apache vhost
                 Require all granted
         </Directory>
 </VirtualHost>
+
+ln -s /etc/apache2/sites-available/actarus.conf /etc/apache2/sites-enabled/actarus.conf
+
 
 a2enmod rewrite
 service apache2 restart
