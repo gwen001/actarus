@@ -30,7 +30,7 @@ mkdir /opt/bin && cd /opt/
 aptitude install nmap whois host git
 
 aptitude install python-pip python2.7-dev libcurl4-openssl-dev
-pip2 install dnsknife netaddr requests paramiko pycurl python-mysqldb
+pip install dnsknife netaddr requests paramiko pycurl python-mysqldb
 
 aptitude install hydra nikto sqlmap whatweb awscli
 
@@ -55,6 +55,7 @@ git clone https://github.com/urbanadventurer/WhatWeb
 wget "https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz?r=https%3A%2F%2Fwww.google.com.ua%2F&ts=1490093083&use_mirror=netcologne" -O dirb222.tar.gz
 tar -xvzf dirb222.tar.gz && mv dirb222 dirb && cd dirb/ && chmod +x configure
 ./configure && make
+chmod +x /opt/dirb/
 ln -s /opt/dirb/dirb /opt/bin/dirb
 
 ln -s /opt/dnsexpire/dnsexpire.php /opt/bin/dnsexpire
@@ -83,7 +84,7 @@ echo "extension=v8js.so" > /etc/php5/mods-available/v8js.ini
 ln -s /etc/php5/mods-available/v8js.ini /etc/php5/apache2/conf.d/20-v8js.ini
 ln -s /etc/php5/mods-available/v8js.ini /etc/php5/cli/conf.d/20-v8js.ini
 aptitude install ruby2.1-dev
-gem install libv8 --verbose
+gem install libv8 --verbose (get a coffee)
 gem install therubyracer --verbose
 ln -s /opt/Wappalyzer/src/drivers/ruby/wappalyzer.rb /opt/bin/wappalyzer
 
@@ -99,6 +100,9 @@ gem install simplecov
 gem install rspec
 gem install rspec-its
 ln -s /opt/wpscan/wpscan.rb /opt/bin/wpscan
+
+wget -O - testssl.sh > /usr/bin/testssl && chmod +x /usr/bin/testssl
+ln -s /usr/bin/testssl /opt/bin/testssl
 
 
 Acatarus

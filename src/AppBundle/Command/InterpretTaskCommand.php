@@ -520,6 +520,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					case 2222:
 						$new_task = 'hydra_ssh';
 						break;
+					case 25:
+						$new_task = 'smtp_user';
+						break;
 					case 3306:
 						$new_task = 'patator_mysql';
 						break;
@@ -704,10 +707,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 
 				$flag = true;
-				//$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
+				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 			}
 		}
 
