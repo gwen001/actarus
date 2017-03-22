@@ -641,6 +641,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function crtsh( $task )
+	{
+        return $this->subthreat( $task );
+	}
 	private function subthreat( $task )
 	{
 		$output = $task->getOutput();
