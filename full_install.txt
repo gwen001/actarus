@@ -34,8 +34,6 @@ pip install dnsknife netaddr requests paramiko pycurl python-mysqldb
 
 aptitude install hydra nikto sqlmap whatweb awscli
 
-https://github.com/gwen001/s3-buckets-extractor
-
 git clone https://github.com/gwen001/SecLists
 git clone https://github.com/gwen001/Wappalyzer
 git clone https://github.com/gwen001/dnsexpire

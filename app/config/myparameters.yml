@@ -22,13 +22,13 @@ parameters:
             host: 4
             request: 5
         recon:
-            project: [s3_buckets]
-            server: [portscan_nc]
-            domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat]
+            project: []
+            server: []
+            domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
             host: [host]
 
     task:
-        max_duration: 300
+        max_duration: 120
         status:
             waiting: 0
             reserved: 1

@@ -145,9 +145,12 @@ class ServiceController extends Controller
 
 		if( (int)$task->getPid() ) {
 			//$process = new Process('kill -- -$(ps -o pgid= ' . $task->getPid() . ' | grep -o [0-9]*)');
-			$kill = 'kill -9 ' . $task->getRealPid() . ' ' . $task->getPid();
-			$process = new Process( $kill );
-			$process->start();
+			//$kill = 'kill -9 ' . $task->getRealPid() . ' ' . $task->getPid();
+			//$kill = 'kill -- -$(ps auxf | grep "arus:task:run \-t $task_id" | awk '{print $2}')'
+			//$process = new Process( $kill );
+			//$process->start();
+			$entity = $this->get('app')->getEntityById( $task->getEntityId() );
+			$this->container->get('entity_task')->create( $entity, 'task_killer', ['TASKID'=>$task->getId(),'PID'=>$task->getPid(),'REALPID'=>$task->getRealPid()] );
 		}
 
 		if( $delete ) {
@@ -155,7 +158,7 @@ class ServiceController extends Controller
 			$em->flush();
 		} else {
 			$t_status = $this->container->getParameter('task')['status'];
-			$task->setStatus( $t_status['cancelled'] );
+			$task->setStatus( $t_status['finished'] );
 			$task->setEndedAt( new \DateTime() );
 			$em->persist($task);
 			$em->flush();

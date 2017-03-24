@@ -437,7 +437,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 
-//		var_dump($t_host);
 //		var_dump($t_server);
 //		var_dump($t_link);
 //		var_dump($is_alias);
@@ -713,6 +712,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$flag = true;
 				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 			}

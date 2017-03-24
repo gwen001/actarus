@@ -98,7 +98,7 @@ class CronCommand extends ContainerAwareCommand
 		$em = $this->em;
 		$container = $this->getContainer();
 		$t_search = ['ibb:no type:hackerone','ibb:no bounties:yes'];
-		$t_search = ['type:hackerone','bounties:yes'];
+			$t_search = ['type:hackerone','bounties:yes'];
 
 		$client = new Client( ['base_uri'=>'https://hackerone.com'] );
 
@@ -243,6 +243,12 @@ class CronCommand extends ContainerAwareCommand
 		}
 
 		echo "\n";
+		
+		/*if( $cnt ) {
+			$actarus = $container->get('app')->getActarus();
+			$t_alert_level = $container->getParameter('alert')['level'];
+			$container->get('entity_alert')->create( $actarus, $cnt.' new project added.', $t_alert_level['info'] );
+		}*/
 		
 		return $cnt;
 	}
