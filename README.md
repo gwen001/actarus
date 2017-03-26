@@ -58,7 +58,7 @@ Run daemons
 `[...]/actarus/vendor/actarus/custom/daemon_interpret_task.php`
 `[...]/actarus/vendor/actarus/custom/daemon_kill_task.php`
 
-How to configure a new module/command
+How to configure a new module/command/task
 ==============
 1. Install the concerned program on your machine and test it by yourself  
 2. Create a symbolic link in the binary path configured in Actarus `parameters/bin_path` default is `/opt/bin`  
