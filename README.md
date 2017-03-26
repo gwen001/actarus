@@ -58,6 +58,18 @@ Run daemons
 `[...]/actarus/vendor/actarus/custom/daemon_interpret_task.php`
 `[...]/actarus/vendor/actarus/custom/daemon_kill_task.php`
 
+How to configure a new module/command
+==============
+1/ Install the concerned program on your machine and test it by yourself
+2/ Create a symblic link in the binary path configured in Actarus `parameters/bin_path` default is `/opt/bin`
+3/ Configure the task in `Settings/Manage Task and their Callback`
+name: will be the name of the function in the PHP code so no space or strange symbols
+command: the full command to launch your program as you want (will probably be the name of the symbolic link you create in step 3 + some options)
+You can also use some special datas related to the concerned entity `__E_<entity_property__>__` (check the database to get the properties)
+You can also configure options by yourself `__O_<option_name>__`
+4/ (optionnal) edit the task to add callback and configure alert
+5/ (optionnal) if the callback is tricky you can write your own PHP code in `src/AppBundle/Command/InterpretTaskCommand.php`
+
 Faq
 ==============
 What the purpose of the table `db.actarus.requete`?  
