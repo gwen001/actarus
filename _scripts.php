@@ -30,7 +30,7 @@ while( ($s=$r->fetch_object()) )
 }
 */
 
-
+/*
 $q = "SELECT h.* FROM arus_host as h left join arus_entity_task as t on h.entity_id=t.entity_id where t.command like 'testhttp%' and t.output like '%443:OK%'";
 $r = $db->query( $q );
 
@@ -40,7 +40,7 @@ while( ($s=$r->fetch_object()) )
 	echo $cmd."\n";
 	system( $cmd );
 }
-
+*/
 
 
 

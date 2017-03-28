@@ -65,7 +65,21 @@ abstract class Daemon
 	 */
 	private $tic = array();
 
+	/**
+	 * list of process pid
+	 * 
+	 * @var array
+	 */
+	private $t_process = [];
+	
+	/**
+	 * process waiting to be killed
+	 * 
+	 * @var array
+	 */
+	private $t_signal_queue = [];
 
+	
 	/**
 	 * constructor
 	 *
@@ -109,24 +123,43 @@ abstract class Daemon
 	}
 
 
-	/**
-	 * signal handler
-	 *
-	 * @param integer $signal
-	 */
-	public function signal_handler( $signal )
+	// http://stackoverflow.com/questions/16238510/pcntl-fork-results-in-defunct-parent-process
+	// Thousand Thanks!
+	private function signal_handler( $signal, $pid=null, $status=null )
 	{
-		switch( $signal )
-		{
-			case SIGCHLD:
-				$this->nb_child--;
-				// permet d'éliminer les zombies
-				pcntl_waitpid( -1, $status, WNOHANG );
-				break;
-			default:
-				call_user_func( $this->quit );
-				break;
+		if( $signal != SIGCHLD ) {
+			call_user_func( $this->quit );
+			return;
 		}
+		
+		// If no pid is provided, Let's wait to figure out which child process ended
+		if( !$pid ){
+			$pid = pcntl_waitpid( -1, $status, WNOHANG );
+		}
+		
+		// Get all exited children
+		while( $pid > 0 )
+		{
+			if( $pid && isset($this->t_process[$pid]) ) {
+				// I don't care about exit status right now.
+				//  $exitCode = pcntl_wexitstatus($status);
+				//  if($exitCode != 0){
+				//      echo "$pid exited with status ".$exitCode."\n";
+				//  }
+				// Process is finished, so remove it from the list.
+				$this->nb_child--;
+				unset( $this->t_process[$pid] );
+			}
+			elseif( $pid ) {
+				// Job finished before the parent process could record it as launched.
+				// Store it to handle when the parent process is ready
+				$this->t_signal_queue[$pid] = $status;
+			}
+			
+			$pid = pcntl_waitpid( -1, $status, WNOHANG );
+		}
+		
+		return true;
 	}
 
 
@@ -152,6 +185,11 @@ abstract class Daemon
 				throw new Exception( 'cannot fork the currently running process' );
 			} elseif( $pid ) {
 				$this->nb_child++;
+				$this->t_process[$pid] = uniqid();
+		        if( isset($this->t_signal_queue[$pid]) ){
+		        	$this->signal_handler( SIGCHLD, $pid, $this->t_signal_queue[$pid] );
+		        	unset( $this->t_signal_queue[$pid] );
+		        }
 			} else {
 				// child process, everything ok
 				pcntl_exec( $path, $args );

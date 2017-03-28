@@ -23,7 +23,7 @@ parameters:
             request: 5
         recon:
             project: []
-            server: []
+            server: [portscan_nc]
             domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
             host: [host]
 
