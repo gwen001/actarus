@@ -43,6 +43,13 @@
 						            {{ task.getPid() }} - {{ task.getRealPid() }}
 						        </div>
 						    </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+						        <label class="col-sm-2 control-label nopadding">Cluster</label>
+                                <div class="col-sm-10">
+                                    {{ task.getClusterId() }} ({{ t_cluster[task.getClusterId()] }})
+                                </div>
+                            </div>
 						    <div class="hr-dashed"></div>
 						    <div class="form-group">
 						        <label class="col-sm-2 control-label nopadding">Project</label>
@@ -98,8 +105,12 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label nopadding">End date</label>
                                 <div class="col-sm-10">
-                                    {% if task.getEndedAt() %}{{ task.getEndedAt()|date('d/m/Y H:i:s') }}{% endif %}
-                                    {% if task.getStartedAt() %}({{ task.getDuration() }}){% endif %}
+                                    {% if task.getStatus() >= 3 %}
+                                    	{{ task.getEndedAt()|date('d/m/Y H:i:s') }}
+                                    {% else %}
+                                    	-
+                                    {% endif %}
+                                    {% if task.getStatus() >= 2 %}({{ task.getDuration() }}){% endif %}
                                 </div>
                             </div>
                             <div class="hr-dashed"></div>

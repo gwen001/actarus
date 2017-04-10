@@ -76,6 +76,7 @@ class DefaultController extends Controller
 	{
 		$t_status = array_flip( $this->getParameter('task')['status'] );
 		$t_entity_type = array_flip( $this->getParameter('entity')['type'] );
+		$t_cluster = $this->getParameter( 'daemon' )['cluster'];
 
 		$em = $this->getDoctrine()->getManager();
 
@@ -91,6 +92,7 @@ class DefaultController extends Controller
 			'entity' => $entity,
 			't_status' => $t_status,
 			't_entity_type' => $t_entity_type,
+			't_cluster' => $t_cluster,
 			'delete_form' => $deleteForm->createView(),
 			'stop_form' => $stopForm->createView(),
 		));
@@ -156,6 +158,7 @@ class DefaultController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$t_status = array_flip( $this->getParameter('task')['status'] );
 		$t_entity_type = array_flip( $this->getParameter('entity')['type'] );
+		$t_cluster = $this->getParameter( 'daemon' )['cluster'];
 
 		$deleteForm = $this->createDeleteForm($task);
 		$stopForm = $this->createStopForm($task);
@@ -181,6 +184,7 @@ class DefaultController extends Controller
 			'delete_form' => $deleteForm->createView(),
 			'stop_form' => $stopForm->createView(),
 			't_entity_type' => $t_entity_type,
+			't_cluster' => $t_cluster,
 		));
 	}
 

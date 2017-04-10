@@ -82,6 +82,13 @@ class ArusEntityTask
 	 */
 	private $clusterId;
 
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="priority", type="smallint", nullable=true, options={"unsigned"=true})
+	 */
+	private $priority;
+
     /**
      * @var int
      *
@@ -306,6 +313,30 @@ class ArusEntityTask
     public function getClusterId()
     {
         return $this->clusterId;
+    }
+
+    /**
+     * Set priority
+     *
+     * @param string $proirity
+     *
+     * @return ArusEntityTask
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Get priority
+     *
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
     }
 
     /**

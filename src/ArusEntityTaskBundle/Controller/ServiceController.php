@@ -142,10 +142,37 @@ class ServiceController extends Controller
 	public function stop( $task, $delete=false )
 	{
 		$em = $this->em;
-
-		if( (int)$task->getPid() ) {
-			$entity = $this->get('app')->getEntityById( $task->getEntityId() );
-			$this->container->get('entity_task')->create( $entity, 'task_killer', ['TASKID'=>$task->getId(),'PID'=>$task->getPid(),'REALPID'=>$task->getRealPid()] );
+		
+		if( (int)$task->getPid() )
+		{
+			/*if( Utils::isCli() )
+			{
+				$ps = 'pstree -ap -n '.$task->getPid();
+				exec( $ps, $output );
+				//var_dump( $output );
+				
+				if( count($output) )
+				{
+					$to_kill = [];
+					
+					foreach( $output as $k=>$line ) {
+						$tmp = explode( ',', $line );
+						$tmp2 = explode( ' ', $tmp[1] );
+						$to_kill[] = $tmp2[0];
+					}
+					
+					$cmd = 'kill -9 '.implode( ' ', $to_kill ).' 2>/dev/null';
+					//echo $cmd."\n";
+					exec( $cmd );
+				}
+			} else*/
+			{
+				$entity = $this->get('app')->getEntityById( $task->getEntityId() );
+				$killer = $this->container->get('entity_task')->create( $entity, 'task_killer', ['TASKID'=>$task->getId(),'PID'=>$task->getPid()] );
+				$killer->setClusterId( $task->getClusterId() );
+				$em->persist($killer);
+				$em->flush();
+			}
 		}
 
 		if( $delete ) {
