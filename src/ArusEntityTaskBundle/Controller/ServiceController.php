@@ -180,7 +180,7 @@ class ServiceController extends Controller
 			$em->flush();
 		} else {
 			$t_status = $this->container->getParameter('task')['status'];
-			$task->setStatus( $t_status['finished'] );
+			$task->setStatus( $t_status['cancelled'] );
 			$task->setEndedAt( new \DateTime() );
 			$em->persist($task);
 			$em->flush();
