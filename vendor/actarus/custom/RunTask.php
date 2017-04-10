@@ -117,7 +117,7 @@ class RunTask extends Daemon
 
 		if( $this->config->taskPriority )
 		{
-			$q = "SELECT id FROM arus_entity_task WHERE status='".$this->config->parameters['task']['status']['waiting']."' AND task_id IN (".$this->config->taskPriority.") AND task_id NOT IN (".$this->config->taskIgnore.") AND (cluster_id='".$this->config->parameters['daemon_cluster_id']."' OR cluster_id IS NULL) ORDER BY id ASC LIMIT 0,".$this->getFreePlace();
+			$q = "SELECT id FROM arus_entity_task WHERE status='".$this->config->parameters['task']['status']['waiting']."' AND task_id IN (".$this->config->taskPriority.") AND task_id NOT IN (".$this->config->taskIgnore.") AND (cluster_id='".$this->config->parameters['daemon_cluster_id']."' OR cluster_id IS NULL) ORDER BY priority DESC, id ASC LIMIT 0,".$this->getFreePlace();
 			$result = $this->config->db->query( $q );
 			if( !$result ) {
 				$this->logger->write( $this->config->db->error().' ('.$this->config->db->errno().') '.$q );
@@ -132,7 +132,7 @@ class RunTask extends Daemon
 
 		if( $this->getFreePlace() )
 		{
-			$q = "SELECT id FROM arus_entity_task WHERE status='".$this->config->parameters['task']['status']['waiting']."' AND task_id NOT IN (".$this->config->taskIgnore.") AND (cluster_id='".$this->config->parameters['daemon_cluster_id']."' OR cluster_id IS NULL) ORDER BY id ASC LIMIT 0,".$this->getFreePlace();
+			$q = "SELECT id FROM arus_entity_task WHERE status='".$this->config->parameters['task']['status']['waiting']."' AND task_id NOT IN (".$this->config->taskIgnore.") AND (cluster_id='".$this->config->parameters['daemon_cluster_id']."' OR cluster_id IS NULL) ORDER BY priority DESC, id ASC LIMIT 0,".$this->getFreePlace();
 			$result = $this->config->db->query( $q );
 			if( !$result ) {
 				$this->logger->write( $this->config->db->error().' ('.$this->config->db->errno().') '.$q );
