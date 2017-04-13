@@ -1,0 +1,3 @@
+bucket_homepage:
+    path:     /bucket
+    defaults: { _controller: "ArusBucketBundle:Default:index" }

@@ -75,6 +75,23 @@ class CronCommand extends ContainerAwareCommand
 	}
 
 
+	private function crtsh( $project_name )
+	{
+		$cnt = 0;
+		$container = $this->container;
+
+		// do not threat domain that have been disabled
+		$t_domain = $container->get('domain')->search( ['status'=>[4,'!=']], null, null );
+
+		foreach( $t_domain as $d ) {
+			$cnt++;
+			$container->get('entity_task')->create( $d, 'crtsh' );
+		}
+
+		return $cnt;
+	}
+
+
 	private function subthreat( $project_name )
 	{
 		$cnt = 0;

@@ -5,6 +5,7 @@ namespace ArusProjectBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use ArusBucketBundle\Entity\ArusBucket;
 use ArusServerBundle\Entity\ArusServer;
 use ArusDomainBundle\Entity\ArusDomain;
 use ArusHostBundle\Entity\ArusHost;
@@ -84,6 +85,13 @@ class ArusProject
 	/**
 	 * @var ArrayCollection
 	 *
+	 * @ORM\OneToMany(targetEntity="ArusBucketBundle\Entity\ArusBucket", cascade={"remove"}, mappedBy="project")
+	 */
+	private $buckets;
+
+	/**
+	 * @var ArrayCollection
+	 *
 	 * @ORM\OneToMany(targetEntity="ArusServerBundle\Entity\ArusServer", cascade={"remove"}, mappedBy="project")
 	 */
 	private $servers;
@@ -159,6 +167,7 @@ class ArusProject
 	{
         $this->status = 0;
 
+        $this->buckets  = new ArrayCollection();
         $this->servers  = new ArrayCollection();
 		$this->domains  = new ArrayCollection();
 		$this->hosts    = new ArrayCollection();
@@ -369,6 +378,22 @@ class ArusProject
 	/*****************************************************/
 	/* related objects                                   */
 	/*****************************************************/
+	public function addBucket(ArusBucket $bucket) {
+		$this->buckets[] = $bucket;
+		return $this;
+	}
+	public function removeBucket(ArusBucket $bucket) {
+		$this->buckets->removeElement( $bucket );
+	}
+	public function getBuckets() {
+		return $this->buckets;
+	}
+	public function setBuckets($buckets) {
+		$this->buckets = $buckets;
+		return $this;
+	}
+
+
 	public function addServer(ArusServer $server) {
 		$this->servers[] = $server;
 		return $this;

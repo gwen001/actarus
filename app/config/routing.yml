@@ -1,3 +1,7 @@
+bucket:
+    resource: "@ArusBucketBundle/Resources/config/routing.yml"
+    prefix:   /
+
 arus_host_server:
     resource: "@ArusHostServerBundle/Resources/config/routing.yml"
     prefix:   /

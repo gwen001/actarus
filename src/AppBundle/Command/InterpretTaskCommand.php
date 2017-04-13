@@ -575,31 +575,50 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function altbucket( $task )
+	{
+		return $this->s3_buckets( $task );
+	}
 	private function s3_buckets( $task )
 	{
-		$cnt = 0;
-		$save_l = null;
+		$b_name = null;
 		$t_buckets = [];
+		$t_vulnerable = [];
 		$project = $task->getEntity();
 		$container = $this->container;
 		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
 
 		foreach( $output as $l )
 		{
-			if( strstr($l,'success') ) {
-				$cnt++;
-				$link = '<a href="https://'.$save_l.'.s3.amazonaws.com" target="_blank">'.$save_l.'</a>';
-				$t_buckets[] = $link;
+			if( !strstr($l,'success') && !strstr($l,'failed') ) {
+				$b_name = trim( $l );
+				$t_buckets[] = $b_name;
 			}
 
-			$save_l = trim( $l );
+			if( strstr($l,'success') ) {
+				$link = '<a href="https://'.$b_name.'.s3.amazonaws.com" target="_blank">'.$b_name.'</a>';
+				$t_vulnerable[] = $link;
+			}
 		}
 
-		if( $cnt ) {
-			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create( $project, 'S3 buckets seems to be misconfigured: '.implode(', ',$t_buckets).'.', $t_alert_level['high'] );
+		$cnt = count( $t_buckets );
+		
+		if( $cnt )
+		{
+			$container->get('bucket')->import( $project, $t_buckets );
+			
+			$cnt_vuln = count( $t_vulnerable );
+			if( $cnt_vuln ) {
+				$t_alert_level = $container->getParameter('alert')['level'];
+				$container->get('entity_alert')->create( $project, 'S3 buckets seems to be misconfigured: '.implode(', ',$t_vulnerable).'.', $t_alert_level['high'] );
+			}
+			
+			$altbucket = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'altbucket'] );
+			if( !$altbucket ) {
+				$altbucket = $this->container->get('entity_task')->create( $project, 'altbucket' );
+			}
 		}
-
+		
 		return $cnt;
 	}
 
@@ -714,14 +733,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 
 				$flag = true;
-				//$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
+				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 			}
 		}
 

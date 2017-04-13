@@ -42,6 +42,42 @@ while( ($s=$r->fetch_object()) )
 }
 */
 
+/*
+$q = "SELECT h.* FROM arus_host as h WHERE h.project_id='331'";
+$r = $db->query( $q );
+
+while( ($s=$r->fetch_object()) )
+{
+	$cmd = $config->consolePath.' arus:task:create -t 42 -i '.$s->entity_id;
+	echo $cmd."\n";
+	system( $cmd );
+	$cmd = $config->consolePath.' arus:task:create -t 40 -i '.$s->entity_id;
+	echo $cmd."\n";
+	system( $cmd );
+}
+*/
+
+/*
+$t_buckets = file( '/home/gwen/Sécurité/bug-bounty/h1-s3-buckets.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+var_dump( count($t_buckets) );
+
+foreach( $t_buckets as $b )
+{
+	$tmp = explode( '-', $b );
+	
+	$q_select = "SELECT * FROM arus_project WHERE name LIKE '".$tmp[0]."'";
+	$r = $db->query( $q_select );
+	if( !$r || !$r->num_rows ) {
+		continue;
+	}
+	
+	$project = $r->fetch_object();
+	
+	$q_insert = "INSERT INTO arus_bucket (project_id,name,status,created_at,updated_at) VALUES ('".$project->id."','".$b."','0',NOW(),NOW())";
+	echo $q_insert."\n";
+	$db->query( $q_insert );
+}
+*/
 
 
 $db->close();

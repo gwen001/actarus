@@ -38,6 +38,7 @@ parameters:
             postreserved: 11
             interpreting: 12
             interpreted: 13
+            manually delayed: 99
         callback:
             addAlert: [alert_level,text]
             addComment: [text]
@@ -59,6 +60,13 @@ parameters:
             new: 0
             confirmed: 1
             cancelled: 2
+
+    bucket:
+        status:
+            0: new
+            1: confirmed
+            2: ok
+            3: vulnerable
 
     project:
         status:

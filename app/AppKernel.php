@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             new ArusTaskBundle\ArusTaskBundle(),
             new ArusTaskCallbackBundle\ArusTaskCallbackBundle(),
             new ArusHostServerBundle\ArusHostServerBundle(),
+            new ArusBucketBundle\ArusBucketBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
