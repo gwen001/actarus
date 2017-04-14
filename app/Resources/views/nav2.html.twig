@@ -19,4 +19,13 @@
         <!-- <li data-toggle="tooltip" data-placement="right" title="Changelog"><a href="{{ url('changelog_homepage') }}" title="Changelog"><i class="fa fa-align-left"></i></a></li>
         <li data-toggle="tooltip" data-placement="right" title="Help"><a href="{{ url('help_homepage') }}" title="Help"><i class="fa fa-question"></i></a></li> -->
     </ul>
+    <ul class="ts-sidebar-menu">
+        <li class="open">
+            <ul>
+            	{% for ex in menu_extern %}
+	                <li data-toggle="tooltip" data-placement="right" title="{{ ex[0] }}"><a href="{{ ex[1] }}" title="{{ ex[1] }}" target="_blank"><i class="fa fa-{{ ex[2] }}"></i></a></li>
+            	{% endfor %}
+            </ul>
+        </li>
+    </ul>
 </nav>

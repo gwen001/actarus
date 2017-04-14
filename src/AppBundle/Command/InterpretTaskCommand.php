@@ -590,7 +590,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		foreach( $output as $l )
 		{
-			if( !strstr($l,'success') && !strstr($l,'failed') ) {
+			$l = trim( $l );
+			
+			if( $l!='' && !strstr($l,'success') && !strstr($l,'failed') ) {
 				$b_name = trim( $l );
 				$t_buckets[] = $b_name;
 			}
@@ -733,14 +735,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 
 				$flag = true;
-				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
+				//$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 			}
 		}
 
