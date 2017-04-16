@@ -10,7 +10,7 @@ require_once( dirname(__FILE__).'/KillTask.php' );
 
 // config
 $config = Config::getInstance();
-$config->actarusPath = dirname(dirname(dirname(dirname(__FILE__))));
+$config->actarusPath = dirname(dirname(dirname(__FILE__)));
 $config->appPath     = $config->actarusPath.'/app';
 $config->consolePath = $config->actarusPath.'/app/console';
 $config->configPath  = $config->appPath.'/config';

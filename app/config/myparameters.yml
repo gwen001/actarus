@@ -1,7 +1,8 @@
 twig:
     globals:
         menu_extern:
-            10d: [10degres,http://10degres.net,life-buoy]
+            gitrob: ["Gitrob","http://127.0.0.1:9393/","diamond"]
+            10d: ["10degres","http://10degres.net","life-buoy"]
 
 parameters:
     contact_email: g@10degres.net
