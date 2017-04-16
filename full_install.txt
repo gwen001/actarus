@@ -48,8 +48,6 @@ git clone git://git.kali.org/packages/patator.git
 git clone git://git.kali.org/packages/smtp-user-enum.git
 git clone https://github.com/wpscanteam/wpscan
 
-git clone https://github.com/urbanadventurer/WhatWeb
-
 wget "https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz?r=https%3A%2F%2Fwww.google.com.ua%2F&ts=1490093083&use_mirror=netcologne" -O dirb222.tar.gz
 tar -xvzf dirb222.tar.gz && mv dirb222 dirb && cd dirb/ && chmod +x configure
 ./configure && make
@@ -83,7 +81,7 @@ ln -s /etc/php5/mods-available/v8js.ini /etc/php5/apache2/conf.d/20-v8js.ini
 ln -s /etc/php5/mods-available/v8js.ini /etc/php5/cli/conf.d/20-v8js.ini
 aptitude install ruby2.1-dev
 gem install libv8 --verbose (get a coffee)
-gem install therubyracer --verbose
+gem install therubyracer --verbose (get a croissant)
 ln -s /opt/Wappalyzer/src/drivers/ruby/wappalyzer.rb /opt/bin/wappalyzer
 
 gem install bundler
@@ -153,9 +151,11 @@ and you probably want to add an entry in /etc/hosts
 
 Run daemons (as a priviligied user that can run all the tools previously configured)
 ============== 
-/var/www/html/actarus/vendor/actarus/custom/daemon_run_task.php
-/var/www/html/actarus/vendor/actarus/custom/daemon_interpret_task.php
-/var/www/html/actarus/vendor/actarus/custom/daemon_kill_task.php
+
+ln -s /var/www/html/actarus/vendor/actarus/launch_actarus.sh /opt/bin/launch_actarus
+ln -s /var/www/html/actarus/vendor/actarus/stop_actarus.sh /opt/bin/stop_actarus
+
+/opt/bin/launch_actarus
 
 
 make money...
