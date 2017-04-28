@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    #alerts-panel .panel-body {
+        overflow-y: scroll;
+    }
+{% endblock %}
+
+
+{% block body %}
+
+    {% if t_screenshot %}
+    	<div id="attachments">
+        	{% for s in t_screenshot %}
+        	<div>
+<a href="{{ attachments_path }}{{ request.getProject.getId() }}/{{ s.getFilename() }}" data-featherlight="image" title="{{ s.getTitle() }}"><img src="{{ attachments_path }}{{ request.getProject.getId() }}/{{ s.getFilename() }}" title="{{ s.getTitle() }}" /></a>
+        	</div>
+            {% endfor %}
+		</div>
+    {% endif %}
+
+    <div class="mod mod-request-show">
+
+        {{ include('ArusRequestBundle:Default:delete.html.twig') }}
+
+        {{ form_start(delete_form,{'attr':{'id':'delete-form'}}) }}
+        <input type="submit" id="delete" value="Delete" class="btn btn-danger pull-right">
+        {{ form_end(delete_form) }}
+        <a href="{{ url('request_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+
+        <h2 class="page-title">Request {{ request.getName() }}</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div id="request-info" class="panel panel-info">
+                    <div class="panel-heading">
+                        Basic infos
+                        <a href="#" class="pull-right btn btn-primary btn-xs task-add">Launch command</a>
+                    </div>
+                    <div class="panel-body">
+                        <div class="object-info">
+                            {{ include('ArusRequestBundle:Default:view.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {{ alert_mod|raw }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ task_mod|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#delete').on('click', function(e) {
+                e.preventDefault();
+                $('#modalRequestDelete').modal().on('click','#confirm-delete',function(e){
+                    $('#delete-form').submit();
+                });
+            });
+        });
+    </script>
+{% endblock %}

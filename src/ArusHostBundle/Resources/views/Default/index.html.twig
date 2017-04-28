@@ -3,8 +3,6 @@
 
 {% block body %}
     <div class="mod mod-host">
-        {{ include('ArusHostBundle:Default:delete.html.twig') }}
-
         <a href="{{ url('host_new') }}" class="btn btn-primary pull-right">Create new host</a>
         <a href="{{ url('host_import') }}" class="btn btn-success pull-right" style="margin-right:20px;">Import file</a>
         <h2 class="page-title">Host managment</h2>
@@ -12,54 +10,51 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <!-- <div class="panel-heading">
-                        Search host
-                    </div> -->
                     <div class="panel-body well">
                         {{ form_start(form,{'attr':{'class':'form-horizontal'}}) }}
-                        {{ form_row(form._token) }}
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ form_label(form.id,'Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
-                                <div class="col-sm-10">
-                                    {{ form_widget(form.id,{'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ form_label(form.name,'Name',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
-                                <div class="col-sm-10">
-                                    {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-3">
-                                    {{ form_widget(form.min_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
-                                </div>
-                                <label class="col-sm-4 control-label" style="text-align:center;">&lt;&nbsp;&nbsp;&nbsp;Created at&nbsp;&nbsp;&nbsp;&lt;</label>
-                                <div class="col-sm-3">
-                                    {{ form_widget(form.max_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {{ form_label(form.project,'Project',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
-                                <div class="col-sm-10">
-                                    {{ form_widget(form.project,{'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ form_label(form.status,'Status',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
-                                <div class="col-sm-10">
-                                    {{ form_widget(form.status,{'attr':{'class':'form-control'}}) }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 text-right">
-                            <input type="submit" value="Search" class="btn btn-primary" />
-                        </div>
+	                        {{ form_row(form._token) }}
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                {{ form_label(form.id,'Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.id,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.name,'Name',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label"></label>
+	                                <div class="col-sm-3">
+	                                    {{ form_widget(form.min_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+	                                </div>
+	                                <label class="col-sm-4 control-label" style="text-align:center;">&lt;&nbsp;&nbsp;&nbsp;Created at&nbsp;&nbsp;&nbsp;&lt;</label>
+	                                <div class="col-sm-3">
+	                                    {{ form_widget(form.max_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+	                                </div>
+	                            </div>
+	                        </div>
+	
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                {{ form_label(form.project,'Project',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.project,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.status,'Status',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.status,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-12 text-right">
+	                            <input type="submit" value="Search" class="btn btn-primary" />
+	                        </div>
                         {{ form_end(form) }}
                     </div>
                 </div>

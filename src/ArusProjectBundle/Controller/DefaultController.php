@@ -28,10 +28,10 @@ class DefaultController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		$t_project = $this->get('project')->search( [], 1, 1000 );
-		foreach( $t_project as $p ) {
+		/*foreach( $t_project as $p ) {
 			$p->setAlerts( $this->get('entity_alert')->search(['project'=>$p]) );
 			$p->setEntityAlerts( $this->get('entity_alert')->search(['entity_id'=>$p->getEntityId()]) );
-		}
+		}*/
 
 		return $this->render('ArusProjectBundle:Default:index.html.twig', array(
             't_project'=>$t_project,

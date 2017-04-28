@@ -30,7 +30,6 @@ class AppKernel extends Kernel
             new ArusEntityTaskBundle\ArusEntityTaskBundle(),
             new ArusEntityCommentBundle\ArusEntityCommentBundle(),
             new ArusTechnologyBundle\ArusTechnologyBundle(),
-			new RequeteBundle\RequeteBundle(),
             new ChangelogBundle\ChangelogBundle(),
             new HelpBundle\HelpBundle(),
             new ArusEntityTechnologyBundle\ArusEntityTechnologyBundle(),
@@ -39,6 +38,8 @@ class AppKernel extends Kernel
             new ArusTaskCallbackBundle\ArusTaskCallbackBundle(),
             new ArusHostServerBundle\ArusHostServerBundle(),
             new ArusBucketBundle\ArusBucketBundle(),
+            new ArusEntityAttachmentBundle\ArusEntityAttachmentBundle(),
+            new ArusRequestBundle\ArusRequestBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

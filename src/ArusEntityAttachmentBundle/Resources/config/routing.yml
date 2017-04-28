@@ -1,0 +1,23 @@
+attachment_homepage:
+    path:     /attachment
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:index" }
+
+attachment_show:
+    path:     /attachment/{id}/show
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:show" }
+    methods:  [GET]
+
+attachment_new:
+    path:     /attachment/new
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:new" }
+    methods:  [GET, POST]
+
+attachment_edit:
+    path:     /attachment/{id}/edit
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:edit" }
+    methods:  [GET, POST]
+
+attachment_delete:
+    path:     /attachment/{id}/delete
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:delete" }
+    methods:  DELETE

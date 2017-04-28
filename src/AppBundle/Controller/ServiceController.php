@@ -133,6 +133,7 @@ class ServiceController extends Controller
 		//$loot       = $em->getRepository('ArusEntityLootBundle:ArusEntityLoot')->search( ['entity_id'=>$entity->getEntityId()], $cnt );
 		$task       = $em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->search( ['entity_id'=>$entity->getEntityId()], $cnt );
 		$technology = $em->getRepository('ArusEntityTechnologyBundle:ArusEntityTechnology')->search( ['entity_id'=>$entity->getEntityId()], $cnt );
+		$attachment = $em->getRepository('ArusEntityAttachmentBundle:ArusEntityAttachment')->search( ['entity_id'=>$entity->getEntityId()], $cnt );
 
 		if( $count ) {
 			$entity->setEntityAlerts( array_fill(0, $alert, null) );
@@ -140,12 +141,14 @@ class ServiceController extends Controller
 			//$entity->setEntityLoots( array_fill(0, $loot, null) );
 			$entity->setEntityTasks( array_fill(0, $task, null) );
 			$entity->setEntityTechnologies( array_fill(0, $technology, null) );
+			$entity->setEntityAttachments( array_fill(0, $attachment, null) );
 		} else {
 			$entity->setEntityAlerts( $alert );
 			//$entity->setEntityComments( $comment );
 			//$entity->setEntityLoots( $loot );
 			$entity->setEntityTasks( $task );
 			$entity->setEntityTechnologies( $technology );
+			$entity->setEntityAttachments( $attachment );
 		}
 	}
 
@@ -157,7 +160,7 @@ class ServiceController extends Controller
 		//$em->getRepository('ArusEntityCommentBundle:ArusEntityComment')->deleteEntity( $entity );
 		//$em->getRepository('ArusEntityLootBundle:ArusEntityLoot')->deleteEntity( $entity );
 		$em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->deleteEntity( $entity );
-		$em->getRepository('ArusEntityTechnologyBundle:ArusEntityTechnology')->deleteEntity( $entity );
+		$em->getRepository('ArusEntityAttachmentBundle:ArusEntityAttachment')->deleteEntity( $entity );
 
 		return true;
 	}

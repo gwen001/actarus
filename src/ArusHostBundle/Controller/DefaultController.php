@@ -90,6 +90,8 @@ class DefaultController extends Controller
 	 */
 	public function showAction(Request $request, ArusHost $host)
 	{
+		$t_screenshot = $this->get('entity_attachment')->search( ['entityId'=>$host->getEntityId(),'title'=>'http%'] );
+		
 		$t_status = $this->getParameter('host')['status'];
 		$quick_edit = $this->createForm(new ArusHostQuickEditType(['t_status'=>$t_status]), $host, ['action'=>$this->generateUrl('host_quickedit',['id'=>$host->getId()])] );
 
@@ -111,6 +113,7 @@ class DefaultController extends Controller
 			'task_mod' => $task_mod,
 			'techno_mod' => $techno_mod,
 			't_status' => $t_status,
+			't_screenshot' => $t_screenshot,
             'quick_edit' => $quick_edit->createView(),
 		));
 	}

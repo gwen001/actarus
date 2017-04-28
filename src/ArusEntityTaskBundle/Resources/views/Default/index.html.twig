@@ -112,7 +112,7 @@
                                     <a href="{{ url('project_show',{'id':t.getProject().getId()}) }}" class="text-default">{{ t.getProject().getName()|capitalize }}
                                 </td>
                                 <td>
-                                    <a href="{{ url(t_entity_type[t.getEntity().getType()]~'_show',{'id':t.getEntity().getId()}) }}">{{ t.getEntity().getName() }}</a>
+                                   	<a href="{{ url(t_entity_type[t.getEntity().getType()]~'_show',{'id':t.getEntity().getId()}) }}">{{ t.getEntity().getName() }}</a>
                                 </td>
                                 <td>
                                     {% set cmd = t.getCommand() %}

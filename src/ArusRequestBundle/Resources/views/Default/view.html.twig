@@ -1,0 +1,65 @@
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Id</label>
+        <div class="col-sm-10">
+            {{ request.getId() }} - {{ request.getEntityId() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Project</label>
+        <div class="col-sm-10">
+            <a href="{{ url('project_show',{'id':request.getProject().getId()}) }}">{{ request.getProject().getName()|capitalize }}</a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Url</label>
+        <div class="col-sm-10">
+            {{ request.getUrl() }}
+            <a href="{{ request.getUrl() }}" target="_blank"><i class="fa fa-fw fa-external-link"></i></a>
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Method</label>
+        <div class="col-sm-10">
+            {{ request.getMethod() }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Data</label>
+        <div class="col-sm-10">
+            {{ request.getData()|default('-') }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Header</label>
+        <div class="col-sm-10">
+            {{ request.getHeader()|default('-') }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Cookie</label>
+        <div class="col-sm-10">
+            {{ request.getCookie()|default('-') }}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Created date</label>
+        <div class="col-sm-10">
+            {% if request.getCreatedAt() %}{{ request.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+    <div class="hr-dashed"></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Last update</label>
+        <div class="col-sm-10">
+            {% if request.getUpdatedAt() %}{{ request.getUpdatedAt()|date('d/m/Y H:i:s') }}{% endif %}
+        </div>
+    </div>
+</div>

@@ -28,7 +28,7 @@ class Import
 	 *
 	 * @param ArusProject $project
 	 *
-	 * @return Requete
+	 * @return Import
 	 */
 	public function setProject(ArusProject $project)
 	{

@@ -15,6 +15,9 @@ ln -s /etc/php5/mods-available/yaml.ini /etc/php5/apache2/conf.d/20-yaml.ini
 ln -s /etc/php5/mods-available/yaml.ini /etc/php5/cli/conf.d/20-yaml.ini
 
 
+aptitude install php7 php7-dev php7-curl php-pecl-http
+
+
 Database
 ============
 mysql -u root -p -e "CREATE DATABASE actarus_db COLLATE utf8_general_ci;"

@@ -175,6 +175,29 @@ body {
 	margin-top: 10px;
 	padding-bottom: 10px;
 }
+#attachments {
+	background: rgba(62,63,58,0.8);
+	bottom: 0px;
+	left: 0px;
+	margin: 0px;
+	padding: 10px 50px 10px 50px;
+	position: fixed;
+	width: 100%;
+	z-index: 99;
+}
+#attachments div {
+	float: left;
+	margin-right: 20px;
+	max-height: 120px;
+	overflow: hidden;
+	/*z-index: 200;*/
+}
+#attachments img {
+	background: #F0F;
+	max-height: 100px;
+	max-width: 100px;
+	/*z-index: 100;*/
+}
 .panel-body {
 	padding: 10px;
 }
@@ -265,6 +288,9 @@ img.alert-icon {
 }
 a.text-default, a.text-default:active, a.text-default:hover, a.text-default:focus {
 	color: inherit;
+}
+.mod-tasks {
+	padding-bottom: 100px;
 }
 .mod-tasks pre {
 	max-height: 500px;
@@ -473,3 +499,20 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
     margin: 0px;
     width: 15px;
 }
+
+
+.featherlight {
+}
+.featherlight .featherlight-content img {
+	background: #F0F;
+}
+.featherlight .featherlight-content {
+	background: transparent;
+	overflow: hidden;
+}
+.featherlight .featherlight-close {
+	background: transparent;
+	color: #FFF;
+	font-size: 20px;
+}
+

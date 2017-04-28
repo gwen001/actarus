@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-request">
+        <a href="{{ url('request_import') }}" class="btn btn-success pull-right" style="margin-right:20px;">Import file</a>
+        <h2 class="page-title">Request managment</h2>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body well">
+                        {{ form_start(form,{'attr':{'class':'form-horizontal'}}) }}
+	                        {{ form_row(form._token) }}
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                {{ form_label(form.id,'Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.id,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.project,'Project',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.project,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.method,'Method',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.method,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label class="col-sm-2 control-label"></label>
+	                                <div class="col-sm-3" style="padding-left:15px;padding-right:0px;">
+	                                    {{ form_widget(form.min_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+	                                </div>
+	                                <label class="col-sm-4 control-label" style="text-align:center;">&lt;&nbsp;&nbsp;&nbsp;Created at&nbsp;&nbsp;&nbsp;&lt;</label>
+	                                <div class="col-sm-3" style="padding-left:0px;padding-right:15px;">
+	                                    {{ form_widget(form.max_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+	                                </div>
+	                            </div>
+	                        </div>
+	
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                {{ form_label(form.url,'Url',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.url,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.data,'Data',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.data,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.header,'Header',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.header,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                {{ form_label(form.cookie,'Cookie',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                                <div class="col-sm-10">
+	                                    {{ form_widget(form.cookie,{'attr':{'class':'form-control'}}) }}
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-12 text-right">
+	                            <input type="submit" value="Search" class="btn btn-primary" />
+	                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if t_request|length %}
+            {{ pagination|raw }}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="zctb" class="table table-bordered table-striped">
+	                    <thead>
+	                        <tr>
+                                <th width="70" style="text-align:center;">#</th>
+	                            <th>Project</th>
+	                            <th>Method</th>
+	                            <th>Url</th>
+                                <th width="170" style="text-align:center;">Created date</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        {% for r in t_request %}
+	                            <tr>
+                                    <td align="right"><a href="{{ path('request_show', { 'id': r.getId() }) }}">{{ r.getId() }}</a></td>
+                                    <td><a href="{{ path('project_show', { 'id': r.getProject().getId() }) }}" class="text-default">{{ r.getProject().getName()|capitalize }}</a></td>
+	                                <td>{{ r.method }}</td>
+	                                <td>{{ r.url }}</td>
+	                                <td align="center">{% if r.createdAt %}{{ r.createdAt|date('d/m/Y H:i:s') }}{% endif %}</td>
+	                            </tr>
+	                        {% endfor %}
+	                    </tbody>
+	                </table>
+	            </div>
+	        </div>
+	            
+            {{ pagination|raw }}
+        {% else %}
+            <div class="text-danger">No result, try again.</div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/bootstrap-datetimepicker.css") }}">
+    <style>
+        .panel {
+            overflow: inherit;
+        }
+        .input-group {
+            float: left !important;
+        }
+    </style>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset("js/moment.js") }}"></script>
+    <script src="{{ asset("js/bootstrap-datetimepicker.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#search_id').focus();
+            $('.datetimepicker').datetimepicker({format: 'DD/MM/YYYY'});
+        });
+    </script>
+{% endblock %}

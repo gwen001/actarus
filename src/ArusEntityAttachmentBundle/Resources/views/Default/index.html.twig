@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-attachment">
+        <h2 class="page-title">Attachment managment</h2>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <!-- <div class="panel-heading">
+                        Search attachment
+                    </div> -->
+                    <div class="panel-body well">
+                        {{ form_start(form,{'attr':{'class':'form-horizontal'}}) }}
+                        {{ form_row(form._token) }}
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.id,'Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.id,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.entity_type,'E. Type',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.entity_type,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.entity_id,'E. Id',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.entity_id,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-3">
+                                    {{ form_widget(form.min_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+                                </div>
+                                <label class="col-sm-4 control-label" style="text-align:center;">&lt;&nbsp;&nbsp;&nbsp;Created at&nbsp;&nbsp;&nbsp;&lt;</label>
+                                <div class="col-sm-3">
+                                    {{ form_widget(form.max_created_at,{'attr':{'class':'form-control datetimepicker'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                {{ form_label(form.project,'Project',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.project,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.title,'Title',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.title,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.filename,'Filename',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.filename,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.realname,'Realname',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(form.realname,{'attr':{'class':'form-control'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-right">
+                            <input type="submit" value="Search" class="btn btn-primary" />
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if t_attachment|length %}
+            {{ pagination|raw }}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="zctb" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th width="70" style="text-align:center;">#</th>
+                            <th width="200">Project</th>
+                            <th>Entity</th>
+                            <th>Title</th>
+                            <th>Filename</th>
+                            <th width="170" style="text-align:center;">Created date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for a in t_attachment %}
+                            <tr>
+                                <td align="right"><a href="{{ url('attachment_show',{'id':a.getId()}) }}">{{ a.getId() }}</a></td>
+                                <td>
+                                    <a href="{{ url('project_show',{'id':a.getProject().getId()}) }}" class="text-default">{{ a.getProject().getName()|capitalize }}
+                                </td>
+                                <td>
+                                    <a href="{{ url(t_entity_type[a.getEntity().getType()]~'_show',{'id':a.getEntity().getId()}) }}">{{ a.getEntity().getName()|default('-') }}</a>
+                                </td>
+                                <td>
+                                    {% set title = a.getTitle()|striptags %}
+                                    {% if title|length > 150 %}
+                                        {{ title|slice(0,150) }}...
+                                    {% else %}
+                                        {{ title }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                	{{ a.getFilename() }}
+                                	<br />{{ a.getRealname() }}
+                                </td>
+                                <td align="center">{% if a.getCreatedAt() %}{{ a.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{ pagination|raw }}
+        {% else %}
+            <div class="text-danger">No result, try again.</div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/bootstrap-datetimepicker.css") }}">
+    <style>
+        .panel {
+            overflow: inherit;
+        }
+        .input-group {
+            float: left !important;
+        }
+    </style>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset("js/moment.js") }}"></script>
+    <script src="{{ asset("js/bootstrap-datetimepicker.js") }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#search_descr').focus();
+            $('.datetimepicker').datetimepicker({format: 'DD/MM/YYYY'});
+        });
+    </script>
+{% endblock %}

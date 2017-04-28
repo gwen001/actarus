@@ -1,0 +1,33 @@
+request_homepage:
+    path:     /request
+    defaults: { _controller: "ArusRequestBundle:Default:index" }
+
+request_show:
+    path:     /request/{id}/show
+    defaults: { _controller: "ArusRequestBundle:Default:show" }
+    methods:  [GET]
+
+request_new:
+    path:     /request/new
+    defaults: { _controller: "ArusRequestBundle:Default:new" }
+    methods:  [GET, POST]
+
+request_import:
+    path:     /request/import/{project_id}
+    defaults: { _controller: "ArusRequestBundle:Default:import", project_id: 0 }
+    methods:  [GET, POST]
+
+request_edit:
+    path:     /request/{id}/edit
+    defaults: { _controller: "ArusRequestBundle:Default:edit" }
+    methods:  [GET, POST]
+
+request_delete:
+    path:     /request/{id}/delete
+    defaults: { _controller: "ArusRequestBundle:Default:delete" }
+    methods:  DELETE
+
+request_spliturl:
+    path:     /request/spliturl
+    defaults: { _controller: "ArusRequestBundle:Default:splitUrl", _format:"json" }
+    methods:  POST

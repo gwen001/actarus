@@ -1,3 +1,7 @@
+entity_attachment:
+    resource: "@ArusEntityAttachmentBundle/Resources/config/routing.yml"
+    prefix:   /
+
 bucket:
     resource: "@ArusBucketBundle/Resources/config/routing.yml"
     prefix:   /
@@ -67,8 +71,8 @@ settings:
     type:     annotation
     prefix:   /
 
-requete:
-    resource: "@RequeteBundle/Resources/config/routing.yml"
+request:
+    resource: "@ArusRequestBundle/Resources/config/routing.yml"
     prefix:   /
 
 project:

@@ -16,7 +16,6 @@
                             <th width="80" style="text-align:center;">Servers</th>
                             <th width="80" style="text-align:center;">Domains</th>
                             <th width="80" style="text-align:center;">Hosts</th>
-                            <th width="170">Total score</th>
                             <th width="170" style="text-align:center;">Created date</th>
                         </tr>
                     </thead>
@@ -26,38 +25,11 @@
                         <tr class="{{ class }}">
                             <td align="right"><a href="{{ path('project_show', { 'id': p.getId() }) }}" class="{{ class }}">{{ p.getId() }}</a></td>
                             <td>
-                                {% if p.getMaxAlertLevel()[0] >= 0 %}
-                                    {% if p.getMaxAlertLevel()[1] == 0 %}
-                                   		{% set aclass = 'fa-bell-o' %}
-                                    {% else %}
-                                   		{% set aclass = 'fa-bell' %}
-                                    {% endif %}
-                                {% else %}
-                               		{% set aclass = 'alert-none' %}
-                                {% endif %}
-                                {% set aclass = aclass~' alert_level_'~p.getMaxAlertLevel()[0] %}
-                                <i class="fa {{ aclass }}"></i>
                                 <a href="{{ path('project_show', { 'id': p.getId() }) }}" class="{{ class }}">{{ p.getName() }}</a>
                             </td>
                             <td align="center">{{ p.getServers()|length }}</td>
                             <td align="center">{{ p.getDomains()|length }}</td>
                             <td align="center">{{ p.getHosts()|length }}</td>
-                            <td>
-                                {% if p.getTotalMaxAlertLevel()[0] >= 0 %}
-                                    {% if p.getTotalMaxAlertLevel()[1] == 0 %}
-                                   		{% set aclass = 'fa-bell-o' %}
-                                    {% else %}
-                                   		{% set aclass = 'fa-bell' %}
-                                    {% endif %}
-                                {% else %}
-                               		{% set aclass = 'alert-none' %}
-                                {% endif %}
-                                {% set aclass = aclass~' alert_level_'~p.getTotalMaxAlertLevel()[0] %}
-                                <i class="fa {{ aclass }} "></i>
-                                {% set total_score = p.getTotalScore() %}
-                                {{ total_score[-1] }}
-                                ({{ total_score[0] }}/{{ total_score[1] }}/{{ total_score[2] }}/{{ total_score[3] }})
-                            </td>
                             <td align="center">{% if p.getCreatedAt() %}{{ p.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
                         </tr>
                     {% else %}

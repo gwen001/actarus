@@ -9,7 +9,7 @@ use ArusBucketBundle\Entity\ArusBucket;
 use ArusServerBundle\Entity\ArusServer;
 use ArusDomainBundle\Entity\ArusDomain;
 use ArusHostBundle\Entity\ArusHost;
-use RequeteBundle\Entity\Requete;
+use ArusRequestBundle\Entity\ArusRequest;
 use ArusEntityAlertBundle\Entity\ArusEntityAlert;
 use ArusEntityTaskBundle\Entity\ArusEntityTask;
 
@@ -113,9 +113,9 @@ class ArusProject
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="RequeteBundle\Entity\Requete", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusRequestBundle\Entity\ArusRequest", cascade={"remove"}, mappedBy="project")
 	 */
-	private $requetes;
+	private $requests;
 
 	/**
 	 * @var ArrayCollection
@@ -156,6 +156,11 @@ class ArusProject
 	 */
 	private $entityTechnologies;
 
+	/**
+	 * @var ArrayCollection
+	 */
+	private $entityAttachments;
+
 
 	/*****************************************************/
 	/* special functions                                 */
@@ -171,7 +176,7 @@ class ArusProject
         $this->servers  = new ArrayCollection();
 		$this->domains  = new ArrayCollection();
 		$this->hosts    = new ArrayCollection();
-		$this->requetes = new ArrayCollection();
+		$this->requests = new ArrayCollection();
 		$this->alerts   = new ArrayCollection();
 		$this->tasks    = new ArrayCollection();
 
@@ -180,6 +185,7 @@ class ArusProject
 		$this->entityLoots        = new ArrayCollection();
 		$this->entityTasks        = new ArrayCollection();
 		$this->entityTechnologies = new ArrayCollection();
+		$this->entityAttachments = new ArrayCollection();
 	}
 
 	/**
@@ -233,7 +239,7 @@ class ArusProject
 	 *
 	 * @param string $entityId
 	 *
-	 * @return ArusHost
+	 * @return ArusProject
 	 */
 	public function setEntityId($entityId)
 	{
@@ -442,18 +448,18 @@ class ArusProject
 	}
 
 
-	public function addRequete(Requete $requete) {
-		$this->requetes[] = $requete;
+	public function addRequest(ArusRequest $request) {
+		$this->requests[] = $request;
 		return $this;
 	}
-	public function removeRequete(Requete $requete) {
-		$this->requetes->removeElement( $requete );
+	public function removeRequest(ArusRequest $request) {
+		$this->requests->removeElement( $request );
 	}
-	public function getRequetes() {
-		return $this->requetes;
+	public function getRequests() {
+		return $this->requests;
 	}
-	public function setRequetes($requetes) {
-		$this->requetes = $requetes;
+	public function setRequests($requests) {
+		$this->requests = $requests;
 		return $this;
 	}
 
@@ -530,6 +536,14 @@ class ArusProject
 	}
 	public function setEntityTechnologies($technologies) {
 		$this->entityTechnologies = $technologies;
+		return $this;
+	}
+
+	public function getEntityAttachments() {
+		return $this->entityAttachments;
+	}
+	public function setEntityAttachments($attachments) {
+		$this->entityAttachments = $attachments;
 		return $this;
 	}
 

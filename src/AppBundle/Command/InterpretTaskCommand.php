@@ -659,6 +659,23 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		return $cnt;
 	}
+	
+
+	private function sqlmap_xss( $task )
+	{
+		$output = $task->getOutput();
+		$output = str_replace( "\r", '', $output );
+		$task->setOutput( $output );
+		
+		$request = $task->getEntity();
+		$request->setStatus( 1 );
+
+		$em = $this->em;
+		$em->persist( $request );
+		$em->flush();
+		
+		return 1;
+	}
 
 
 	private function altdns( $task )
@@ -703,6 +720,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	{
 		$t_host = [];
 
+		$cnt = 0;
 		$flag = false;
 		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
 		$container = $this->container;
@@ -710,6 +728,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		foreach( $output as $l )
 		{
+			if( $l == '' ) {
+				continue;
+			}
+			
 			$tmp = explode( ':', $l );
 			$cnt = count($tmp);
 			$port = (int)trim( $tmp[0] );
@@ -735,14 +757,15 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 
 				$flag = true;
-				//$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
+				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 			}
 		}
 

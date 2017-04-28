@@ -94,6 +94,8 @@ class DefaultController extends Controller
 	 */
 	public function showAction(Request $request, ArusServer $server)
 	{
+		$t_screenshot = $this->get('entity_attachment')->search( ['entityId'=>$server->getEntityId(),'title'=>'http%'] );
+
 		$t_status = $this->getParameter('server')['status'];
 		$quick_edit = $this->createForm(new ArusServerQuickEditType(['t_status'=>$t_status]), $server, ['action'=>$this->generateUrl('server_quickedit',['id'=>$server->getId()])] );
 
@@ -116,6 +118,7 @@ class DefaultController extends Controller
 			'techno_mod' => $techno_mod,
 			//'t_host' => $t_host,
 			't_status' => $t_status,
+			't_screenshot' => $t_screenshot,
             'quick_edit' => $quick_edit->createView(),
 		));
 	}

@@ -7,6 +7,7 @@ twig:
 parameters:
     contact_email: g@10degres.net
     bin_path: /opt/bin/
+    attachments_path: /attachments/
     results_per_page: 200
     actarus_id: 1
     actarus_entity_id: 157fb75461d2f3
@@ -29,9 +30,10 @@ parameters:
             request: 5
         recon:
             project: [s3_buckets,gitrob]
-            server: [testssl,portscan_nc]
+            server: [portscan_nc]
             domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
             host: [host]
+            request: [sqlmap_xss,autoknoxss]
 
     task:
         max_duration: 120
@@ -112,8 +114,9 @@ parameters:
             3: todo
             4: disable
 
-    requete:
+    request:
         default_port: 80
+        default_method: GET
         http_protocol:
             http: http
             https: https
@@ -126,12 +129,15 @@ parameters:
             OPTIONS: OPTIONS
             TRACE: TRACE
         import_format:
-            bs_txt: "Burp Suite text"
+            raw_txt: "Raw text (.txt with 1 url per line)"
             bs_xml: "Burp Suite XML"
             bs_xml64: "Burp Suite XML base64"
         allowed_extension:
             txt: .txt
             xml: .xml
+        status:
+            0: new
+            1: tested
 
     fortunes:
         - Silence is golden.

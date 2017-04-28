@@ -1,0 +1,129 @@
+<div class="mod mod-attachments panel panel-danger">
+    <div class="panel-heading">
+        Attachments ({{ t_attachment|length }})
+        <a href="#" class="pull-right btn btn-warning btn-xs attachment-add">Add attachment</a>
+    </div>
+    <div class="panel-body">
+        {% for alt in t_attachment %}
+            {{ include('ArusEntityAttachmentBundle:Default:unit.html.twig') }}
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        if( $('.panel-info') ) {
+            window.setTimeout( function(){$('.mod-attachments .panel-body').css('height', $('.panel-info .panel-body').css('height'))}, 300 );
+            window.setTimeout( function(){$('.mod-attachments .panel-body').css('max-height', $('.panel-info .panel-body').css('height'))}, 300 );
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.attachment-confirm').unbind();
+        $('.attachment-confirm').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $.ajax({
+                url: url,
+                method: 'POST'
+            }).done(function(){
+                reloadBlock( '.mod-attachments', '{{ url('attachment_getlist',{'entity_id':entity_id}) }}' );
+            });
+        });
+
+        $('.attachment-cancel').unbind();
+        $('.attachment-cancel').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $.ajax({
+                url: url,
+                method: 'POST'
+            }).done(function(){
+                reloadBlock( '.mod-attachments', '{{ url('attachment_getlist',{'entity_id':entity_id}) }}' );
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAttachmentAdd').unbind();
+        $('.attachment-add').on('click', function(e) {
+            e.preventDefault();
+            $('#modalAttachmentAdd').modal();
+            $('#modalAttachmentAdd').on('click','#confirm-save',function(e){
+                e.preventDefault();
+                form = $('#modalAttachmentAdd form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalAttachmentAdd').find('.close').click();
+                    reloadBlock( '.mod-attachments', '{{ url('attachment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalAttachmentAdd').on('shown.bs.modal', function () {
+            $('#modalAttachmentAdd form').find('#arus_entity_attachment_add_descr').focus();
+        });
+        $('#modalAttachmentAdd').on('hide.bs.modal',function(){
+            $('#modalAttachmentAdd form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAttachmentEdit').unbind();
+        $('.attachment-edit').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            level = parseInt( obj.parent().parent().find('.attachment-level').html() );
+            $('#modalAttachmentEdit').modal();
+
+            form = $('#modalAttachmentEdit form');
+            form.attr( 'action', url );
+            form.find('#arus_entity_attachment_edit_limited_level_'+level).prop('checked',true);
+            form.find('#arus_entity_attachment_edit_limited_descr').val( obj.parent().parent().find('.attachment-descr').html() );
+            form.find('#arus_entity_attachment_edit_limited_entity_id').val( obj.attr('data-entity-id') );
+
+            $('#modalAttachmentEdit').on('click','#confirm-save',function(e){
+                form = $('#modalAttachmentEdit form');
+                $.post( form.attr('action'), form.serialize(), function(data) {
+                    $('#modalAttachmentEdit').find('.close').click();
+                    reloadBlock( '.mod-attachments', '{{ url('attachment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+        $('#modalAttachmentEdit').on('shown.bs.modal', function () {
+            $('#modalAttachmentEdit form').find('#arus_entity_attachment_edit_limited_descr').focus();
+        });
+        $('#modalAttachmentEdit').on('hide.bs.modal',function(){
+            $('#modalAttachmentEdit form')[0].reset();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalAttachmentDelete').unbind();
+        $('.attachment-delete').on('click', function(e) {
+            e.preventDefault();
+            obj = $(this);
+            url = obj.attr('href');
+            $('#modalAttachmentDelete').modal();
+            $('#modalAttachmentDelete').on('click','#confirm-delete',function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: url,
+                    method: 'DELETE'
+                }).done(function(){
+                    $('#modalAttachmentDelete').find('.close').click();
+                    reloadBlock( '.mod-attachments', '{{ url('attachment_getlist',{'entity_id':entity_id}) }}' );
+                });
+            });
+        });
+    });
+</script>

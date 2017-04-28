@@ -108,6 +108,11 @@ class ArusDomain
 	 */
 	private $entityTechnologies;
 
+	/**
+	 * @var ArrayCollection
+	 */
+	private $entityAttachments;
+
 
 	/*****************************************************/
 	/* special functions                                 */
@@ -126,6 +131,7 @@ class ArusDomain
 		$this->entityLoots        = new ArrayCollection();
 		$this->entityTasks        = new ArrayCollection();
 		$this->entityTechnologies = new ArrayCollection();
+		$this->entityAttachments = new ArrayCollection();
 	}
 
 	/**
@@ -379,6 +385,14 @@ class ArusDomain
 	}
 	public function setEntityTechnologies($technologies) {
 		$this->entityTechnologies = $technologies;
+		return $this;
+	}
+
+	public function getEntityAttachments() {
+		return $this->entityAttachments;
+	}
+	public function setEntityAttachments($attachments) {
+		$this->entityAttachments = $attachments;
 		return $this;
 	}
 

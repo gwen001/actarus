@@ -25,6 +25,8 @@
         <!-- tools -->
         <link rel="stylesheet" href="{{ asset("css/easy-autocomplete.min.css") }}">
         <!-- Admin Stye -->
+        
+        <link rel="stylesheet" href="{{ asset("css/featherlight.min.css") }}">
         <link rel="stylesheet" href="{{ asset("css/style.css") }}">
         <link rel="stylesheet" href="{{ asset("css/custom.css") }}">
 
@@ -76,11 +78,16 @@
         <script src="{{ asset("js/fileinput.min.js") }}"></script>
         <script src="{{ asset("js/main.js") }}"></script>
         <script src="{{ asset("js/jquery.easy-autocomplete.min.js") }}"></script>
+        <script src="{{ asset("js/featherlight.min.js") }}"></script>
 
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.datatable').DataTable();
 				$('[data-toggle="tooltip"]').tooltip();
+				$('#e339662056b9e8a234d35262ba113b66.png').featherlight();
+				$('#aaaaa').featherlight();
+				$('#bbbbb').featherlight();
+				$('.ts-main-content img[data-featherlight="image"]').featherlight();
             });
         </script>
 

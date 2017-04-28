@@ -9,6 +9,17 @@
 
 
 {% block body %}
+
+    {% if t_screenshot %}
+    	<div id="attachments">
+        	{% for s in t_screenshot %}
+        	<div>
+<a href="{{ attachments_path }}{{ host.getProject.getId() }}/{{ s.getFilename() }}" data-featherlight="image" title="{{ s.getTitle() }}"><img src="{{ attachments_path }}{{ host.getProject.getId() }}/{{ s.getFilename() }}" title="{{ s.getTitle() }}" /></a>
+        	</div>
+            {% endfor %}
+		</div>
+    {% endif %}
+
     <div class="mod mod-host-show">
 
         {{ include('ArusHostBundle:Default:delete.html.twig') }}
