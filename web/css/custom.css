@@ -523,7 +523,8 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
 	text-align: center;
 }
 .mod-attachment-list .preview {
-	height: 220px;
+	min-height: 70px;
+	max-height: 220px;
 	margin-bottom: 20px;
 	overflow: hidden;
 	text-align: center;
