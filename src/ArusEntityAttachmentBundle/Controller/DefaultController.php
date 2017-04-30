@@ -277,7 +277,11 @@ class DefaultController extends Controller
 		while( ($o=readdir($d)) ) {
 			$p = $absolute_path.$o;
 			if( (int)$o && is_dir($p)) {
-				$t_dir[$o] = count( glob($p.'/*') );
+				$t_glob = glob($p.'/*');
+				$cnt = count( $t_glob );
+				if( $cnt ) {
+					$t_dir[$o] = $cnt;
+				}
 			}
 		}
 		
