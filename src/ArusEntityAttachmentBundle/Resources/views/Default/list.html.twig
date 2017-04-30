@@ -18,7 +18,7 @@
 	        			<a href="{{ url(t_entity_type[a.getEntity().getType()]~'_show',{'id':a.getEntity().getId()}) }}" target="_blank">{{ title }}</a>
 	        			({{ t_size[a.getId()] }})
         		</div>
-        		{% if loop.index%12 == 0 %}
+        		{% if loop.index%6 == 0 %}
         		</div>
 	        	<div class="col-md-12">
         		{%endif %}
