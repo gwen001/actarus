@@ -15,7 +15,10 @@ ln -s /etc/php5/mods-available/yaml.ini /etc/php5/apache2/conf.d/20-yaml.ini
 ln -s /etc/php5/mods-available/yaml.ini /etc/php5/cli/conf.d/20-yaml.ini
 
 
+(Ubuntu)
 aptitude install php7 php7-dev php7-curl php-pecl-http
+aptitue install libnet-ssleay-perl
+cp /usr/include/php/20151012/ext/standard/php_smart_str.h /usr/include/php/20151012/ext/standard/php_smart_string.h
 
 
 Database

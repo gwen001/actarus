@@ -194,6 +194,7 @@ body {
 }
 #attachments img {
 	background: #F0F;
+	border: 1px solid #000;
 	max-height: 100px;
 	max-width: 100px;
 	/*z-index: 100;*/
@@ -516,3 +517,20 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
 	font-size: 20px;
 }
 
+
+.mod-attachment-browse .col-md-1 {
+	margin-bottom: 20px;
+	text-align: center;
+}
+.mod-attachment-list .preview {
+	height: 220px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	text-align: center;
+}
+.mod-attachment-list .preview img {
+	border: 1px solid #000;
+	background: #F0F;
+	margin-bottom: 5px;
+	width: 95%;
+}

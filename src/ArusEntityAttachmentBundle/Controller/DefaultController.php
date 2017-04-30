@@ -15,6 +15,8 @@ use ArusEntityAttachmentBundle\Form\ArusEntityAttachmentEditLimitedType;
 use ArusEntityAttachmentBundle\Entity\Search;
 use ArusEntityAttachmentBundle\Form\SearchType;
 
+use ArusProjectBundle\Entity\ArusProject;
+
 use Actarus\Utils;
 
 
@@ -261,5 +263,64 @@ class DefaultController extends Controller
 	{
 		echo $this->get('entity_attachment')->getListAction( $entity_id );
 		exit();
+	}
+
+
+	public function browseAction(Request $request)
+	{
+		$absolute_path = dirname($this->get('kernel')->getRootDir()).'/web/'.$this->getParameter('attachments_path');
+		//var_dump($absolute_path);
+		
+		$d = opendir( $absolute_path );
+		$t_dir = [];
+		
+		while( ($o=readdir($d)) ) {
+			$p = $absolute_path.$o;
+			if( (int)$o && is_dir($p)) {
+				$t_dir[$o] = count( glob($p.'/*') );
+			}
+		}
+		
+		//var_dump( $t_dir );
+		closedir( $d );
+		
+		$em = $this->getDoctrine()->getManager();
+        $t_project = $em->getRepository('ArusProjectBundle:ArusProject')->findArray();
+		//var_dump( $t_project );
+		
+		$t_final = [];
+		foreach( $t_project as $id=>$name ) {
+			if( isset($t_dir[$id]) ) {
+				$t_final[$id] = [ $name, $t_dir[$id] ];
+			}
+		}
+		//var_dump( $t_final );
+		
+        return $this->render('ArusEntityAttachmentBundle:Default:browse.html.twig', array(
+            't_dir' => $t_final,
+            't_project' => $t_project,
+        ));
+	}
+	
+	
+	public function listAction(Request $request, ArusProject $project)
+	{
+		$t_entity_type = array_flip( $this->getParameter('entity')['type'] );
+		$t_attachment = $this->get('entity_attachment')->search( ['project'=>$project] );
+		$absolute_path = dirname($this->get('kernel')->getRootDir()).'/web/'.$this->getParameter('attachments_path').$project->getId();
+		//var_dump( count($t_attachment) );
+		
+		$t_size = [];
+		foreach( $t_attachment as $a ) {
+			$f = $absolute_path.'/'.$a->getFilename();
+			$t_size[ $a->getId() ] = filesize( $f );
+		}
+		
+        return $this->render('ArusEntityAttachmentBundle:Default:list.html.twig', array(
+            'project' => $project,
+            't_size' => $t_size,
+            't_attachment' => $t_attachment,
+			't_entity_type' => $t_entity_type,
+        ));
 	}
 }

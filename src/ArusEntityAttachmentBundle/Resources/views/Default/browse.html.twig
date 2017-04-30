@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-attachment-browse">
+
+        <a href="{{ url('attachment_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+
+        <h2 class="page-title">Browse attachment</h2>
+
+        <div class="row">
+        	<div class="col-md-12">
+        	{% for id,d in t_dir %}
+        		{% set title = d.0 ~ ' (' ~ d.1 ~ ')' %}
+        		<div class="col-md-1">
+        			<a href="{{ url('attachment_list',{id:id}) }}">
+	        			<img src="{{ asset("img/folder.png") }}" alt="{{ title }}" title="{{ title }}" />
+	        			<br />
+	        			{{ title }}
+        			</a>
+        		</div>
+        		{% if loop.index%12 == 0 %}
+        		</div>
+	        	<div class="col-md-12">
+        		{%endif %}
+        	{% endfor %}
+        	</div>
+        </div>
+    </div>
+{% endblock %}

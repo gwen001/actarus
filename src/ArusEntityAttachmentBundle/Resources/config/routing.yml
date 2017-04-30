@@ -21,3 +21,12 @@ attachment_delete:
     path:     /attachment/{id}/delete
     defaults: { _controller: "ArusEntityAttachmentBundle:Default:delete" }
     methods:  DELETE
+
+attachment_browse:
+    path:     /attachment/browse
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:browse" }
+
+attachment_list:
+    path:     /attachment/list/{id}
+    defaults: { _controller: "ArusEntityAttachmentBundle:Default:list" }
+    methods:  [GET]
