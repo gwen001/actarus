@@ -47,7 +47,11 @@
                             <div class="form-group">
 						        <label class="col-sm-2 control-label nopadding">Cluster</label>
                                 <div class="col-sm-10">
-                                    {{ task.getClusterId() }} ({{ t_cluster[task.getClusterId()] }})
+                                   	{% if task.getClusterId() >= 0 %}
+                                    	{{ task.getClusterId() }} ({{ t_cluster[task.getClusterId()] }})
+                                    {% else %}
+                                		-
+                                    {% endif %}
                                 </div>
                             </div>
 						    <div class="hr-dashed"></div>

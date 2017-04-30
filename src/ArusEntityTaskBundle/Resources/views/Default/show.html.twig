@@ -47,9 +47,9 @@
                                     <label class="col-sm-2 control-label">Cluster</label>
                                     <div class="col-sm-10">
                                     	{% if task.getClusterId() >= 0 %}
-                                    		-
-                                        {% else %}
                                         	{{ task.getClusterId() }} ({{ t_cluster[task.getClusterId()] }})
+                                        {% else %}
+                                    		-
                                         {% endif %}
                                     </div>
                                 </div>
