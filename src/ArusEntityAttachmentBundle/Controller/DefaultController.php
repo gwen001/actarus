@@ -310,7 +310,7 @@ class DefaultController extends Controller
 	public function listAction(Request $request, ArusProject $project)
 	{
 		$t_entity_type = array_flip( $this->getParameter('entity')['type'] );
-		$t_attachment = $this->get('entity_attachment')->search( ['project'=>$project] );
+		$t_attachment = $this->get('entity_attachment')->search( ['project'=>$project], 1, null );
 		$absolute_path = dirname($this->get('kernel')->getRootDir()).'/web/'.$this->getParameter('attachments_path').$project->getId();
 		//var_dump( count($t_attachment) );
 		
