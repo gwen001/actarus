@@ -688,7 +688,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 	private function subthreat( $task )
 	{
-		$output = $task->getOutput();
+		$output = trim( $task->getOutput() );
+		if( $output == '' ) {
+			return 0;
+		}
 		if( strstr($output,'Error:') ) {
 			return false;
 		}
@@ -700,6 +703,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$domain_name = $domain->getName();
 
 		foreach( $tmp_host as $h ) {
+			$h = trim( $h );
+			if( $h == '' ) {
+				continue;
+			}
 			if( Utils::extractDomain($h) == $domain_name ) {
 				$t_host[] = $h;
 			}

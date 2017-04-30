@@ -123,7 +123,7 @@ mysql -h 127.0.0.1 -u actarus_user -pactarus_pass actarus_db < bdd_init.sql
 
 chown -R www-data.www-data /var/www/html/actarus
 chmod -R 500 /var/www/html/actarus
-chmod -R 700 /var/www/html/actarus/app/cache /var/www/html/actarus/app/logs  
+chmod -R 700 /var/www/html/actarus/app/cache /var/www/html/actarus/app/logs /var/www/html/actarus/web/attachments  
 
 
 Apache vhost
