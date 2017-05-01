@@ -13,10 +13,12 @@
         	{% for a in t_attachment %}
         		{% set title = a.getTitle() %}
         		<div class="col-md-2 preview">
-						<a href="{{ attachments_path }}{{ project.getId() }}/{{ a.getFilename() }}" data-featherlight="image" title="{{ a.getTitle() }}"><img src="{{ attachments_path }}{{ project.getId() }}/{{ a.getFilename() }}" title="{{ a.getTitle() }}" /></a>
-	        			<br />
-	        			<a href="{{ url(t_entity_type[a.getEntity().getType()]~'_show',{'id':a.getEntity().getId()}) }}" target="_blank">{{ title }}</a>
-	        			({{ t_size[a.getId()] }})
+					<a href="{{ attachments_path }}{{ project.getId() }}/{{ a.getFilename() }}" data-featherlight="image" title="{{ title }}"><img src="{{ attachments_path }}{{ project.getId() }}/{{ a.getFilename() }}" title="{{ title }}" /></a>
+        			<br />
+        			<a href="{{ url(t_entity_type[a.getEntity().getType()]~'_show',{'id':a.getEntity().getId()}) }}" target="_blank">#{{ a.getEntity().getId() }}</a>
+        			-
+        			<a href="{{ title }}" target="_blank">{% if title|length > 30 %} {{ title|slice(0,30) }}... {% else %} {{ title }} {% endif %}</a>
+        			({{ t_size[a.getId()] }})
         		</div>
         		{% if loop.index%6 == 0 %}
         		</div>

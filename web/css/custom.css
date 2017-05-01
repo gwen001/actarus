@@ -533,6 +533,6 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
 	border: 1px solid #000;
 	background: #F0F;
 	margin-bottom: 5px;
-	max-height: 200px;
+	max-height: 190px;
 	width: 95%;
 }
