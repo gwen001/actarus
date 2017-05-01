@@ -592,9 +592,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		{
 			$l = trim( $l );
 			
-			if( $l!='' && !strstr($l,'success') && !strstr($l,'failed') ) {
+			/*if( $l!='' && !strstr($l,'success') && !strstr($l,'failed') ) {
 				$b_name = trim( $l );
 				$t_buckets[] = $b_name;
+			}*/
+			if( preg_match('#Testing: (.*) FOUND!#',$l,$m) ) {
+				//var_dump( $m );
+				$t_buckets[] = trim( $m[1] );
 			}
 
 			if( strstr($l,'success') ) {
@@ -602,7 +606,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$t_vulnerable[] = $link;
 			}
 		}
-
+		
 		$cnt = count( $t_buckets );
 		
 		if( $cnt )
