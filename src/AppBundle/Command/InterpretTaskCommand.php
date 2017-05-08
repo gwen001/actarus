@@ -504,8 +504,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( $m )
 		{
 			$t_port = [];
+			$a_text = [];
 			$cnt = count( $matches[1] );
-			var_dump($matches);
+			//var_dump($matches);
 
 			for( $i=0 ; $i<$cnt ; $i++ )
 			{
@@ -541,13 +542,19 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$container->get('entity_task')->create( $entity, $new_task, ['PORT'=>$port] );
 				}
 				
+				$txt = $port;
+				if( $service != '' ) {
+					$txt .= ' ('.$service.')';
+				}
+				$a_text[] = $txt;
+
 				$container->get('server_service')->create( $entity, $port, $type, $service, $version );
 			}
 
 			$container->get('entity_task')->create( $entity, 'testhttp', ['PORT'=>implode(',',$t_port)] );
 			
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create( $task->getEntity(), 'Open ports are: '.implode(', ',$t_port).'.', $t_alert_level['info'] );
+			$container->get('entity_alert')->create( $task->getEntity(), 'Open ports are: '.implode(', ',$a_text).'.', $t_alert_level['info'] );
 		}
 
 		return $m;
