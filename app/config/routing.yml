@@ -1,3 +1,7 @@
+server_service:
+    resource: "@ArusServerServiceBundle/Resources/config/routing.yml"
+    prefix:   /
+
 entity_attachment:
     resource: "@ArusEntityAttachmentBundle/Resources/config/routing.yml"
     prefix:   /

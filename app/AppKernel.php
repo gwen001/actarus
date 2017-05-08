@@ -40,6 +40,7 @@ class AppKernel extends Kernel
             new ArusBucketBundle\ArusBucketBundle(),
             new ArusEntityAttachmentBundle\ArusEntityAttachmentBundle(),
             new ArusRequestBundle\ArusRequestBundle(),
+            new ArusServerServiceBundle\ArusServerServiceBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

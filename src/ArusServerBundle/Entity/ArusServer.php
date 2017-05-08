@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use ArusProjectBundle\Entity\ArusProject;
+use ArusServerServiceBundle\Entity\ArusServerService;
 use ArusHostServerBundle\Entity\ArusHostServer;
 
 use Actarus\Utils;
@@ -82,6 +83,13 @@ class ArusServer
      * @ORM\Column(name="updated_at", type="datetime")
      */
     private $updatedAt;
+
+	/**
+	 * @var ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="ArusServerServiceBundle\Entity\ArusServerService", cascade={"persist","remove"}, mappedBy="server")
+	 */
+	private $services;
 
 	/**
 	 * @var ArrayCollection
@@ -386,6 +394,21 @@ class ArusServer
 	}
 	public function setHostServers($hostservers) {
 		$this->hostservers = $hostservers;
+		return $this;
+	}
+
+	public function addService(ArusServerService $service) {
+		$this->services[] = $service;
+		return $this;
+	}
+	public function removeService(ArusServerService $service) {
+		$this->services->removeElement( $service );
+	}
+	public function getServices() {
+		return $this->services;
+	}
+	public function setServices($services) {
+		$this->services = $services;
 		return $this;
 	}
 

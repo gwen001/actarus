@@ -1,0 +1,3 @@
+server_service_homepage:
+    path:     /service
+    defaults: { _controller: ArusServerServiceBundle:Default:index }

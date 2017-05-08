@@ -70,12 +70,6 @@ class DefaultController extends Controller
 		foreach( $t_server as $s ) {
 			$s->setEntityAlerts( $this->get('entity_alert')->search(['entity_id'=>$s->getEntityId()]) );
 			$s->setEntityTechnologies( $this->get('entity_technology')->getListAction($s->getEntityId()) );
-			$open_port = '';
-			$alert_port = $this->get('entity_alert')->search( ['entity_id'=>$s->getEntityId(),'descr'=>'Open ports are'], 1, 1 );
-			if( $alert_port && is_array($alert_port) && count($alert_port)==1 ) {
-				$open_port = trim( str_ireplace('Open ports are:','',$alert_port[0]->getDescr()), ' .' );
-			}
-			$s->open_port = $open_port;
 		}
 		$pagination = $this->get('app')->paginate( $total_server, count($t_server), $page );
 

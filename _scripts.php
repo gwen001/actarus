@@ -1,6 +1,6 @@
 <?php
 
-require_once( dirname(__FILE__).'/vendor/actarus/custom/Config.php' );
+require_once( dirname(__FILE__).'/vendor/actarus/Config.php' );
 
 
 // config
@@ -16,6 +16,44 @@ $config->loadParameters( $config->configPath.'/myparameters.yml', 'parameters' )
 //exit();
 
 $db = $config->db = mysqli_connect( $config->parameters['database_host'], $config->parameters['database_user'], $config->parameters['database_password'], $config->parameters['database_name'] );
+
+
+
+$q = "SELECT * FROM arus_entity_task AS t WHERE command like 'nmap%' LIMIT 0,2";
+$r = $db->query( $q );
+
+while( ($t=$r->fetch_object()) )
+{
+	var_dump( $t->id );
+	
+	$m = preg_match_all( '#([0-9]+)/([^\s]*)[\s]+open[\s]+([^\s]*)[\s]+(.*)\n#', $t->output, $matches );
+	if( !$m ) {
+		continue;
+	}
+	
+	var_dump( $matches );
+	$cnt = count( $matches[0] );
+	if( !$cnt ) {
+		continue;
+	}
+	
+	$q = "SELECT * FROM arus_server AS s WHERE entity_id='".$t->entity_id."'";
+	$rr = $db->query( $q );
+	if( !$r || !$r->num_rows ) {
+		continue;
+	}
+	
+	$s = $rr->fetch_object();
+	
+	for( $i=0 ; $i<$cnt ; $i++ ) {
+		if( stristr($matches[4][$i],'service unrecognized') ) {
+			$matches[4][$i] = '';
+		}
+		$q = "INSERT INTO arus_server_service (server_id,port,type,service,version,created_at,updated_at) VALUES ('".$s->id."','".(int)$matches[1][$i]."','".$matches[2][$i]."','".$matches[3][$i]."','".$matches[4][$i]."',NOW(),NOW())";
+		echo $q."\n";
+		$db->query( $q );
+	}
+}
 
 
 /*
@@ -78,6 +116,8 @@ foreach( $t_buckets as $b )
 	$db->query( $q_insert );
 }
 */
+
+
 
 
 $db->close();

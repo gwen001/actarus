@@ -112,11 +112,9 @@
                                     </td>
                                     <td>{{ s.getAlias()|default('-') }}</td>
                                     <td>
-	                                    {% if s.open_port|length > 250 %}
-	                                        {{ s.open_port|slice(0,250) }}...
-	                                    {% else %}
-	                                        {{ s.open_port }}
-	                                    {% endif %}
+                                    	{% for s in s.getServices() %}
+                                    		{{ s.getPort() }}/{{ s.getType() }} ({{ s.getService() }}),
+                                    	{% endfor %}
 	                                </td>
                                     <td>{{ s.getEntityTechnologies()|raw }}</td>
                                     <td align="center">{{ s.getHostServers()|length }}</td>

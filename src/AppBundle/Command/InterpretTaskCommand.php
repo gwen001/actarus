@@ -13,11 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
+use ArusHostBundle\Entity\ArusHost;
+use ArusServerBundle\Entity\ArusServer;
+use ArusServerServiceBundle\Entity\ArusServerService;
 use ArusEntityAlertBundle\Entity\ArusEntityAlert;
 use ArusEntityCommentBundle\Entity\ArusEntityComment;
 use ArusEntityTaskBundle\Entity\ArusEntityTask;
 use ArusEntityTechnologyBundle\Entity\ArusEntityTechnology;
-use ArusHostBundle\Entity\ArusHost;
 
 use Actarus\Utils;
 
@@ -496,19 +498,24 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$output = $task->getOutput();
 		$container = $this->container;
 		$entity = $task->getEntity();
-		$m = preg_match_all( '#([0-9]+)/tcp[\s]+open[\s]+([^\s]*)(.*)\n#', $output, $match );
+		//$m = preg_match_all( '#([0-9]+)/tcp[\s]+open[\s]+([^\s]*)(.*)\n#', $output, $match );
+		$m = preg_match_all( '#([0-9]+)/([^\s]*)[\s]+open[\s]+([^\s]*)[\s]+(.*)\n#', $output, $matches );
 
 		if( $m )
 		{
-			$i = 0;
 			$t_port = [];
-			$match[1] = array_map( 'trim', $match[1] ); // port
-			$match[2] = array_map( 'trim', $match[2] ); // service
-			$match[3] = array_map( 'trim', $match[3] ); // version
+			$cnt = count( $matches[1] );
+			var_dump($matches);
 
-			foreach( $match[1] as $port )
+			for( $i=0 ; $i<$cnt ; $i++ )
 			{
+				$port = (int)trim( $matches[1][$i] );
+				$type = trim( $matches[2][$i] );
+				$service = trim( $matches[3][$i] );
+				$version = trim( $matches[4][$i] );
+
 				$new_task = null;
+				$t_port[] = $port;
 
 				switch( $port ) {
 					case 21:
@@ -530,20 +537,15 @@ class InterpretTaskCommand extends ContainerAwareCommand
 						break;
 				}
 
-				if( !is_null($task) ) {
-					$t = $container->get('entity_task')->create( $entity, $new_task, ['PORT'=>$port] );
+				if( !is_null($new_task) ) {
+					$container->get('entity_task')->create( $entity, $new_task, ['PORT'=>$port] );
 				}
-
-				$txt = $port;
-				if( $match[2][$i] != '' ) {
-					$txt .= ' ('.$match[2][$i].')';
-				}
-				$t_port[] = $txt;
-
-				$i++;
+				
+				$container->get('server_service')->create( $entity, $port, $type, $service, $version );
 			}
 
-			$t = $container->get('entity_task')->create( $entity, 'testhttp', ['PORT'=>implode(',',$match[1])] );
+			$container->get('entity_task')->create( $entity, 'testhttp', ['PORT'=>implode(',',$t_port)] );
+			
 			$t_alert_level = $container->getParameter('alert')['level'];
 			$container->get('entity_alert')->create( $task->getEntity(), 'Open ports are: '.implode(', ',$t_port).'.', $t_alert_level['info'] );
 		}
