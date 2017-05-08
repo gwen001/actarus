@@ -18,7 +18,7 @@ $config->loadParameters( $config->configPath.'/myparameters.yml', 'parameters' )
 $db = $config->db = mysqli_connect( $config->parameters['database_host'], $config->parameters['database_user'], $config->parameters['database_password'], $config->parameters['database_name'] );
 
 
-
+/*
 //$q = "SELECT * FROM arus_entity_task AS t WHERE command like 'nmap%' LIMIT 0,2";
 $q = "SELECT * FROM arus_entity_task AS t WHERE command like 'nmap%'";
 $r = $db->query( $q );
@@ -55,6 +55,7 @@ while( ($t=$r->fetch_object()) )
 		$db->query( $q );
 	}
 }
+*/
 
 
 /*

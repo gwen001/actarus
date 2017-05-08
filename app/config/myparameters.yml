@@ -8,7 +8,7 @@ parameters:
     contact_email: g@10degres.net
     bin_path: /opt/bin/
     attachments_path: /attachments/
-    results_per_page: 200
+    results_per_page: 100
     actarus_id: 1
     actarus_entity_id: 157fb75461d2f3
 
