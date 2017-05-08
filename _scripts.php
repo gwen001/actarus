@@ -32,7 +32,7 @@ while( ($t=$r->fetch_object()) )
 		continue;
 	}
 	
-	var_dump( $matches );
+	//var_dump( $matches );
 	$cnt = count( $matches[0] );
 	if( !$cnt ) {
 		continue;
