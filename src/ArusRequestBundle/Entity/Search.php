@@ -26,6 +26,11 @@ class Search
 	/**
 	 * @var string
 	 */
+	private $sign;
+
+	/**
+	 * @var string
+	 */
 	private $url;
 	
 	/**
@@ -162,6 +167,30 @@ class Search
 		return $this->project;
 	}
 	
+	/**
+	 * Set sign
+	 *
+	 * @param string $sign
+	 *
+	 * @return Search
+	 */
+	public function setSign($sign)
+	{
+		$this->sign = $sign;
+
+		return $this;
+	}
+
+	/**
+	 * Get sign
+	 *
+	 * @return string
+	 */
+	public function getSign()
+	{
+		return $this->sign;
+	}
+
 	/**
 	 * Set url
 	 *

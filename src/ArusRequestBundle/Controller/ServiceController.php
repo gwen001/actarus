@@ -51,15 +51,11 @@ class ServiceController extends Controller
 
 		return $t_request;
 	}
-
-	/*
-	public function exist( $project, $name, $id=null, $return_object=false )
+	
+	
+	public function exist( $sign, $return_object=false )
 	{
-		$t_params = ['project'=>$project, 'name'=>[$name,'=']];
-
-		if( $id ) {
-			$t_params['id'] = [$id,'!='];
-		}
+		$t_params = ['sign'=>[$sign,'=']];
 
 		if( $return_object ) {
 			$offset = 1;
@@ -78,7 +74,7 @@ class ServiceController extends Controller
 		}
 	}
 
-
+	/*
 	public function create( $project, $domain, $name, $recon=true )
 	{
 		if( !Utils::isSubdomain($name) ) {
@@ -156,12 +152,15 @@ class ServiceController extends Controller
 
 			$r->setName( $r->getHost().$r->getPath() );
 
-			$cnt++;
-			$em->persist( $r );
-			$em->flush();
-			
-			if( $recon ) {
-				$this->get('app')->recon( $r, 'request' );
+			if( !$this->exist($r->getSign(),true) )
+			{
+				$cnt++;
+				$em->persist( $r );
+				$em->flush();
+				
+				if( $recon ) {
+					$this->get('app')->recon( $r, 'request' );
+				}
 			}
 		}
 		
@@ -221,12 +220,14 @@ class ServiceController extends Controller
 				$r->setQuery( $t_info['query'] );
 			}
 			
-			$cnt++;
-			$em->persist( $r );
-			$em->flush();
-			
-			if( $recon ) {
-				$this->get('app')->recon( $r, 'request' );
+			if( !$this->exist($r->getSign(),true) ) {
+				$cnt++;
+				$em->persist( $r );
+				$em->flush();
+				
+				if( $recon ) {
+					$this->get('app')->recon( $r, 'request' );
+				}
 			}
 		}
 		

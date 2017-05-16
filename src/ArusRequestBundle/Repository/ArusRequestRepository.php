@@ -38,6 +38,13 @@ class ArusRequestRepository extends \Doctrine\ORM\EntityRepository
 				$query->andWhere( 'r.id '.$id[1].' :id' );
 				$t_params['id'] = $id[0];
 			}
+			if( ($sign=$data->getSign()) ) {
+				if( !is_array($sign) ) {
+					$sign = [ '%'.$sign.'%', 'LIKE' ];
+				}
+				$query->andWhere('r.sign '.$sign[1].' :name');
+				$t_params['name'] = $sign[0];
+			}
 			if ($data->getProject()) {
 				$query->andWhere('r.project=:project_id');
 				$t_params['project_id'] = $data->getProject()->getId();
