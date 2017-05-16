@@ -43,7 +43,7 @@ class ArusRequest
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="sign", type="string", length=32, unique=false)
+	 * @ORM\Column(name="sign", type="string", length=32, unique=true)
 	 */
 	private $sign;
 
