@@ -18,7 +18,7 @@ $config->loadParameters( $config->configPath.'/myparameters.yml', 'parameters' )
 $db = $config->db = mysqli_connect( $config->parameters['database_host'], $config->parameters['database_user'], $config->parameters['database_password'], $config->parameters['database_name'] );
 
 
-	
+/*
 	function createSign( $url )
 	{
 	    $url = urldecode( trim($url,' /') );
@@ -68,7 +68,7 @@ while( ($t=$r->fetch_object()) )
 	echo $q."\n";
 	$rr = $db->query( $q );
 }
-
+*/
 	
 
 /*
