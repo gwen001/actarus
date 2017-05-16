@@ -40,7 +40,7 @@ class ImportRequestCommand extends ContainerAwareCommand
 					new InputOption(
 						'format',
 						'o',
-						InputArgument::OPTIONAL,
+						InputArgument::VALUE_REQUIRED,
 						'Format of the datas'
 					),
 					new InputOption(

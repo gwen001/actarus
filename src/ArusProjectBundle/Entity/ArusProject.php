@@ -106,14 +106,14 @@ class ArusProject
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", cascade={"persist","remove"}, mappedBy="project")
 	 */
 	private $hosts;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusRequestBundle\Entity\ArusRequest", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusRequestBundle\Entity\ArusRequest", cascade={"persist","remove"}, mappedBy="project")
 	 */
 	private $requests;
 
