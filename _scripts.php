@@ -18,6 +18,59 @@ $config->loadParameters( $config->configPath.'/myparameters.yml', 'parameters' )
 $db = $config->db = mysqli_connect( $config->parameters['database_host'], $config->parameters['database_user'], $config->parameters['database_password'], $config->parameters['database_name'] );
 
 
+	
+	function createSign( $url )
+	{
+	    $url = urldecode( trim($url,' /') );
+	    
+	    $sign = '';
+	    $t_params = [];
+	    $t_parse = parse_url( $url );
+	    //var_dump( $t_parse );
+	    
+	    if( isset($t_parse['query']) ) {
+	        $t_query = explode( '&', $t_parse['query'] );
+	        foreach( $t_query as $q ) {
+	            if( strstr($q,'=') ) {
+	                $tmp = explode( '=', $q );
+	                $t_params[ $tmp[0] ] = $tmp[1];
+	            } else {
+	                $t_params[ $q ] = '';
+	            }
+	        }
+	        ksort( $t_params );
+	    }
+	    //var_dump( $t_parse );
+	    //var_dump( $t_params );
+	
+	    $str = str_replace( 's', '', $t_parse['scheme'] );
+	    $str .= $t_parse['host'];
+	    $str .= $t_parse['path'];
+	
+	    foreach( $t_params as $k=>$v ) {
+	        $str .= $k;
+	        $str .= $v;
+	    }
+	    
+	    //echo $str."\n";
+	    $sign = md5( $str );
+	    
+	    return $sign;
+	}
+
+$q = "SELECT * FROM arus_request";
+$r = $db->query( $q );
+
+while( ($t=$r->fetch_object()) )
+{
+	$sign = createSign($t->url);
+	$q = "UPDATE arus_request SET sign='".$sign."' WHERE id='".$t->id."'";
+	echo $q."\n";
+	$rr = $db->query( $q );
+}
+
+	
+
 /*
 //$q = "SELECT * FROM arus_entity_task AS t WHERE command like 'nmap%' LIMIT 0,2";
 $q = "SELECT * FROM arus_entity_task AS t WHERE command like 'nmap%'";

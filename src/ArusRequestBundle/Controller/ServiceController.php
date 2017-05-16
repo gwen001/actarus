@@ -137,6 +137,7 @@ class ServiceController extends Controller
 			
 			$r = new ArusRequest();
 			$r->setUrl( $url );
+			$r->setSign( $this->createSign($r->getUrl()) );
 			$r->setProject( $project );
 			$r->setHost( $t_info['host'] );
 			$r->setProtocol( $t_info['scheme'] );
@@ -213,6 +214,7 @@ class ServiceController extends Controller
 				
 			}
 			
+			$r->setSign( $this->createSign($r->getUrl()) );
 			$t_info = parse_url( $r->getUrl() );
 			$r->setPath( $t_info['path'] );
 			if( isset($t_info['query']) ) {
@@ -229,5 +231,45 @@ class ServiceController extends Controller
 		}
 		
 		return $cnt;
+	}
+	
+	
+	public function createSign( $url )
+	{
+	    $url = urldecode( trim($url,' /') );
+	    
+	    $sign = '';
+	    $t_params = [];
+	    $t_parse = parse_url( $url );
+	    //var_dump( $t_parse );
+	    
+	    if( isset($t_parse['query']) ) {
+	        $t_query = explode( '&', $t_parse['query'] );
+	        foreach( $t_query as $q ) {
+	            if( strstr($q,'=') ) {
+	                $tmp = explode( '=', $q );
+	                $t_params[ $tmp[0] ] = $tmp[1];
+	            } else {
+	                $t_params[ $q ] = '';
+	            }
+	        }
+	        ksort( $t_params );
+	    }
+	    //var_dump( $t_parse );
+	    //var_dump( $t_params );
+	
+	    $str = str_replace( 's', '', $t_parse['scheme'] );
+	    $str .= $t_parse['host'];
+	    $str .= $t_parse['path'];
+	
+	    foreach( $t_params as $k=>$v ) {
+	        $str .= $k;
+	        $str .= $v;
+	    }
+	    
+	    //echo $str."\n";
+	    $sign = md5( $str );
+	    
+	    return $sign;
 	}
 }

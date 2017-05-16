@@ -41,6 +41,13 @@ class ArusRequest
 	private $entityId;
 
 	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="sign", type="string", length=32, unique=false)
+	 */
+	private $sign;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="requests")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
@@ -246,7 +253,7 @@ class ArusRequest
 	 *
 	 * @param string $entityId
 	 *
-	 * @return ArusHost
+	 * @return ArusRequest
 	 */
 	public function setEntityId($entityId)
 	{
@@ -263,6 +270,30 @@ class ArusRequest
 	public function getEntityId()
 	{
 		return $this->entityId;
+	}
+	
+	/**
+	 * Set sign
+	 *
+	 * @param string $sign
+	 *
+	 * @return ArusRequest
+	 */
+	public function setSign($sign)
+	{
+		$this->sign = $sign;
+
+		return $this;
+	}
+
+	/**
+	 * Get sign
+	 *
+	 * @return string
+	 */
+	public function getSign()
+	{
+		return $this->sign;
 	}
 	
 	/**

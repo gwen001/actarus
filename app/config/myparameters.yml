@@ -33,7 +33,7 @@ parameters:
             server: [portscan_nc]
             domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
             host: [host]
-            request: [sqlmap_xss,autoknoxss]
+            request: [sqlmap_xss]
 
     task:
         max_duration: 120
