@@ -14,6 +14,7 @@
                         <th width="70" style="text-align:center;">#</th>
                         <th width="200">Name</th>
                         <th>Command</th>
+                        <th width="100" style="text-align:center;">Timeout</th>
                         <th width="100" style="text-align:center;">Callbacks</th>
                         <th width="170" style="text-align:center;">Created date</th>
                     </tr>
@@ -30,6 +31,7 @@
     	                        	{{ t.getCommand() }}
                             	{% endif %}
                             </td>
+                            <td align="center">{{ t.getTimeout() }}</td>
                             <td align="center">{{ t.callbacks|length }}</td>
                             <td align="center">{% if t.getCreatedAt() %}{{ t.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
                         </tr>
