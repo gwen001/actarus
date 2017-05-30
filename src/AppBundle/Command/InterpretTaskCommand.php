@@ -616,7 +616,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		
 		if( $cnt )
 		{
-			$container->get('bucket')->import( $project, $t_buckets );
+			$container->get('bucket')->doImport( $project, $t_buckets );
 			
 			$cnt_vuln = count( $t_vulnerable );
 			if( $cnt_vuln ) {
@@ -663,7 +663,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( $cnt ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create($domain, $cnt.' new host added.', $t_alert_level['info']);
+			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+			$container->get('entity_task')->create( $domain, 'altdns' );
 		}
 
 		return $cnt;
