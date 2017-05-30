@@ -90,7 +90,19 @@ class ServiceController extends Controller
 	}
 	
 
-	public function import( $project, $t_bucket )
+	public function import( $project, $source_file )
+	{
+		if( !is_file($source_file) ) {
+			return false;
+		}
+		
+		$t_bucket = file( $source_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		
+		return $this->doImport( $project, $t_bucket );
+	}
+
+	
+	public function doImport( $project, $t_bucket )
 	{
 		set_time_limit( 0 );
 
