@@ -82,12 +82,17 @@ class RunTaskCommand extends ContainerAwareCommand
 		$process = new Process( $bin_path . $task->getCommand() );
 		$process->start();
 
+		$t = $task->getTask();
+		
 		$task->setPid( getmypid() );
 		$task->setRealPid( $process->getPid() );
 		$task->setClusterId( $container->getParameter('daemon_cluster_id') );
 		$task->setStatus( $t_status['running'] );
-		$task->setStartedAt( new \Datetime() );
+		$task->setStartedAt( new \DateTime() );
 		$task->setEndedAt( null );
+		$k = new \DateTime();
+		$k->add( date_interval_create_from_date_string($t->getTimeout().' minutes') );
+		$task->setKillAt( $k );
 
 		while( $process->isRunning() ) {
 			$task->setOutput( $process->getOutput() );
