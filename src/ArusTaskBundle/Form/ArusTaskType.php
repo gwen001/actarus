@@ -20,6 +20,7 @@ class ArusTaskType extends AbstractType
         $builder
             ->add( 'name', TextType::class, ['constraints'=>[new NotBlank()]])
             ->add( 'command', TextType::class, ['constraints'=>[new NotBlank()]] )
+            ->add( 'timeout', TextType::class, ['constraints'=>[new NotBlank()]] )
         ;
     }
 }

@@ -113,7 +113,8 @@ class KillTask extends Daemon
 	 */
 	private function loop()
 	{
-		$q = "SELECT id FROM arus_entity_task WHERE cluster_id='".$this->config->parameters['daemon_cluster_id']."' AND status='".$this->config->parameters['task']['status']['running']."' AND timestampdiff(MINUTE,started_at,now())>'".$this->config->parameters['task']['max_duration']."' LIMIT 0,".$this->getFreePlace();
+		//$q = "SELECT id FROM arus_entity_task WHERE cluster_id='".$this->config->parameters['daemon_cluster_id']."' AND status='".$this->config->parameters['task']['status']['running']."' AND timestampdiff(MINUTE,started_at,now())>'".$this->config->parameters['task']['max_duration']."' LIMIT 0,".$this->getFreePlace();
+		$q = "SELECT id FROM arus_entity_task WHERE cluster_id='".$this->config->parameters['daemon_cluster_id']."' AND status='".$this->config->parameters['task']['status']['running']."' AND NOW()>kill_at LIMIT 0,".$this->getFreePlace();
 		$result = $this->config->db->query( $q );
 		if( !$result ) {
 			$this->logger->write( $this->config->db->error().' ('.$this->config->db->errno().') '.$q );

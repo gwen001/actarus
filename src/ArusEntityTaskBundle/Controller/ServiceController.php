@@ -127,6 +127,9 @@ class ServiceController extends Controller
 		$task->setProject( $container->get('app')->getEntityProject($entity) );
 		$task->setEntityId( $entity->getEntityId() );
 		$task->setCommand( $cmd );
+		$d = new \DateTime();
+		$d->add( date_interval_create_from_date_string($t->getTimeout().' minutes') );
+		$task->setKillAt( $d );
 		$em->persist( $task );
 		$em->flush( $task );
 

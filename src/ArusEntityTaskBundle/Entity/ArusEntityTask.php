@@ -124,6 +124,13 @@ class ArusEntityTask
      */
     private $endedAt;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="kill_at", type="datetime", nullable=true)
+     */
+    private $killAt;
+
 
 	/*****************************************************/
 	/* special functions                                 */
@@ -457,6 +464,30 @@ class ArusEntityTask
     public function getEndedAt()
     {
         return $this->endedAt;
+    }
+
+    /**
+     * Set killAt
+     *
+     * @param \DateTime $killAt
+     *
+     * @return ArusEntityTask
+     */
+    public function setKillAt($killAt)
+    {
+        $this->killAt = $killAt;
+
+        return $this;
+    }
+
+    /**
+     * Get killAt
+     *
+     * @return \DateTime
+     */
+    public function getKillAt()
+    {
+        return $this->killAt;
     }
 
 

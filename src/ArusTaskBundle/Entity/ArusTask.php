@@ -47,6 +47,13 @@ class ArusTask
      */
     private $defaultOptions;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="timeout", type="integer", options={"unsigned"=true})
+     */
+    private $timeout;
+
 	/**
 	 * @var \DateTime
 	 *
@@ -190,6 +197,30 @@ class ArusTask
 		}
 
         return (array)$default_options;
+    }
+
+    /**
+     * Set timeout
+     *
+     * @param string $timeout
+     *
+     * @return ArusTask
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Get timeout
+     *
+     * @return string
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
     }
 
 	/**
