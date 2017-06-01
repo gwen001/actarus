@@ -690,7 +690,11 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 	private function altdns( $task )
 	{
-        return $this->subthreat( $task );
+        $n = $this->subthreat( $task );
+        $domain = $task->getEntity();
+        $project = $domain->getProject();
+        $this->container->get('entity_task')->create( $project, 'altbucket' );
+        return $n;
 	}
 	private function crtsh( $task )
 	{
@@ -778,7 +782,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
