@@ -575,11 +575,15 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( $m ) {
 			sort( $match[1], SORT_NUMERIC );
-			$t_options = ['PORT'=>implode(',',$match[1])];
-			if( $udp ) {
-				$t_options['TYPE'] = '-sU';
+			$t_port = $match[1];
+			if( count($t_port) < 50 ) {
+				$s_port = implode( ',', $t_port );
+				$t_options = ['PORT'=>$s_port];
+				if( $udp ) {
+					$t_options['TYPE'] = '-sU';
+				}
+				$this->container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', $t_options );
 			}
-			$this->container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', $t_options );
 		} else {
 			$server = $task->getEntity();
 			$server->setStatus( 2 ); // ko
