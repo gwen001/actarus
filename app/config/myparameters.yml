@@ -30,7 +30,7 @@ parameters:
             request: 5
         recon:
             project: [s3_buckets,gitrob,altgithub]
-            server: [portscan_nc]
+            server: [portscan_nc,srv_reco]
             domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
             host: [host]
             request: [sqlmap_xss]

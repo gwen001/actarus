@@ -563,6 +563,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 	private function portscan_nc( $task )
 	{
+		$command = $task->getCommand();
+		$udp = (stristr($command,'udp')===false) ? false : true;
 		$output = $task->getOutput();
 
 		if( stristr($output,'succeeded') ) {
@@ -573,11 +575,19 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( $m ) {
 			sort( $match[1], SORT_NUMERIC );
-			$this->container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', ['PORT'=>implode(',',$match[1])] );
+			$t_options = ['PORT'=>implode(',',$match[1])];
+			if( $udp ) {
+				$t_options['TYPE'] = '-sU';
+			}
+			$this->container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', $t_options );
 		} else {
 			$server = $task->getEntity();
 			$server->setStatus( 2 ); // ko
 			$this->em->persist( $server );
+		}
+		
+		if( !$udp ) {
+			$this->container->get('entity_task')->create( $task->getEntity(), 'portscan_nc', ['UDP'=>'udp' );
 		}
 
 		return $m;
@@ -623,11 +633,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$t_alert_level = $container->getParameter('alert')['level'];
 				$container->get('entity_alert')->create( $project, 'S3 buckets seems to be misconfigured: '.implode(', ',$t_vulnerable).'.', $t_alert_level['high'] );
 			}
-			
-			$altbucket = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'altbucket'] );
-			if( !$altbucket ) {
-				$altbucket = $this->container->get('entity_task')->create( $project, 'altbucket' );
-			}
 		}
 		
 		return $cnt;
@@ -646,7 +651,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( !$m || !isset($match[1]) || !($n=(int)$match[1]) ) {
 			return false;
 		}
-					
+		
 		$t_host = [];
 		$tmp_host = array_map( 'trim', explode("\n",trim($match[2])) );
 		$container = $this->container;
@@ -658,13 +663,18 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$t_host[] = $h;
 			}
 		}
-
-		$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
-
-		if( $cnt ) {
-			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+		
+		if( count($t_host) ) {
 			$container->get('entity_task')->create( $domain, 'altdns' );
+			$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
+	
+			if( $cnt ) {
+				$t_alert_level = $container->getParameter('alert')['level'];
+				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+			}
+		}
+		else {
+			$cnt = 0;
 		}
 
 		return $cnt;
@@ -691,9 +701,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	private function altdns( $task )
 	{
         $n = $this->subthreat( $task );
-        $domain = $task->getEntity();
-        $project = $domain->getProject();
-        $this->container->get('entity_task')->create( $project, 'altbucket' );
         return $n;
 	}
 	private function crtsh( $task )
@@ -715,6 +722,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$domain = $task->getEntity();
 		$domain_name = $domain->getName();
+        $project = $domain->getProject();
 
 		foreach( $tmp_host as $h ) {
 			$h = trim( $h );
@@ -731,6 +739,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( $cnt ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
 			$container->get('entity_alert')->create($domain, $cnt.' new host added.', $t_alert_level['info']);
+		}
+
+		$altdns = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
+		$s3bucket = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
+		$subthreat = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
+		
+		if( !$altdns && !$s3bucket && !$subthreat ) {
+			$this->container->get('entity_task')->create( $project, 'altbucket' );
 		}
 
 		return $cnt;
