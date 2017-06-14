@@ -587,7 +587,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 		
 		if( !$udp ) {
-			$this->container->get('entity_task')->create( $task->getEntity(), 'portscan_nc', ['UDP'=>'udp' );
+			$this->container->get('entity_task')->create( $task->getEntity(), 'portscan_nc', ['UDP'=>'udp'] );
 		}
 
 		return $m;
