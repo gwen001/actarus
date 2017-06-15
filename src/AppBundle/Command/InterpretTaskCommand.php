@@ -566,35 +566,49 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$command = $task->getCommand();
 		$udp = (stristr($command,'udp')===false) ? false : true;
 		$output = $task->getOutput();
+		$container = $this->container;
 
-		if( stristr($output,'succeeded') ) {
-			$m = preg_match_all( '#Connection to .* ([0-9]+) port \[tcp/\*\] succeeded!#i', $output, $match );
-		} else {
-			$m = preg_match_all( '#\(UNKNOWN\) \[.*\] ([0-9]+) \(.*\) open#i', $output, $match );
-		}
-
-		if( $m ) {
-			sort( $match[1], SORT_NUMERIC );
-			$t_port = $match[1];
-			if( count($t_port) < 50 ) {
-				$s_port = implode( ',', $t_port );
-				$t_options = ['PORT'=>$s_port];
-				if( $udp ) {
-					$t_options['TYPE'] = '-sU';
-				}
-				$this->container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', $t_options );
+		if( stristr($output,'Too much success') )
+		{
+			if( $udp ) {
+				$container->get('entity_task')->create( $task->getEntity(), 'nmap_udp' );
+			} else {
+				$container->get('entity_task')->create( $task->getEntity(), 'nmap_full' );
 			}
-		} else {
-			$server = $task->getEntity();
-			$server->setStatus( 2 ); // ko
-			$this->em->persist( $server );
+			
+			return 0;
 		}
-		
-		if( !$udp ) {
-			$this->container->get('entity_task')->create( $task->getEntity(), 'portscan_nc', ['UDP'=>'udp'] );
+		else
+		{
+			if( stristr($output,'succeeded') ) {
+				$m = preg_match_all( '#Connection to .* ([0-9]+) port \[(tcp|udp)/\*\] succeeded!#i', $output, $match );
+			} else {
+				$m = preg_match_all( '#\(UNKNOWN\) \[.*\] ([0-9]+) \(.*\) open#i', $output, $match );
+			}
+	
+			if( $m ) {
+				sort( $match[1], SORT_NUMERIC );
+				$t_port = $match[1];
+				if( count($t_port) < 50 ) {
+					$s_port = implode( ',', $t_port );
+					$t_options = ['PORT'=>$s_port];
+					if( $udp ) {
+						$t_options['TYPE'] = '-sU';
+					}
+					$container->get('entity_task')->create( $task->getEntity(), 'nmap_custom', $t_options );
+				}
+			} else {
+				$server = $task->getEntity();
+				$server->setStatus( 2 ); // ko
+				$this->em->persist( $server );
+			}
+			
+			if( !$udp ) {
+				$container->get('entity_task')->create( $task->getEntity(), 'portscan_nc', ['UDP'=>'udp'] );
+			}
+			
+			return $m;
 		}
-
-		return $m;
 	}
 
 
