@@ -93,9 +93,10 @@ class ArusServerRepository extends \Doctrine\ORM\EntityRepository
 			$query->setFirstResult($offset);
 		}
 
+		$query->distinct();
 		$t_result = $query->getQuery()->getResult();
-		//$q=$query->getQuery()->getSQL();
-		//var_dump($q);
+		$q=$query->getQuery()->getSQL();
+		var_dump($q);
 		
 		if( $count ) {
 			return (int)$t_result[0][1];
