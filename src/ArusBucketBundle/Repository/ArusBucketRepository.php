@@ -2,8 +2,6 @@
 
 namespace ArusBucketBundle\Repository;
 
-use ArusEntityTaskBundle\Entity\Search as EntityTaskSearch;
-
 use Actarus\Utils;
 
 

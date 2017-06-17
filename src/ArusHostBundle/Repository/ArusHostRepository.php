@@ -31,10 +31,9 @@ class ArusHostRepository extends \Doctrine\ORM\EntityRepository
 			$query  = $qb->select( 'count(h.id)' );
 		} else {
 			$count  = false;
-			$query  = $qb->select( array('h,d') );
+			$query  = $qb->select( array('h') );
 		}
-		$query = $query->from('ArusHostBundle:ArusHost','h')
-						->leftJoin('h.domain','d');
+		$query = $query->from('ArusHostBundle:ArusHost','h');
 
 		if( $data )
 		{

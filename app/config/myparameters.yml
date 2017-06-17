@@ -1,7 +1,7 @@
 twig:
     globals:
         menu_extern:
-            gitrob: ["Gitrob","http://127.0.0.1:9393/","diamond"]
+            gitrob: ["Gitrob","http://127.0.0.1:9393/","github-alt"]
             10d: ["10degres","http://10degres.net","life-buoy"]
 
 parameters:

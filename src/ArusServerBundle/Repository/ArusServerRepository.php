@@ -2,7 +2,7 @@
 
 namespace ArusServerBundle\Repository;
 
-use ArusEntityTaskBundle\Entity\Search as EntityTaskSearch;
+use ArusServerServiceBundle\Entity\ArusServerService;
 
 use Actarus\Utils;
 
@@ -24,15 +24,26 @@ class ArusServerRepository extends \Doctrine\ORM\EntityRepository
 		if( $offset < 0 ) {
 			$offset = null;
 			$count  = true;
-			$query  = $qb->select( 'count(s.id)' );
+			$query  = $qb->select( 'count(distinct s.id)' );
 		} else {
 			$count  = false;
 			$query  = $qb->select( array('s') );
 		}
-		$query = $query->from('ArusServerBundle:ArusServer','s');
-
+		
+		if( $data && $data->getService() ) {
+			$query = $query->from('ArusServerBundle:ArusServer','s')
+							->leftJoin('ArusServerServiceBundle:ArusServerService','ss','WITH','s.id=ss.server');
+		} else {
+			$query = $query->from('ArusServerBundle:ArusServer','s');
+		}
+		
 		if( $data )
 		{
+			if( $data->getService() ) {
+				$query->andWhere('(ss.port=:service or ss.type=:service or ss.service LIKE :service_like or ss.version LIKE :service_like)');
+				$t_params['service'] = $data->getService();
+				$t_params['service_like'] = '%'.$data->getService().'%';
+			}
 			if( ($id=$data->getId()) ) {
 				if( !is_array($id) ) {
 					$id = [ $id, '=' ];
@@ -83,7 +94,9 @@ class ArusServerRepository extends \Doctrine\ORM\EntityRepository
 		}
 
 		$t_result = $query->getQuery()->getResult();
-
+		//$q=$query->getQuery()->getSQL();
+		//var_dump($q);
+		
 		if( $count ) {
 			return (int)$t_result[0][1];
 		} else {

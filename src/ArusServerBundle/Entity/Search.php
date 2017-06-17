@@ -48,6 +48,11 @@ class Search
 	 */
 	private $maxCreatedAt;
 	
+	/**
+	 * @var string
+	 */
+	private $service;
+	
 	
 	public function __construct() {
 		$this->page = 1;
@@ -246,4 +251,28 @@ class Search
     {
         return $this->maxCreatedAt;
     }
+    
+	/**
+	 * Set service
+	 *
+	 * @param string $service
+	 *
+	 * @return Search
+	 */
+	public function setService($service)
+	{
+		$this->service = $service;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get service
+	 *
+	 * @return string
+	 */
+	public function getService()
+	{
+		return $this->service;
+	}	
 }

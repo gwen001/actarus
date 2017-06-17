@@ -42,6 +42,7 @@ class SearchType extends AbstractType
 					})
 			)
 			->add( 'alias', TextType::class, ['required'=>false] )
+			->add( 'service', TextType::class, ['required'=>false] )
 			->add( 'status', ChoiceType::class, ['choices'=>$this->options['t_status'],'required'=>false,'empty_data' =>null,'empty_value'=>'- - -','choice_attr'=>function($o,$k,$i){return ['class'=>'server_status_'.$k];}] )
 			->add( 'min_created_at', TextType::class, ['required'=>false] )
 			->add( 'max_created_at', TextType::class, ['required'=>false] )

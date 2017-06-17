@@ -34,6 +34,19 @@ class ServiceController extends Controller
 	}
 
 
+	public function search( $data=[], $page=1, $limit=-1 )
+	{
+		if( $limit < 0 ) {
+			$limit = $this->getParameter('results_per_page');
+		}
+		$offset = $limit * ($page-1);
+
+		$t_service = $this->em->getRepository('ArusServerServiceBundle:ArusServerService')->search( $data, $offset, $limit );
+
+		return $t_service;
+	}
+
+	
 	public function create( $server, $port, $type, $service='', $version='' )
 	{
 		$ss = new ArusServerService();
