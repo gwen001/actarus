@@ -974,7 +974,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 	
 	
-	private function wfuzz( $task )
+	private function act_wfuzz( $task )
 	{
 		return true;
 	}
