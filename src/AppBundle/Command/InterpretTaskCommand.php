@@ -811,6 +811,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$t_options['SSL'] = 's';
 				}
 
+				if( isset($t_options['PORT']) && ($t_options['PORT'] == 80 || $t_options['PORT'] == 443) ) {
+					unset( $t_options['PORT'] );
+				}
+ 
 				$flag = true;
 				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
@@ -897,6 +901,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 			if( isset($parse_url['port']) ) {
 				$t_options['PORT'] = $parse_url['port'];
+			}
+
+			if( isset($t_options['PORT']) && ($t_options['PORT'] == 80 || $t_options['PORT'] == 443) ) {
+				unset( $t_options['PORT'] );
 			}
 
 			$r = $container->get('entity_task')->create( $task->getEntity(), 'wpscan', $t_options );
