@@ -13,11 +13,11 @@ parameters:
     daemon_run_max_child: 5
     daemon_run_task_priority: []
     daemon_run_task_ignore: []
-
+    
     daemon:
         cluster:
             0: dev
-
+    
     recon:
         project: []
         server: []
