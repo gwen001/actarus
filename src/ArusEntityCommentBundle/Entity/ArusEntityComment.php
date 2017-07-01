@@ -3,6 +3,7 @@
 namespace ArusEntityCommentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ArusEntityCommentBundle\Entity\ArusEntityComment;
@@ -11,7 +12,7 @@ use ArusEntityCommentBundle\Entity\ArusEntityComment;
 /**
  * ArusEntityComment
  *
- * @ORM\Table(name="arus_entity_comment")
+ * @ORM\Table(name="arus_entity_comment", indexes={@Index(name="idx_entity_id", columns={"entity_id"})})
  * @ORM\Entity(repositoryClass="ArusEntityCommentBundle\Repository\ArusEntityCommentRepository")
  * @ORM\HasLifecycleCallbacks()
  */

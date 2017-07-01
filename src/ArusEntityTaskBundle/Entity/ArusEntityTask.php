@@ -3,6 +3,7 @@
 namespace ArusEntityTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
 use ArusProjectBundle\Entity\ArusProject;
 use ArusTaskBundle\Entity\ArusTask;
@@ -13,7 +14,7 @@ use Actarus\Utils;
 /**
  * ArusEntityTask
  *
- * @ORM\Table(name="arus_entity_task")
+ * @ORM\Table(name="arus_entity_task", indexes={@Index(name="idx_entity_id", columns={"entity_id"}),@Index(name="idx_status", columns={"status"})})
  * @ORM\Entity(repositoryClass="ArusEntityTaskBundle\Repository\ArusEntityTaskRepository")
  * @ORM\HasLifecycleCallbacks()
  */

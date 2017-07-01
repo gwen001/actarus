@@ -3,6 +3,7 @@
 namespace ArusEntityTechnologyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
 use ArusTechnologyBundle\Entity\ArusTechnology;
 
@@ -10,7 +11,7 @@ use ArusTechnologyBundle\Entity\ArusTechnology;
 /**
  * ArusEntityTechnology
  *
- * @ORM\Table(name="arus_entity_technology", uniqueConstraints={@ORM\UniqueConstraint(columns={"technology_id", "entity_id"})})
+ * @ORM\Table(name="arus_entity_technology", uniqueConstraints={@ORM\UniqueConstraint(columns={"technology_id", "entity_id"})}, indexes={@Index(name="idx_entity_id", columns={"entity_id"})})
  * @ORM\Entity(repositoryClass="ArusEntityTechnologyBundle\Repository\ArusEntityTechnologyRepository")
  * @ORM\HasLifecycleCallbacks()
  */

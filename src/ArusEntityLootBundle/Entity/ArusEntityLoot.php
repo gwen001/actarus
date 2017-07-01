@@ -3,13 +3,14 @@
 namespace ArusEntityLootBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 /**
  * ArusEntityLoot
  *
- * @ORM\Table(name="arus_entity_loot")
+ * @ORM\Table(name="arus_entity_loot", indexes={@Index(name="idx_entity_id", columns={"entity_id"})})
  * @ORM\Entity(repositoryClass="ArusEntityLootBundle\Repository\ArusEntityLootRepository")
  * @ORM\HasLifecycleCallbacks()
  */
