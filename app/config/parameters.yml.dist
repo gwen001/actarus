@@ -20,8 +20,8 @@ parameters:
     mailer_user: null
     mailer_password: null
     
-    secret: c7c3effd737a9a9a4e6455e74b191f5d6e15f393
-
+    secret: b7c3effd787a9a2a4e6475e71b191f5c6e15f394
+    
     contact_email: contact@example.com
     
     daemon_cluster_id: 0
