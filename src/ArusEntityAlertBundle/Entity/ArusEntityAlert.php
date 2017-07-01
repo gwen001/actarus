@@ -3,6 +3,7 @@
 namespace ArusEntityAlertBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ArusProjectBundle\Entity\ArusProject;
@@ -12,7 +13,7 @@ use ArusTaskBundle\Entity\Arus;
 /**
  * ArusEntityAlert
  *
- * @ORM\Table(name="arus_entity_alert")
+ * @ORM\Table(name="arus_entity_alert", indexes={@Index(name="idx_entity_id", columns={"entity_id"})})
  * @ORM\Entity(repositoryClass="ArusEntityAlertBundle\Repository\ArusEntityAlertRepository")
  * @ORM\HasLifecycleCallbacks()
  */
