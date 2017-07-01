@@ -2,8 +2,7 @@
 twig:
     globals:
         menu_extern:
-            link1: ["title1","link1"]
-            link2: ["title2","link2"]
+            lnk: ["title","link"]
 
 imports:
     -
