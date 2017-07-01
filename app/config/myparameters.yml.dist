@@ -20,7 +20,7 @@ parameters:
 
     recon:
         project: []
-        server: [nmap_full]
+        server: []
         domain: [whois]
         host: [host]
         request: []
