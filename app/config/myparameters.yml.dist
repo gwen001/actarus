@@ -1,0 +1,26 @@
+twig:
+    globals:
+        menu_extern:
+            link1: ["title1","link1"]
+            link2: ["title2","link2"]
+
+parameters:
+    contact_email: contact@example.com
+    
+    daemon_cluster_id: 0
+    daemon_interpret_max_child: 10
+    daemon_kill_max_child: 1
+    daemon_run_max_child: 5
+    daemon_run_task_priority: []
+    daemon_run_task_ignore: []
+
+    daemon:
+        cluster:
+            0: dev
+
+    recon:
+        project: []
+        server: [nmap_full]
+        domain: [whois]
+        host: [host]
+        request: []

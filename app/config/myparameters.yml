@@ -6,140 +6,21 @@ twig:
 
 parameters:
     contact_email: g@10degres.net
-    bin_path: /opt/bin/
-    attachments_path: /attachments/
-    results_per_page: 100
-    actarus_id: 1
-    actarus_entity_id: 157fb75461d2f3
+    
+    daemon_cluster_id: 0
+    daemon_interpret_max_child: 10
+    daemon_kill_max_child: 1
+    daemon_run_max_child: 4
+    daemon_run_task_priority: []
+    daemon_run_task_ignore: [41]
 
     daemon:
         cluster:
             0: dev
 
-    entity:
-        status:
-            0: new
-            1: nothing
-            2: ko
-            3: todo
-        type:
-            project: 1
-            server: 2
-            domain: 3
-            host: 4
-            request: 5
-        recon:
-            project: [s3_buckets,gitrob,altgithub]
-            server: [portscan_nc,srv_reco]
-            domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
-            host: [host]
-            request: [sqlmap_xss]
-
-    task:
-        max_duration: 120
-        status:
-            waiting: 0
-            reserved: 1
-            running: 2
-            finished: 3
-            cancelled: 4
-            postreserved: 11
-            interpreting: 12
-            interpreted: 13
-            manually delayed: 99
-        callback:
-            addAlert: [alert_level,text]
-            addComment: [text]
-            addTask: [task]
-            addTechnology: [technology,text]
-
-    alert:
-        level:
-            info: 0
-            low: 1
-            medium: 2
-            high: 3
-        class:
-            0: info
-            1: success
-            2: warning
-            3: danger
-        status:
-            new: 0
-            confirmed: 1
-            cancelled: 2
-
-    bucket:
-        status:
-            0: new
-            1: confirmed
-            2: ok
-            3: vulnerable
-
-    project:
-        status:
-            0: new
-            1: nothing
-            2: ko
-            3: todo
-            4: disable
-
-    server:
-        allowed_extension:
-            txt: .txt
-        status:
-            0: new
-            1: nothing
-            2: ko
-            3: todo
-            4: disable
-
-    domain:
-        allowed_extension:
-            txt: .txt
-        status:
-            0: new
-            1: nothing
-            2: ko
-            3: todo
-            4: disable
-
-    host:
-        allowed_extension:
-            txt: .txt
-        status:
-            0: new
-            1: nothing
-            2: ko
-            3: todo
-            4: disable
-
-    request:
-        default_port: 80
-        default_method: GET
-        http_protocol:
-            http: http
-            https: https
-        http_method:
-            GET: GET
-            POST: POST
-            PUT: PUT
-            DELETE: DELETE
-            HEAD: HEAD
-            OPTIONS: OPTIONS
-            TRACE: TRACE
-        import_format:
-            raw_txt: "Raw text (.txt with 1 url per line)"
-            bs_xml: "Burp Suite XML"
-            bs_xml64: "Burp Suite XML base64"
-        allowed_extension:
-            txt: .txt
-            xml: .xml
-        status:
-            0: new
-            1: tested
-
-    fortunes:
-        - Silence is golden.
-        - Get rich or die tryin!
-        - Root is a state of mind.
+    recon:
+        project: [s3_buckets,gitrob,altgithub]
+        server: [portscan_nc,srv_reco]
+        domain: [whois,dnsrecon_axfr,dnsrecon_brute,theharvester,sublist3r,subthreat,crtsh]
+        host: [host]
+        request: [sqlmap_xss]

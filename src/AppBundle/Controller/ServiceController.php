@@ -106,7 +106,7 @@ class ServiceController extends Controller
 	public function recon( $entity, $entity_type )
 	{
 		$cnt = 0;
-		$t_recon = $this->container->getParameter('entity')['recon'][$entity_type];
+		$t_recon = $this->container->getParameter('recon')[$entity_type];
 
 		foreach( $t_recon as $r ) {
 			$u = $this->container->get('entity_task')->create( $entity, $r );
