@@ -16,7 +16,7 @@ $config->consolePath = $config->actarusPath.'/app/console';
 $config->configPath  = $config->appPath.'/config';
 $config->logPath     = $config->appPath.'/logs';
 $config->loadParameters( $config->configPath.'/parameters.yml', 'parameters' );
-$config->loadParameters( $config->configPath.'/myparameters.yml', 'parameters' );
+$config->loadParameters( $config->configPath.'/act_parameters.yml', 'parameters' );
 $config->daemonDelay = 3000000; // 3 seconds
 $config->daemonChild = $config->parameters['daemon_interpret_max_child'];
 
