@@ -827,7 +827,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'act_wfuzz', $t_options );
