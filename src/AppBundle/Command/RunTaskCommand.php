@@ -93,16 +93,27 @@ class RunTaskCommand extends ContainerAwareCommand
 		$k = new \DateTime();
 		$k->add( date_interval_create_from_date_string($t->getTimeout().' minutes') );
 		$task->setKillAt( $k );
-
-		while( $process->isRunning() ) {
+		
+		$end_status = $t_status['finished'];
+		
+		while( $process->isRunning() )
+		{
 			$task->setOutput( $process->getOutput() );
 			$em->persist($task);
 			$em->flush();
-			usleep( 3000000 );
+			$a = $em->refresh( $task );
+
+			if( $task->getStatus() == $t_status['cancelled'] || $task->getKillAt()->format('U') <= time() ) {
+				$end_status = $t_status['cancelled'];
+				$container->get('entity_task')->kill( $task );
+				break;
+			}
+			
+			usleep( 2000000 ); // 2 secondes
 		}
 
 		$task->setOutput( $process->getOutput() );
-		$task->setStatus( $t_status['finished'] );
+		$task->setStatus( $end_status );
 		$task->setEndedAt( new \Datetime() );
 		$em->persist($task);
 		$em->flush();

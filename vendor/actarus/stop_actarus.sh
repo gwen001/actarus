@@ -13,5 +13,5 @@ fi
 cd $source_dir
 
 touch daemon_run_task.php.stop
-touch daemon_kill_task.php.stop
+#touch daemon_kill_task.php.stop
 touch daemon_interpret_task.php.stop

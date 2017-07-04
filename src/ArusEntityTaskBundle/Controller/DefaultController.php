@@ -245,7 +245,7 @@ class DefaultController extends Controller
 	public function deleteAction(Request $request, ArusEntityTask $task)
 	{
 		if( Utils::isAjax() ) {
-			$this->get('entity_task')->stop( $task, true );
+			$this->get('entity_task')->delete( $task );
 			$response = new Response( json_encode(array('error'=>0)) );
 			return $response;
 		} else {
@@ -253,7 +253,7 @@ class DefaultController extends Controller
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
-				$this->get('entity_task')->stop( $task, true );
+				$this->get('entity_task')->delete( $task );
 				$this->addFlash( 'success', 'Task deleted!' );
 			}
 

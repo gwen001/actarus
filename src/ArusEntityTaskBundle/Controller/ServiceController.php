@@ -139,53 +139,59 @@ class ServiceController extends Controller
 	}
 
 
-	public function stop( $task, $delete=false )
+	public function kill( $task )
+	{
+		$ps = 'pstree -ap -n '.$task->getPid();
+		exec( $ps, $output );
+		//var_dump( $output );
+		
+		if( !count($output) ) {
+			return false;
+		}
+		
+		$to_kill = [];
+		
+		foreach( $output as $k=>$line ) {
+			$tmp = explode( ',', $line );
+			$tmp2 = explode( ' ', $tmp[1] );
+			$to_kill[] = preg_replace( '#[^0-9]#', '', $tmp2[0]);
+		}
+		
+		$cmd = 'kill -9 '.implode( ' ', $to_kill ).' 2>/dev/null';
+		//echo $cmd."\n";
+		//exit();
+		exec( $cmd );
+		
+		return true;
+	}
+	
+	
+	public function stop( $task )
 	{
 		$em = $this->em;
+		$t_status = $this->container->getParameter('task')['status'];
 		
-		if( (int)$task->getPid() )
-		{
-			/*if( Utils::isCli() )
-			{
-				$ps = 'pstree -ap -n '.$task->getPid();
-				exec( $ps, $output );
-				//var_dump( $output );
-				
-				if( count($output) )
-				{
-					$to_kill = [];
-					
-					foreach( $output as $k=>$line ) {
-						$tmp = explode( ',', $line );
-						$tmp2 = explode( ' ', $tmp[1] );
-						$to_kill[] = $tmp2[0];
-					}
-					
-					$cmd = 'kill -9 '.implode( ' ', $to_kill ).' 2>/dev/null';
-					//echo $cmd."\n";
-					exec( $cmd );
-				}
-			} else*/
-			{
-				$entity = $this->get('app')->getEntityById( $task->getEntityId() );
-				$killer = $this->container->get('entity_task')->create( $entity, 'task_killer', ['TASKID'=>$task->getId(),'PID'=>$task->getPid()] );
-				$killer->setClusterId( $task->getClusterId() );
-				$em->persist($killer);
-				$em->flush();
-			}
-		}
+		$task->setStatus( $t_status['cancelled'] );
+		$em->persist( $task );
+		$em->flush();
+		
+		return true;
+	}
 
-		if( $delete ) {
-			$em->remove($task);
-			$em->flush();
-		} else {
-			$t_status = $this->container->getParameter('task')['status'];
-			$task->setStatus( $t_status['cancelled'] );
-			$task->setEndedAt( new \DateTime() );
-			$em->persist($task);
-			$em->flush();
-		}
+	
+	public function delete( $task )
+	{
+		$em = $this->em;
+		$t_status = $this->container->getParameter('task')['status'];
 
+		if( $task->getPid() && $task->getStatus() == $t_status['running'] ) {
+			$this->stop( $task );
+			usleep( 3000000 ); // 3 secondes
+		}
+		
+		$em->remove( $task );
+		$em->flush();
+		
 		return true;
 	}
 
