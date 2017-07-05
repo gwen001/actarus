@@ -103,7 +103,7 @@ class RunTaskCommand extends ContainerAwareCommand
 			$em->flush();
 			$a = $em->refresh( $task );
 
-			if( $task->getStatus() == $t_status['cancelled'] || $task->getKillAt()->format('U') <= time() ) {
+			if( $task->getStatus() == $t_status['cancelled'] || time() >= $task->getKillAt()->format('U') ) {
 				$end_status = $t_status['cancelled'];
 				$container->get('entity_task')->kill( $task );
 				break;
