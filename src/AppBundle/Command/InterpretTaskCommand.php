@@ -244,6 +244,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	/*****************************************************/
 	/* post functions                                    */
 	/*****************************************************/
+	private function dirb_forbidden( $task )
+	{
+		return $this->dirb( $task );
+	}
 	private function dirb_myhardw( $task )
 	{
 		return $this->dirb( $task );

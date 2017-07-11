@@ -141,8 +141,8 @@ class ServiceController extends Controller
 
 	public function kill( $task )
 	{
-		//$ps = 'pstree -ap -n '.$task->getPid();
-		$ps = 'pstree -ap -n '.$task->getRealPid();
+		$ps = 'pstree -ap -n '.$task->getPid();
+		//$ps = 'pstree -ap -n '.$task->getRealPid();
 		exec( $ps, $output );
 		//var_dump( $output );
 		
