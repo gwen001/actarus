@@ -30,6 +30,7 @@ class ArusEntityTaskEditType extends AbstractType
 			->add( 'output', TextareaType::class, ['required'=>false] )
 			->add( 'status', ChoiceType::class, ['choices'=>$this->options['t_status']] )
 			->add( 'command', TextType::class, ['constraints'=>[new NotBlank()]] )
+			->add( 'priority', TextType::class, ['constraints'=>[new NotBlank()]] )
 		;
     }
 }

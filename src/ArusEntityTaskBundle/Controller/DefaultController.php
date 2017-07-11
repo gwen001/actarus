@@ -134,7 +134,7 @@ class DefaultController extends Controller
 		$form->handleRequest( $request );
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->get('entity_task')->create( $task->getEntityId(), $task->getTask()->getName(), [], $task->getCommand() );
+			$this->get('entity_task')->create( $task->getEntityId(), $task->getTask()->getName(), [], $task->getCommand(), $task->getPriority() );
 			$this->addFlash( 'success', 'New task added!' );
 			return $this->redirect( $request->server->get('HTTP_REFERER') );
 		}

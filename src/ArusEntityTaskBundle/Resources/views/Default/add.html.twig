@@ -9,11 +9,15 @@
                 {{ form_start(task_add_form,{'attr':{'class':'form-horizontal'}}) }}
                     {{ form_row(task_add_form._token) }}
                     {{ form_widget(task_add_form.entity_id,{'attr':{'value':entity.getEntityId()}}) }}
-                    <div style="margin-bottom:15px;">
+                    <div style="margin-bottom:5px;">
                         {{ form_widget(task_add_form.task,{'attr':{'class':'form-control'}}) }}
                     </div>
-                    <div>
+                    <div style="margin-bottom:5px;">
                         {{ form_widget(task_add_form.command,{'attr':{'class':'form-control','placeholder':'Linux command here...'}}) }}
+                    </div>
+                    <div>
+                    	{{ form_label(task_add_form.priority,'Priority *',{'label_attr':{'class':'control-label','style':'float:left;'}}) }}
+                        <div class="col-sm-3">{{ form_widget(task_add_form.priority,{'attr':{'class':'form-control','value':'1'}}) }}</div>
                     </div>
                 {{ form_end(task_add_form) }}
             </div>

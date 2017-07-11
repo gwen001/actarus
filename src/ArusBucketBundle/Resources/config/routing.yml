@@ -1,3 +1,8 @@
 bucket_homepage:
     path:     /bucket
     defaults: { _controller: "ArusBucketBundle:Default:index" }
+
+bucket_import:
+    path:     /bucket/import/{project_id}
+    defaults: { _controller: "ArusBucketBundle:Default:import", project_id: 0 }
+    methods:  [GET, POST]

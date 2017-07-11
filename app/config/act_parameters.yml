@@ -87,6 +87,8 @@ parameters:
             1: tested
     
     bucket:
+        allowed_extension:
+            txt: .txt
         status:
             0: new
             1: confirmed

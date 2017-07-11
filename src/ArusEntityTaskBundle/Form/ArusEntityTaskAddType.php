@@ -5,6 +5,7 @@ namespace ArusEntityTaskBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\EntityType;
@@ -30,6 +31,7 @@ class ArusEntityTaskAddType extends AbstractType
         $builder
 			->add( 'entity_id', HiddenType::class )
 			->add( 'command', TextareaType::class, ['constraints'=>[new NotBlank()]] )
+			->add( 'priority', TextType::class, ['constraints'=>[new NotBlank()]] )
 			->add( 'task', 'entity', array(
 					'empty_data'  => null,
 					'empty_value' => 'Choose the type of the task',
