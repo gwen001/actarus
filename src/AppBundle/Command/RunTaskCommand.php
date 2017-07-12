@@ -94,6 +94,7 @@ class RunTaskCommand extends ContainerAwareCommand
 		$k->add( date_interval_create_from_date_string($t->getTimeout().' minutes') );
 		$task->setKillAt( $k );
 		
+		$killme = false;
 		$end_status = $t_status['finished'];
 		
 		while( $process->isRunning() )
@@ -104,7 +105,9 @@ class RunTaskCommand extends ContainerAwareCommand
 			$a = $em->refresh( $task );
 
 			if( $task->getStatus() == $t_status['cancelled'] || time() >= $task->getKillAt()->format('U') ) {
-				$end_status = $t_status['cancelled'];
+				$killme = true;
+				//$end_status = $t_status['cancelled'];
+				$end_status = $t_status['finished'];
 				break;
 			}
 			
@@ -119,7 +122,7 @@ class RunTaskCommand extends ContainerAwareCommand
 
         $logger->info( 'task ended (id='.$task->getId().')' );
 
-        if( $end_status == $t_status['cancelled'] ) {
+        if( $killme || $end_status == $t_status['cancelled'] ) {
 			$container->get('entity_task')->kill( $task );
 		}
 		
