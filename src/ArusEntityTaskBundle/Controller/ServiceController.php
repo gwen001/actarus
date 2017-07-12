@@ -188,7 +188,7 @@ class ServiceController extends Controller
 
 		if( $task->getPid() && $task->getStatus() == $t_status['running'] ) {
 			$this->stop( $task );
-			usleep( 3000000 ); // 3 secondes
+			usleep( 2000000 ); // 3 secondes
 		}
 		
 		$em->remove( $task );
