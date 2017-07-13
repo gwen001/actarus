@@ -503,7 +503,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$entity = $task->getEntity();
 		//$m = preg_match_all( '#([0-9]+)/tcp[\s]+open[\s]+([^\s]*)(.*)\n#', $output, $match );
-		$m = preg_match_all( '#([0-9]+)/([^\s]*)[\s]+open[\s]+([^\s]*)[\s]+(.*)\n#', $output, $matches );
+		$m = preg_match_all( '#([0-9]+)/([^\s]*)[ ]+open[ ]+([^\s]*)([ ]+(.*))?#', $output, $matches );
+		//var_dump( $matches );
 
 		if( $m )
 		{
