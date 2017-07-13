@@ -173,7 +173,8 @@ class ServiceController extends Controller
 		$em = $this->em;
 		$t_status = $this->container->getParameter('task')['status'];
 		
-		$task->setStatus( $t_status['cancelled'] );
+		//$task->setStatus( $t_status['cancelled'] );
+		$task->setStatus( $t_status['finished'] );
 		$em->persist( $task );
 		$em->flush();
 		
