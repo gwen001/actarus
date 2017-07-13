@@ -997,6 +997,55 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	
 	private function act_wfuzz( $task )
 	{
-		return true;
+		$cnt = 0;
+		$em = $this->em;
+		$container = $this->container;
+		$output = trim( $task->getOutput() );
+		list($tmp, $origin, $tmp) = explode(  ' ', $task->getCommand() );
+		//var_dump($origin);
+
+		$t = $em->getRepository('ArusTaskBundle:ArusTask')->findOneByName( 'dirb' );
+		$t_callback = $em->getRepository('ArusTaskCallbackBundle:ArusTaskCallback')->findByTask( $t, ['priority'=>'asc'] );
+
+		foreach( $t_callback as $c )
+		{
+			$cc = clone $c;
+			
+			if( ($a=preg_match( '#[0-9]+:[\s]+C=([0-9]+)[\s]+([0-9]+) L[\s]+([0-9]+) W[\s]+([0-9]+) Ch[\s]+"('.$cc->getRegex().')"#i',$output,$match)) )
+			{
+				//var_dump( $match );
+				$code   = (int)$match[1];
+				$size   = (int)$match[2];
+				$words  = (int)$match[3];
+				$chars  = (int)$match[4];
+				$term   = trim( $match[5] );
+
+				if( $code < 200 || $code > 299 || !$size ) {
+					continue;
+				}
+				
+				$cnt++;
+				$term = trim( $match[5] );
+				$url = $origin . '/' . $term;
+				$t_params = $cc->getParams();
+	
+				if (isset($t_params['text']) && trim($t_params['text']) != '') {
+					$text = $t_params['text'];
+					$text = str_replace('__URL__', $url, $text);
+					$text = str_replace('__TERM__', $term, $text);
+					$text = str_replace('__CODE__', $code, $text);
+					$text = str_replace('__SIZE__', $size, $text);
+					$t_params['text'] = $text;
+					$cc->setParams($t_params);
+				}
+	
+				$f = $cc->getAction();
+				if (is_callable([$this, $f])) {
+					$this->$f($task, $cc);
+				}
+			}
+		}
+		
+		return $cnt;
 	}
 }
