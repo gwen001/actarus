@@ -617,6 +617,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function act_fuzzbucket( $task )
+	{
+		return $this->s3_buckets( $task );
+	}
 	private function altbucket( $task )
 	{
 		return $this->s3_buckets( $task );
@@ -1011,7 +1015,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		{
 			$cc = clone $c;
 			
-			if( ($a=preg_match( '#[0-9]+:[\s]+C=([0-9]+)[\s]+([0-9]+) L[\s]+([0-9]+) W[\s]+([0-9]+) Ch[\s]+"('.$cc->getRegex().')"#i',$output,$match)) )
+			if( ($a=preg_match('#[0-9]+:[\s]+C=([0-9]+)[\s]+([0-9]+) L[\s]+([0-9]+) W[\s]+([0-9]+) Ch[\s]+"('.$cc->getRegex().')"#i',$output,$match)) )
 			{
 				//var_dump( $match );
 				$code   = (int)$match[1];
