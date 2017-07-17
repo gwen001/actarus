@@ -200,4 +200,31 @@ class Utils
 	{
 		return !preg_match( '#[^0-9]#', $str );
 	}
+	
+	
+	public function killProcess( $pid )
+	{
+		$ps = 'pstree -ap -n '.$pid;
+		exec( $ps, $output );
+		//var_dump( $output );
+		
+		if( !count($output) ) {
+			return false;
+		}
+		
+		$to_kill = [];
+		
+		foreach( $output as $k=>$line ) {
+			$tmp = explode( ',', $line );
+			$tmp2 = explode( ' ', $tmp[1] );
+			$to_kill[] = preg_replace( '#[^0-9]#', '', $tmp2[0]);
+		}
+		
+		$cmd = 'kill -9 '.implode( ' ', $to_kill ).' 2>/dev/null';
+		//echo $cmd."\n";
+		//exit();
+		exec( $cmd );
+		
+		return true;
+	}
 }

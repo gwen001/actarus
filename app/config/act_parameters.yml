@@ -102,6 +102,7 @@ parameters:
             running: 2
             finished: 3
             cancelled: 4
+            tokill: 5
             postreserved: 11
             interpreting: 12
             interpreted: 13
