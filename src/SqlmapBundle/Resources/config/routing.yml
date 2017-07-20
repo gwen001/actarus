@@ -1,3 +1,0 @@
-#sqlmap_homepage:
-#    path:     /
-#    defaults: { _controller: SqlmapBundle:Default:index }
