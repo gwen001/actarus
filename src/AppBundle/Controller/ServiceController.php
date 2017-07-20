@@ -161,6 +161,7 @@ class ServiceController extends Controller
 		//$em->getRepository('ArusEntityLootBundle:ArusEntityLoot')->deleteEntity( $entity );
 		$em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->deleteEntity( $entity );
 		$em->getRepository('ArusEntityAttachmentBundle:ArusEntityAttachment')->deleteEntity( $entity );
+		$em->getRepository('ArusEntityTechnologyBundle:ArusEntityTechnology')->deleteEntity( $entity );
 
 		return true;
 	}

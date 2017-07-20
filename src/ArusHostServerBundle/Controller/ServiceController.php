@@ -55,7 +55,7 @@ class ServiceController extends Controller
 	}
 
 
-	public function import( $t_host_server )
+	public function import( $project, $t_host_server )
 	{
 		set_time_limit( 0 );
 
@@ -63,7 +63,7 @@ class ServiceController extends Controller
 
 		foreach( $t_host_server as $hs )
 		{
-			$t_hs = $this->getHostServer( $hs['host'], $hs['server'] );
+			$t_hs = $this->getHostServer( $project, $hs['host'], $hs['server'] );
 			if( !$t_hs ) {
 				continue;
 			}
@@ -81,16 +81,20 @@ class ServiceController extends Controller
 	}
 
 
-	public function getHostServer( $host, $server )
+	public function getHostServer( $project, $host, $server )
 	{
 		if( !is_object($host) && !is_object($server) )
 		{
 			if( Utils::isInt($host) && Utils::isInt($server) ) {
-				$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneById( $host );
-				$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneById( $server );
+				//$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneById( $host );
+				$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneBy( ['project'=>$project,'id'=>$host] );
+				//$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneById( $server );
+				$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneById( ['project'=>$project,'id'=>$server] );
 			} else {
-				$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneByName( $host );
-				$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneByName( $server );
+				//$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneByName( $host );
+				$host = $this->em->getRepository('ArusHostBundle:ArusHost')->findOneBy( ['project'=>$project,'name'=>$host] );
+				//$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneByName( $server );
+				$server = $this->em->getRepository('ArusServerBundle:ArusServer')->findOneBy( ['project'=>$project,'name'=>$server] );
 			}
 		}
 		

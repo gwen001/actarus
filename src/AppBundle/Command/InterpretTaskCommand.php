@@ -422,8 +422,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 						// alias but in the same project
 						$is_alias = 1;
                     	$t_host[] = $m[2];
+					} elseif( Utils::isWhiteListed($m[2]) ) {
+						$is_alias = -2;
 					} else {
-						// external alias
 						$is_alias = -1;
 					}
 				}
@@ -432,6 +433,11 @@ class InterpretTaskCommand extends ContainerAwareCommand
                     $t_host[] = $m[1];
 					$t_server[] = $m[2];
 					$t_link[] = [ 'host'=>$m[1], 'server'=>$m[2] ];
+					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
+				} elseif( Utils::isWhiteListed($m[1]) ) {
+                    //$t_host[] = $m[1];
+					$t_server[] = $m[2];
+					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
 				}
 			} elseif( preg_match('#(.*) mail is handled by [0-9]+ (.*)#', $l, $m) ) {
 				if( $container->get('domain')->sameProject($domain,$m[1]) ) {
@@ -443,10 +449,11 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 
-//		var_dump($t_server);
-//		var_dump($t_link);
-//		var_dump($is_alias);
-//		exit();
+		//var_dump( $t_host );
+		//var_dump( $t_server );
+		//var_dump( $t_link );
+		//var_dump( $is_alias );
+		//exit();
 
 		if( count($t_host) ) {
 			$t_host = array_diff( $t_host, [$entity->getName()] );
@@ -469,20 +476,36 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( count($t_link) ) {
 			// add host/server links
-			$container->get('host_server')->import( $t_link );
+			$container->get('host_server')->import( $domain->getProject(), $t_link );
 		}
 
-		if( $is_alias == 0 ) {
-			// the host is not an alias
-			$container->get('entity_task')->create( $task->getEntity(), 'testhttp' );
-		} else if( $is_alias < 0 ) {
-			// the host is an alias of a domain not in the project, third party there
-			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
-			$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
-		} else {
-			// the host is an alias of a domain of the same project
-			// nothing
+		switch( $is_alias )
+		{
+			case 1:
+				// the host is an alias of a domain of the same project
+				// nothing
+				break;
+				
+			case -1:
+				// the host is an alias of a domain not in the project, third party service there
+				$t_alert_level = $container->getParameter('alert')['level'];
+				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
+				break;
+				
+			case -2:
+				// the host is an alias of a domain not in the project (third party service) but whitelisted
+				$t_alert_level = $container->getParameter('alert')['level'];
+				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
+				$container->get('entity_task')->create( $task->getEntity(), 'testhttp' );
+				break;
+				
+			case 0:
+			default;
+				// the host is not an alias
+				$container->get('entity_task')->create( $task->getEntity(), 'testhttp' );
+				break;
 		}
 
 		return $cnt;
@@ -837,7 +860,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'act_wfuzz', $t_options );
 			}

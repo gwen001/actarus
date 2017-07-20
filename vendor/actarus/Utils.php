@@ -227,4 +227,14 @@ class Utils
 		
 		return true;
 	}
+	
+	
+	public function isWhiteListed( $domain )
+	{
+		$t_whitelist = [ 'cloudfront.net' ];
+		$domain = self::extractDomain( $domain );
+		//var_dump( $domain );
+		
+		return in_array($domain,$t_whitelist);
+	}
 }
