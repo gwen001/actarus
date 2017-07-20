@@ -28,6 +28,7 @@ class ArusEntityTechnology
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="ArusTechnologyBundle\Entity\ArusTechnology")
+	 * @ORM\JoinColumn(name="technology_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $technology;
