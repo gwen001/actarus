@@ -29,6 +29,7 @@ class ArusEntityAttachment
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="attachments")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $project;

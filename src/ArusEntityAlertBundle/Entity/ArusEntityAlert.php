@@ -30,6 +30,7 @@ class ArusEntityAlert
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="alerts")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $project;

@@ -27,6 +27,7 @@ class ArusServerService
 
     /**
      * @ORM\ManyToOne(targetEntity="ArusServerBundle\Entity\ArusServer", inversedBy="services")
+	 * @ORM\JoinColumn(name="server_id", referencedColumnName="id", onDelete="CASCADE")
      * @ORM\JoinColumn(nullable=false)
      */
     private $server;

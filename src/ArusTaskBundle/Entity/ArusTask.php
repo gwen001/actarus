@@ -71,7 +71,7 @@ class ArusTask
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusTaskCallbackBundle\Entity\ArusTaskCallback", cascade={"remove"}, mappedBy="task")
+	 * @ORM\OneToMany(targetEntity="ArusTaskCallbackBundle\Entity\ArusTaskCallback", mappedBy="task")
 	 */
 	private $callbacks;
 

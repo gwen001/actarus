@@ -28,6 +28,7 @@ class ArusTaskCallback
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="ArusTaskBundle\Entity\ArusTask", inversedBy="callbacks")
+	 * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $task;

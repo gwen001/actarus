@@ -27,13 +27,15 @@ class ArusHostServer
     private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ArusHostBundle\Entity\ArusHost", cascade={"remove"}, inversedBy="hostservers")
+	 * @ORM\ManyToOne(targetEntity="ArusHostBundle\Entity\ArusHost", inversedBy="hostservers")
+	 * @ORM\JoinColumn(name="host_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $host;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ArusServerBundle\Entity\ArusServer", cascade={"remove"}, inversedBy="hostservers")
+	 * @ORM\ManyToOne(targetEntity="ArusServerBundle\Entity\ArusServer", inversedBy="hostservers")
+	 * @ORM\JoinColumn(name="server_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $server;

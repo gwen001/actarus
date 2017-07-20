@@ -45,6 +45,7 @@ class ArusServer
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="servers")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $project;
@@ -87,14 +88,14 @@ class ArusServer
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusServerServiceBundle\Entity\ArusServerService", cascade={"persist","remove"}, mappedBy="server")
+	 * @ORM\OneToMany(targetEntity="ArusServerServiceBundle\Entity\ArusServerService", mappedBy="server")
 	 */
 	private $services;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusHostServerBundle\Entity\ArusHostServer", cascade={"persist","remove"}, mappedBy="server")
+	 * @ORM\OneToMany(targetEntity="ArusHostServerBundle\Entity\ArusHostServer", mappedBy="server")
 	 */
 	private $hostservers;
 

@@ -34,6 +34,13 @@ class ArusRequest
     private $id;
 	
 	/**
+	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="requests")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+    private $project;
+	
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="entity_id", type="string", length=64, unique=true)
@@ -47,12 +54,6 @@ class ArusRequest
 	 */
 	private $sign;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="requests")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-    private $project;
-	
 	/**
 	 * @var string
 	 *

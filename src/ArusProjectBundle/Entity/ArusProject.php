@@ -85,49 +85,49 @@ class ArusProject
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusBucketBundle\Entity\ArusBucket", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusBucketBundle\Entity\ArusBucket", mappedBy="project")
 	 */
 	private $buckets;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusServerBundle\Entity\ArusServer", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusServerBundle\Entity\ArusServer", mappedBy="project")
 	 */
 	private $servers;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusDomainBundle\Entity\ArusDomain", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusDomainBundle\Entity\ArusDomain", mappedBy="project")
 	 */
 	private $domains;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", cascade={"persist","remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", mappedBy="project")
 	 */
 	private $hosts;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusRequestBundle\Entity\ArusRequest", cascade={"persist","remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusRequestBundle\Entity\ArusRequest", mappedBy="project")
 	 */
 	private $requests;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusEntityAlertBundle\Entity\ArusEntityAlert", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusEntityAlertBundle\Entity\ArusEntityAlert", mappedBy="project")
 	 */
 	private $alerts;
 
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusEntityTaskBundle\Entity\ArusEntityTask", cascade={"remove"}, mappedBy="project")
+	 * @ORM\OneToMany(targetEntity="ArusEntityTaskBundle\Entity\ArusEntityTask", mappedBy="project")
 	 */
 	private $tasks;
 

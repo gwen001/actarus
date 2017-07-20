@@ -44,6 +44,7 @@ class ArusDomain
 
     /**
      * @ORM\ManyToOne(targetEntity="ArusProjectBundle\Entity\ArusProject", inversedBy="domains")
+	 * @ORM\JoinColumn(name="project_id", referencedColumnName="id", onDelete="CASCADE")
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
@@ -79,7 +80,7 @@ class ArusDomain
 	/**
 	 * @var ArrayCollection
 	 *
-	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", cascade={"remove"}, mappedBy="domain")
+	 * @ORM\OneToMany(targetEntity="ArusHostBundle\Entity\ArusHost", mappedBy="domain")
 	 */
 	private $hosts;
 
