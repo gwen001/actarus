@@ -138,7 +138,7 @@ class ServiceController extends Controller
 			$entity->setEntityAttachments( array_fill(0, $attachment, null) );
 		} else {
 			$entity->setEntityAlerts( $alert );
-""			$entity->setEntityTasks( $task );
+			$entity->setEntityTasks( $task );
 			$entity->setEntityTechnologies( $technology );
 			$entity->setEntityAttachments( $attachment );
 		}
