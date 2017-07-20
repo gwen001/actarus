@@ -96,9 +96,6 @@
 	                                    {% set aclass = aclass~' alert_level_'~h.getMaxAlertLevel()[0] %}
 	                                    <i class="fa {{ aclass }}"></i>
                                         <a href="{{ path('host_show', { 'id': h.getId() }) }}" class="{{ class }}">{{ h.getName() }}</a>
-                                        {% if h.getEntityComments()|length %}
-                                            <i class="fa fa-commenting-o"></i>
-                                        {% endif %}
                                     </td>
                                     <td>
                                     	{% if h.getHostServers()|length %}

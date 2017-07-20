@@ -112,9 +112,6 @@
 		                                {% set aclass = aclass~' alert_level_'~s.getMaxAlertLevel()[0] %}
 		                                <i class="fa {{ aclass }}"></i>
                                         <a href="{{ path('server_show', { 'id': s.getId() }) }}" class="{{ class }}">{{ s.getName() }}</a>
-                                        {% if s.getEntityComments()|length %}
-                                            <i class="fa fa-commenting-o"></i>
-                                        {% endif %}
                                     </td>
                                     <td>{{ s.getAlias()|default('-') }}</td>
                                     <td>

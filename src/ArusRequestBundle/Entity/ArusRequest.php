@@ -160,16 +160,6 @@ class ArusRequest
 	/**
 	 * @var ArrayCollection
 	 */
-	private $entityComments;
-
-	/**
-	 * @var ArrayCollection
-	 */
-	private $entityLoots;
-
-	/**
-	 * @var ArrayCollection
-	 */
 	private $entityTasks;
 
 	/**
@@ -194,8 +184,6 @@ class ArusRequest
 		$this->status = 0;
 
 		$this->entityAlerts       = new ArrayCollection();
-		$this->entityComments     = new ArrayCollection();
-		$this->entityLoots        = new ArrayCollection();
 		$this->entityTasks        = new ArrayCollection();
 		$this->entityTechnologies = new ArrayCollection();
 		$this->entityAttachments = new ArrayCollection();
@@ -674,22 +662,6 @@ class ArusRequest
 	}
 	public function setEntityAlerts($alerts) {
 		$this->entityAlerts = $alerts;
-		return $this;
-	}
-
-	public function getEntityComments() {
-		return $this->entityComments;
-	}
-	public function setEntityComments($comments) {
-		$this->entityComments = $comments;
-		return $this;
-	}
-
-	public function getEntityLoots() {
-		return $this->entityLoots;
-	}
-	public function setEntityLoots($loots) {
-		$this->entityLoots = $loots;
 		return $this;
 	}
 

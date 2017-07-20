@@ -15,9 +15,6 @@ use ArusProjectBundle\Form\ArusProjectQuickEditType;
 
 use ArusServerBundle\Entity\Search;
 
-use ArusCommentBundle\Entity\ArusComment;
-use ArusCommentBundle\Form\ArusCommentType;
-
 
 class DefaultController extends Controller
 {

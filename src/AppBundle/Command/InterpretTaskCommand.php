@@ -17,7 +17,6 @@ use ArusHostBundle\Entity\ArusHost;
 use ArusServerBundle\Entity\ArusServer;
 use ArusServerServiceBundle\Entity\ArusServerService;
 use ArusEntityAlertBundle\Entity\ArusEntityAlert;
-use ArusEntityCommentBundle\Entity\ArusEntityComment;
 use ArusEntityTaskBundle\Entity\ArusEntityTask;
 use ArusEntityTechnologyBundle\Entity\ArusEntityTechnology;
 
@@ -173,23 +172,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_params = $callback->getParams();
 		$container = $this->container;
 		$container->get('entity_alert')->create( $task->getEntity(), $t_params['text'], $t_params['alert_level'] );
-
-		return true;
-	}
-
-
-	/**
-	 * Add a comment to an entity
-	 *
-	 * @param ArusEntityTask $task
-	 * @param ArusTaskCallback $callback
-	 * @return bool true
-	 */
-	private function addComment( $task, $callback )
-	{
-		$t_params = $callback->getParams();
-		$container = $this->container;
-		$container->get('entity_comment')->create( $task->getEntity(), $t_params['text'] );
 
 		return true;
 	}

@@ -97,9 +97,6 @@
 		                                {% set aclass = aclass~' alert_level_'~d.getMaxAlertLevel()[0] %}
 		                                <i class="fa {{ aclass }}"></i>
                                         <a href="{{ path('domain_show', { 'id': d.getId() }) }}" class="{{ class }}">{{ d.getName() }}</a>
-                                        {% if d.getEntityComments()|length %}
-                                            <i class="fa fa-commenting-o"></i>
-                                        {% endif %}
                                     </td>
                                     <td align="center">{{ d.getHosts()|length }}</td>
                                     <td align="center">{% if d.getCreatedAt() %}{{ d.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>

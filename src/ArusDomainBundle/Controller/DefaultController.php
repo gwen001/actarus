@@ -19,9 +19,6 @@ use ArusDomainBundle\Form\SearchType;
 use ArusEntityTaskBundle\Entity\ArusEntityTask;
 use ArusEntityTaskBundle\Entity\Search as EntityTaskSearch;
 
-use ArusCommentBundle\Entity\ArusComment;
-use ArusCommentBundle\Form\ArusCommentType;
-
 
 class DefaultController extends Controller
 {
@@ -236,20 +233,5 @@ class DefaultController extends Controller
 		->setMethod('DELETE')
 		->getForm()
 			;
-	}
-
-
-	public function getCommentsAction(Request $request, ArusDomain $domain)
-	{
-		$em = $this->getDoctrine()->getManager();
-
-		$search = new CommentSearch();
-		$search->setEntityId( $domain->getEntityId() );
-		$t_comment = $em->getRepository('ArusCommentBundle:ArusComment')->search( $search );
-		$domain->setComments( $t_comment );
-
-		return $this->render('ArusDomainBundle:Default:comments.html.twig', array(
-			'domain' => $domain,
-		));
 	}
 }

@@ -3,7 +3,6 @@
 namespace ArusHostBundle\Repository;
 
 use ArusEntityAlertBundle\Entity\Search as EntityAlertSearch;
-use ArusEntityCommentBundle\Entity\Search as EntityCommentSearch;
 use ArusEntityTaskBundle\Entity\Search as EntityTaskSearch;
 
 use ArusEntityTechnologyBundle\Entity\ArusEntityTechnology;
@@ -105,16 +104,6 @@ class ArusHostRepository extends \Doctrine\ORM\EntityRepository
 
 
 	public function getTasks( $host )
-	{
-		$search = new EntityTaskSearch();
-		$search->setEntityId( $host->getEntityId() );
-		$t_task = $this->_em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->search( $search );
-
-		return $t_task;
-	}
-
-
-	public function getComments( $host )
 	{
 		$search = new EntityTaskSearch();
 		$search->setEntityId( $host->getEntityId() );

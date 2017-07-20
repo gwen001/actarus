@@ -109,7 +109,6 @@ parameters:
             manually delayed: 99
         callback:
             addAlert: [alert_level,text]
-            addComment: [text]
             addTask: [task]
             addTechnology: [technology,text]
     

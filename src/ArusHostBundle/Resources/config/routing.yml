@@ -41,8 +41,3 @@ host_getinfo:
     path:     /host/getinfo
     defaults: { _controller: "ArusHostBundle:Default:getInfo", _format:"json" }
     methods:  POST
-
-host_getcomments:
-    path:     /host/{id}/getcomments
-    defaults: { _controller: "ArusHostBundle:Default:getComments" }
-    methods:  GET

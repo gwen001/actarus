@@ -32,9 +32,6 @@ use ArusEntityAlertBundle\Form\ArusEntityAlertType;
 use ArusEntityTechnologyBundle\Entity\ArusEntityTechnology;
 use ArusEntityTechnologyBundle\Form\ArusEntityTechnologyType;
 
-use ArusCommentBundle\Entity\ArusComment;
-use ArusCommentBundle\Form\ArusCommentType;
-
 
 class DefaultController extends Controller
 {
