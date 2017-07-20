@@ -30,10 +30,6 @@ entity_technology:
     resource: "@ArusEntityTechnologyBundle/Resources/config/routing.yml"
     prefix:   /
 
-entity_loot:
-    resource: "@ArusEntityLootBundle/Resources/config/routing.yml"
-    prefix:   /
-
 entity_alert:
     resource: "@ArusEntityAlertBundle/Resources/config/routing.yml"
     prefix:   /
@@ -50,10 +46,6 @@ entity_task:
     resource: "@ArusEntityTaskBundle/Resources/config/routing.yml"
     prefix:   /
 
-entity_comment:
-    resource: "@ArusEntityCommentBundle/Resources/config/routing.yml"
-    prefix:   /
-
 server:
     resource: "@ArusServerBundle/Resources/config/routing.yml"
     prefix:   /
@@ -64,10 +56,6 @@ domain:
 
 host:
     resource: "@ArusHostBundle/Resources/config/routing.yml"
-    prefix:   /
-
-sqlmap:
-    resource: "@SqlmapBundle/Resources/config/routing.yml"
     prefix:   /
 
 settings:
