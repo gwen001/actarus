@@ -743,10 +743,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$subthreat = $container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
 		
 		if( !$altdns && !$subthreat ) {
-	        $this->container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
+	        $container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
 		}
 		if( !$altdns && !$s3bucket && !$subthreat ) {
-			$this->container->get('entity_task')->create( $project, 'altbucket' );
+			$container->get('entity_task')->create( $project, 'altbucket' );
 		}
 
         return $n;
