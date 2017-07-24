@@ -733,8 +733,22 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	private function altdns( $task )
 	{
         $n = $this->subthreat( $task );
+        
+        $container = $this->container;
         $domain = $task->getEntity();
-        $this->container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
+        $project = $domain->getProject();
+        
+		$altdns = $container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
+		$s3bucket = $container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
+		$subthreat = $container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
+		
+		if( !$altdns && !$subthreat ) {
+	        $this->container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
+		}
+		if( !$altdns && !$s3bucket && !$subthreat ) {
+			$this->container->get('entity_task')->create( $project, 'altbucket' );
+		}
+
         return $n;
 	}
 	private function crtsh( $task )
@@ -756,7 +770,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$domain = $task->getEntity();
 		$domain_name = $domain->getName();
-        $project = $domain->getProject();
 
 		foreach( $tmp_host as $h ) {
 			$h = trim( $h );
@@ -773,14 +786,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( $cnt ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
 			$container->get('entity_alert')->create($domain, $cnt.' new host added.', $t_alert_level['info']);
-		}
-
-		$altdns = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
-		$s3bucket = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
-		$subthreat = $this->container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
-		
-		if( !$altdns && !$s3bucket && !$subthreat ) {
-			$this->container->get('entity_task')->create( $project, 'altbucket' );
 		}
 
 		return $cnt;
