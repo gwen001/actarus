@@ -733,6 +733,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	private function altdns( $task )
 	{
         $n = $this->subthreat( $task );
+        $domain = $task->getEntity();
+        $this->container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
         return $n;
 	}
 	private function crtsh( $task )
