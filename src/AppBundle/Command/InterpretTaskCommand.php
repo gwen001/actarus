@@ -226,6 +226,32 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	/*****************************************************/
 	/* post functions                                    */
 	/*****************************************************/
+	private function altdns( $task )
+	{
+        $n = $this->subthreat( $task );
+        
+        $container = $this->container;
+        $domain = $task->getEntity();
+        $project = $domain->getProject();
+        
+		$altdns = $container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
+		$s3bucket = $container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
+		$subthreat = $container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
+		
+		if( !$altdns && !$s3bucket && !$subthreat ) {
+			$container->get('entity_task')->create( $project, 'altbucket' );
+		}
+
+        return $n;
+	}
+
+	
+	private function crtsh( $task )
+	{
+        return $this->subthreat( $task );
+	}
+	
+	
 	private function dirb_forbidden( $task )
 	{
 		return $this->dirb( $task );
@@ -730,31 +756,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
-	private function altdns( $task )
-	{
-        $n = $this->subthreat( $task );
-        
-        $container = $this->container;
-        $domain = $task->getEntity();
-        $project = $domain->getProject();
-        
-		$altdns = $container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
-		$s3bucket = $container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
-		$subthreat = $container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
-		
-		if( !$altdns && !$subthreat ) {
-	        $container->get('entity_task')->create( $domain, 'act_aquatone_takeover' );
-		}
-		if( !$altdns && !$s3bucket && !$subthreat ) {
-			$container->get('entity_task')->create( $project, 'altbucket' );
-		}
-
-        return $n;
-	}
-	private function crtsh( $task )
-	{
-        return $this->subthreat( $task );
-	}
 	private function subthreat( $task )
 	{
 		$output = trim( $task->getOutput() );
