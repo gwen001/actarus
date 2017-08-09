@@ -137,7 +137,7 @@ class CronCommand extends ContainerAwareCommand
 		$em = $this->em;
 		$container = $this->getContainer();
 		//$t_search = ['ibb:no type:hackerone','ibb:no bounties:yes'];
-		$t_search = ['type:hackerone','bounties:yes'];
+		$t_search = ['type:hackerone','type:invite-only','bounties:yes'];
 
 		$t_history = [];
 		$client = new Client( ['base_uri'=>'https://hackerone.com'] );
