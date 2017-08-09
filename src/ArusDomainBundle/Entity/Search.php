@@ -31,6 +31,11 @@ class Search
     /**
      * @var int
      */
+    private $survey = null;
+    
+    /**
+     * @var int
+     */
     private $status = null;
     
     /**
@@ -145,6 +150,30 @@ class Search
 	{
 		return $this->name;
 	}
+    
+    /**
+     * Set survey
+     *
+     * @param int $survey
+     *
+     * @return Search
+     */
+    public function setSurvey($survey)
+    {
+        $this->survey = $survey;
+        
+        return $this;
+    }
+    
+    /**
+     * Get survey
+     *
+     * @return int
+     */
+    public function getSurvey()
+    {
+        return $this->survey;
+    }
     
     /**
      * Set status

@@ -59,6 +59,13 @@ class ArusDomain
     /**
      * @var int
      *
+     * @ORM\Column(name="survey", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $survey;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="status", type="smallint", options={"unsigned"=true,"default":0})
      */
     private $status;
@@ -240,6 +247,30 @@ class ArusDomain
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set survey
+     *
+     * @param string $survey
+     *
+     * @return ArusEntityAlert
+     */
+    public function setSurvey($survey)
+    {
+        $this->survey = $survey;
+
+        return $this;
+    }
+
+    /**
+     * Get survey
+     *
+     * @return string
+     */
+    public function getSurvey()
+    {
+        return $this->survey;
     }
 
     /**

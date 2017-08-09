@@ -51,6 +51,14 @@ class ArusDomainRepository extends \Doctrine\ORM\EntityRepository
 				$query->andWhere('d.name '.$name[1].' :name');
 				$t_params['name'] = $name[0];
 			}
+			if ( !is_null($data->getSurvey()) ) {
+				$survey = $data->getSurvey();
+				if( !is_array($survey) ) {
+					$survey = [ $survey, '=' ];
+				}
+				$query->andWhere('d.survey '.$survey[1].' :survey');
+				$t_params['survey'] = $survey[0];
+			}
 			if ( !is_null($data->getStatus()) ) {
 				$status = $data->getStatus();
 				if( !is_array($status) ) {
