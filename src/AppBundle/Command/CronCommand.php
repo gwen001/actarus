@@ -139,6 +139,7 @@ class CronCommand extends ContainerAwareCommand
 		//$t_search = ['ibb:no type:hackerone','ibb:no bounties:yes'];
 		$t_search = ['type:hackerone','bounties:yes'];
 
+		$t_history = [];
 		$client = new Client( ['base_uri'=>'https://hackerone.com'] );
 
 		foreach( $t_search as $s )
@@ -163,14 +164,18 @@ class CronCommand extends ContainerAwareCommand
 
 			foreach( $t_program as $p )
 			{
-				$project = $em->getRepository('ArusProjectBundle:ArusProject')->findOneByName( $p->name );
-				if( !$project ) {
-					$cnt++;
-					echo $p->name."\n";
-					//$project = $container->get('project')->create( $p->name );
+				if( !in_array($p->handle,$t_history) )
+				{
+					$t_history[] = $p->handle;
+					$project = $em->getRepository('ArusProjectBundle:ArusProject')->findOneByHandle( $p->handle );
+					if( !$project ) {
+						$cnt++;
+						echo $p->name."\n";
+						//$project = $container->get('project')->create( $p->name );
+					}
+					//$project->setHandle( $p->handle );
+					//$em->persist( $project );
 				}
-				//$project->setHandle( $p->handle );
-				//$em->persist( $project );
 			}
 		}
 
