@@ -75,6 +75,7 @@ class CronCommand extends ContainerAwareCommand
 	}
 
 	
+	// try to find new subdomains of marked domains
 	private function domainSurvey( $project_name )
 	{
 		$cnt = 0;
@@ -93,6 +94,7 @@ class CronCommand extends ContainerAwareCommand
 	}
 
 
+	// try to find new subdomains of all domains
 	private function crtsh( $project_name )
 	{
 		$cnt = 0;
@@ -110,6 +112,7 @@ class CronCommand extends ContainerAwareCommand
 	}
 
 
+	// try to find new subdomains of all domains
 	private function subthreat( $project_name )
 	{
 		$cnt = 0;
@@ -127,13 +130,14 @@ class CronCommand extends ContainerAwareCommand
 	}
 
 
+	// grab new program on Hackerone
 	private function hackeroneProgramGrabber( $project_name )
 	{
 		$cnt = 0;
 		$em = $this->em;
 		$container = $this->getContainer();
-		$t_search = ['ibb:no type:hackerone','ibb:no bounties:yes'];
-			$t_search = ['type:hackerone','bounties:yes'];
+		//$t_search = ['ibb:no type:hackerone','ibb:no bounties:yes'];
+		$t_search = ['type:hackerone','bounties:yes'];
 
 		$client = new Client( ['base_uri'=>'https://hackerone.com'] );
 
@@ -162,27 +166,30 @@ class CronCommand extends ContainerAwareCommand
 				$project = $em->getRepository('ArusProjectBundle:ArusProject')->findOneByName( $p->name );
 				if( !$project ) {
 					$cnt++;
-					$project = $container->get('project')->create( $p->name );
+					echo $p->name."\n";
+					//$project = $container->get('project')->create( $p->name );
 				}
-				$project->setHandle( $p->handle );
-				echo $p->name."\n";
-				$em->persist( $project );
+				//$project->setHandle( $p->handle );
+				//$em->persist( $project );
 			}
 		}
 
 		$em->flush();
-
+		
+		var_dump($cnt);
+/*
 		if( $cnt ) {
 			$actarus = $container->get('app')->getActarus();
 			$t_alert_level = $container->getParameter('alert')['level'];
 			$container->get('entity_alert')->create( $actarus, $cnt.' new project added.', $t_alert_level['info'] );
 		}
-
+*/
 		return $cnt;
 	}
 
 
-	private function hackeroneMassScopeGrabber( $project_name )
+	// grab scope of all Hackerone programs
+	/*private function hackeroneMassScopeGrabber( $project_name )
 	{
 		$cnt = 0;
 		$em = $this->em;
@@ -236,9 +243,10 @@ class CronCommand extends ContainerAwareCommand
 		}
 
 		return $cnt;
-	}
-
+	}*/
 	
+	
+	// grab scope of a specific hackerone program
 	private function hackeroneScopeGrabber( $project_name )
 	{
 		$cnt = 0;
