@@ -170,7 +170,7 @@ class CronCommand extends ContainerAwareCommand
 					$project = $em->getRepository('ArusProjectBundle:ArusProject')->findOneByHandle( $p->handle );
 					if( !$project ) {
 						$cnt++;
-						echo $p->name."\n";
+						echo $p->name." - ".$p->handle."\n";
 						//$project = $container->get('project')->create( $p->name );
 					}
 					//$project->setHandle( $p->handle );
