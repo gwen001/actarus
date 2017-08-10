@@ -116,4 +116,14 @@ class ArusEntityTaskRepository extends \Doctrine\ORM\EntityRepository
 		$isDeleted = $qb->delete()->where( 'et.entityId LIKE :entity_id' )->setParameter( 'entity_id',$entity->getEntityId() )->getQuery()->execute();
 		return $isDeleted;
 	}
+	
+	
+	public function massUpdateStatus( $old_status, $new_status )
+	{
+		$q = "UPDATE ArusEntityTaskBundle:ArusEntityTask AS et SET et.status=:new_status WHERE et.status=:old_status";
+		$n_update = $this->_em->createQuery( $q )
+							->setParameters( ['old_status'=>$old_status,'new_status'=>$new_status] )
+							->execute();
+		return $n_update;
+	}
 }

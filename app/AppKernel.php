@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
             new DashboardBundle\DashboardBundle(),
 			new SettingsBundle\SettingsBundle(),
+			new MaintenanceActionsBundle\MaintenanceActionsBundle(),
 			new ArusProjectBundle\ArusProjectBundle(),
             new ArusHostBundle\ArusHostBundle(),
             new ArusDomainBundle\ArusDomainBundle(),

@@ -219,4 +219,12 @@ class ServiceController extends Controller
 			)
 		);
 	}
+	
+	
+	public function interpretCancelledTask()
+	{
+		$t_status = $this->container->getParameter('task')['status'];
+		$n_update = $this->em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->massUpdateStatus( $t_status['cancelled'], $t_status['finished'] );
+		return $n_update;
+	}
 }

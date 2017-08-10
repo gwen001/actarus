@@ -63,6 +63,11 @@ settings:
     type:     annotation
     prefix:   /
 
+maintenance_actions:
+    resource: "@MaintenanceActionsBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 request:
     resource: "@ArusRequestBundle/Resources/config/routing.yml"
     prefix:   /
