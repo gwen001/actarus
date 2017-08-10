@@ -523,6 +523,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function nmap_udp( $task )
+	{
+        return $this->nmap_full( $task );
+	}
 	private function nmap_top10( $task )
 	{
         return $this->nmap_full( $task );
