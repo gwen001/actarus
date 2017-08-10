@@ -234,4 +234,21 @@ class DefaultController extends Controller
 		->getForm()
 			;
 	}
+	
+	
+	/**
+	 * switch the survey flag
+	 *
+	 * @param Request $request
+	 * @param ArusDomain $domain
+	 * @return unknown
+	 */
+	public function surveyAction(Request $request, ArusDomain $domain)
+	{
+		$r = ['error'=>0];
+		$this->get('domain')->survey( $domain );
+		$r['survey'] = $domain->getSurvey();
+		$response = new Response( json_encode($r) );
+		return $response;
+	}
 }

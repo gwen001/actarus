@@ -111,4 +111,16 @@ class ServiceController extends Controller
 	{
 		return $this->exist( $domain->getProject(), Utils::extractDomain($new_host) );
 	}
+	
+	
+	public function survey( $domain )
+	{
+		$domain->setSurvey( 1-$domain->getSurvey() );
+		
+		$em = $this->em;
+		$em->persist( $domain );
+		$em->flush( $domain );
+		
+		return $domain;
+	}
 }

@@ -10,6 +10,7 @@
         <input type="submit" id="delete" value="Delete" class="btn btn-danger pull-right">
         {{ form_end(delete_form) }}
         <a href="{{ url('domain_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
+        <a href="{{ url('domain_survey',{id:domain.getId()}) }}" id="survey" class="btn btn-primary pull-right" {% if not domain.getSurvey() %}disabled="disabled"{% endif %} style="margin-right:20px;">Survey</a>
 
         <h2 class="page-title">Domain {{ domain.getName() }}</h2>
 
@@ -96,6 +97,13 @@
 {% endblock %}
 
 
+{% block stylesheets %}
+	#survey.disabled, #survey[disabled] {
+    	cursor: pointer; !important
+	}
+{% endblock %}
+
+
 {% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function(){
@@ -103,6 +111,23 @@
                 e.preventDefault();
                 $('#myModal').modal().one('click','#confirm-delete',function(e){
                     $('#delete-form').submit();
+                });
+            });
+            $('#survey').on('click', function(e) {
+                e.preventDefault();
+                lnk = $(this);
+                $.ajax({
+	               	url: lnk.attr('href'),
+	               	success: function(data) {
+	               		data = jQuery.parseJSON( data );
+	               		if( !data.error ) {
+		               		if( data.survey ) {
+		               			lnk.removeAttr('disabled');
+		               		} else {
+		               			lnk.attr('disabled','disabled');
+		               		}
+	               		}
+	               	}
                 });
             });
         });

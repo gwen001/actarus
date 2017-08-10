@@ -31,3 +31,8 @@ domain_delete:
     path:     /domain/{id}/delete
     defaults: { _controller: "ArusDomainBundle:Default:delete" }
     methods:  [DELETE]
+
+domain_survey:
+    path:     /domain/{id}/survey
+    defaults: { _controller: "ArusDomainBundle:Default:survey" }
+    methods:  [GET, POST]
