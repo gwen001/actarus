@@ -170,25 +170,24 @@ class CronCommand extends ContainerAwareCommand
 					$project = $em->getRepository('ArusProjectBundle:ArusProject')->findOneByHandle( $p->handle );
 					if( !$project ) {
 						$cnt++;
-						echo $p->name." - ".$p->handle."\n";
-						//$project = $container->get('project')->create( $p->name );
+						//echo $p->name." - ".$p->handle."\n";
+						$project = $container->get('project')->create( $p->name );
+						$project->setHandle( $p->handle );
+						$em->persist( $project );
 					}
-					//$project->setHandle( $p->handle );
-					//$em->persist( $project );
 				}
 			}
 		}
 
 		$em->flush();
-		
-		var_dump($cnt);
-/*
+		//var_dump($cnt);
+
 		if( $cnt ) {
 			$actarus = $container->get('app')->getActarus();
 			$t_alert_level = $container->getParameter('alert')['level'];
 			$container->get('entity_alert')->create( $actarus, $cnt.' new project added.', $t_alert_level['info'] );
 		}
-*/
+
 		return $cnt;
 	}
 
