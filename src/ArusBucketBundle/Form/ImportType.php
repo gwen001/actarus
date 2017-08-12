@@ -38,7 +38,7 @@ class ImportType extends AbstractType
 					return $er->createQueryBuilder('p')->orderBy('p.name', 'ASC');
 				})
 			)
-            ->add( 'source_file', FileType::class, ['required'=>false] )
+            ->add( 'source_file', FileType::class, ['required'=>true] )
 			->add( 'recon', CheckboxType::class, ['required'=>false] )
 		;
     }

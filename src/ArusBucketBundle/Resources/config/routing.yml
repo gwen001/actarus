@@ -2,7 +2,17 @@ bucket_homepage:
     path:     /bucket
     defaults: { _controller: "ArusBucketBundle:Default:index" }
 
-bucket_import:
-    path:     /bucket/import/{project_id}
-    defaults: { _controller: "ArusBucketBundle:Default:import", project_id: 0 }
+bucket_add:
+    path:     /bucket/add/{project_id}
+    defaults: { _controller: "ArusBucketBundle:Default:add", project_id:0 }
     methods:  [GET, POST]
+
+bucket_add_multiple:
+    path:     /host/addMultiple
+    defaults: { _controller: "ArusBucketBundle:Default:addMultiple"}
+    methods:  [POST]
+
+bucket_add_import:
+    path:     /bucket/addImport
+    defaults: { _controller: "ArusBucketBundle:Default:addImport" }
+    methods:  [POST]

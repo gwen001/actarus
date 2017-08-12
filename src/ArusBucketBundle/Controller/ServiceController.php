@@ -106,10 +106,9 @@ class ServiceController extends Controller
 	{
 		set_time_limit( 0 );
 
-		$em = $this->em;
-		$container = $this->container;
 		$cnt = 0;
 		$t_bucket = array_map( 'trim', $t_bucket );
+		$t_bucket = array_unique( $t_bucket );
 
 		foreach( $t_bucket as $b )
 		{

@@ -14,7 +14,7 @@ host_view:
 
 host_add:
     path:     /host/add/{project_id}
-    defaults: { _controller: "ArusHostBundle:Default:add", project_id: 0 }
+    defaults: { _controller: "ArusHostBundle:Default:add", project_id:0 }
     methods:  [GET, POST]
 
 host_add_multiple:

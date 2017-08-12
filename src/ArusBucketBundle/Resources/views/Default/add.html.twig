@@ -2,14 +2,15 @@
 
 
 {% block body %}
-    <div class="mod mod-host-new">
-        <a href="{{ url('host_homepage') }}" class="btn btn-default pull-right">Cancel</a>
-        <h2 class="page-title">Add host</h2>
+    <div class="mod mod-host-import">
+        <a href="{{ url('host_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Cancel</a>
+
+        <h2 class="page-title">Add bucket</h2>
 
         <div class="row">
-            <div class="col-md-6">
+       		<div class="col-md-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Add single or multiple host</div>
+                    <div class="panel-heading">Add single or multiple bucket</div>
                     <div class="panel-body">
                         {{ form_start(multiple_form,{'attr':{'class':'form-horizontal'}}) }}
                             {{ form_row(multiple_form._token) }}
@@ -24,7 +25,7 @@
                             <div class="form-group">
                                 {{ form_label(multiple_form.names,'Name *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
                                 <div class="col-sm-10">
-                                    {{ form_widget(multiple_form.names,{'attr':{'class':'form-control','rows':5,'placeholder':'www.example.com'}}) }}
+                                    {{ form_widget(multiple_form.names,{'attr':{'class':'form-control','rows':5,'placeholder':'10degres-assets'}}) }}
                                     <span class="help-block m-b-none">{{ form_errors(multiple_form.names) }}</span>
                                 </div>
                             </div>

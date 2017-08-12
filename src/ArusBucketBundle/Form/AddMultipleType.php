@@ -1,10 +1,10 @@
 <?php
 
-namespace ArusServerBundle\Form;
+namespace ArusBucketBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,13 +12,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use ArusProjectBundle\Repository\ArusProjectRepository;
 
 
-class ArusServerAddType extends AbstractType
+class AddMultipleType extends AbstractType
 {
 	public function __construct( $options=null ) {
 		$this->options = $options;
 	}
 
-	
+
 	/**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -26,7 +26,7 @@ class ArusServerAddType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-			->add( 'project', 'entity', array(
+			->add('project', 'entity', array(
 					'empty_data'  => null,
 					'empty_value' => '- - -',
 					'constraints' => [new NotBlank()],
@@ -36,7 +36,7 @@ class ArusServerAddType extends AbstractType
 						return $er->createQueryBuilder('p')->orderBy('p.name', 'ASC');
 					})
 			)
-			->add( 'name', TextType::class, ['constraints'=>[new NotBlank()]] )
+			->add( 'names', TextareaType::class, ['constraints'=>[new NotBlank()]] )
 			->add( 'recon', CheckboxType::class, ['required'=>false] )
 		;
     }

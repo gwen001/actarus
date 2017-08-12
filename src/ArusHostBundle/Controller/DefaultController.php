@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 
 use ArusHostBundle\Entity\ArusHost;
-use ArusHostBundle\Form\ArusHostAddType;
 use ArusHostBundle\Form\ArusHostEditType;
 use ArusHostBundle\Form\ArusHostQuickEditType;
 

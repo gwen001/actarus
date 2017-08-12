@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
 
 use ArusServerBundle\Entity\ArusServer;
-use ArusServerBundle\Form\ArusServerAddType;
 use ArusServerBundle\Form\ArusServerEditType;
 use ArusServerBundle\Form\ArusServerQuickEditType;
 
@@ -164,8 +163,8 @@ class DefaultController extends Controller
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$project = $multiple->getProject();
-			$t_ips = explode( "\n", $multiple->getIps() );
-			$cnt = $this->get('server')->import( $project, $t_ips, $multiple->getRecon() );
+			$t_server = explode( "\n", $multiple->getIps() );
+			$cnt = $this->get('server')->import( $project, $t_server, $multiple->getRecon() );
 			$this->addFlash( 'success', $cnt.' server added!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
@@ -189,9 +188,9 @@ class DefaultController extends Controller
 			$project = $range->getProject();
 			$start = ip2long( $range->getRangeStart() );
 			$end = ip2long( $range->getRangeEnd() );
-			$t_ips = range( $start, $end, 1 );
+			$t_server = range( $start, $end, 1 );
 			array_walk( $t_ips, create_function('&$val','$val=long2ip($val);') );
-			$cnt = $this->get('server')->import( $project, $t_ips, $range->getRecon() );
+			$cnt = $this->get('server')->import( $project, $t_server, $range->getRecon() );
 			$this->addFlash( 'success', $cnt.' server added!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
@@ -214,8 +213,8 @@ class DefaultController extends Controller
 		if( $form->isSubmitted() && $form->isValid() ) {
 			$project = $import->getProject();
 			$source_file = $import->getSourceFile();
-			$t_ips = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
-			$cnt = $this->get('server')->import( $project, $t_ips, $import->getRecon() );
+			$t_server = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
+			$cnt = $this->get('server')->import( $project, $t_server, $import->getRecon() );
 			$this->addFlash( 'success', $cnt.' server imported!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}

@@ -10,7 +10,7 @@
         <input type="submit" id="delete" value="Delete" class="btn btn-danger pull-right">
         {{ form_end(delete_form) }}
         <a href="{{ url('project_homepage') }}" class="btn btn-default pull-right" style="margin-right:20px;">Back</a>
-        <a href="{{ url('bucket_import',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Add bucket</a>
+        <a href="{{ url('bucket_add',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Add bucket</a>
         <a href="{{ url('host_add',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Add host</a>
         <a href="{{ url('server_add',{'project_id':project.getId()}) }}" class="btn btn-success pull-right" style="margin-right:20px;">Add server</a>
 
