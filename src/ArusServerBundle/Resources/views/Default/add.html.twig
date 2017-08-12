@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="mod mod-server-new">
+        <a href="{{ url('server_homepage') }}" class="btn btn-default pull-right">Cancel</a>
+        <h2 class="page-title">Add server</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Add multiple server</div>
+                    <div class="panel-body">
+                        {{ form_start(multiple_form,{'attr':{'class':'form-horizontal'}}) }}
+                            {{ form_row(multiple_form._token) }}
+                            <div class="form-group">
+                                {{ form_label(multiple_form.project,'Project *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(multiple_form.project,{'attr':{'class':'form-control'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(multiple_form.project) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                {{ form_label(multiple_form.ips,'IP list *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(multiple_form.ips,{'attr':{'class':'form-control',rows:'5','placeholder':'192.168.0.1'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(multiple_form.ips) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                {{ form_label(multiple_form.recon,'Perform recon',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(multiple_form.recon,{'attr':{'class':'form-control'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(multiple_form.recon) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">Add</button>
+                                </div>
+                            </div>
+                        {{ form_end(multiple_form) }}
+                    </div>
+                </div>
+            </div>
+	        <div class="col-md-6">
+	            <div class="panel panel-default">
+	                <div class="panel-heading">File import</div>
+	                <div class="panel-body">
+	                    {{ form_start(import_form,{'attr':{'class':'form-horizontal'}}) }}
+	                        {{ form_row(import_form._token) }}
+	                        <div class="form-group">
+	                            {{ form_label(import_form.project,'Project *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                            <div class="col-sm-10">
+	                                {{ form_widget(import_form.project,{'attr':{'class':'form-control'}}) }}
+	                                <span class="help-block m-b-none">{{ form_errors(import_form.project) }}</span>
+	                            </div>
+	                        </div>
+	                        <div class="hr-dashed"></div>
+	                        <div class="form-group">
+	                            {{ form_label(import_form.source_file,'File *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                            <div class="col-sm-10">
+	                                {{ form_widget(import_form.source_file,{'attr':{'class':'form-control','placeholder':'www.example.com'}}) }}
+	                                <span class="help-block m-b-none">{{ form_errors(import_form.source_file) }}</span>
+	                            </div>
+	                        </div>
+	                        <div class="hr-dashed"></div>
+	                        <div class="form-group">
+	                            {{ form_label(import_form.recon,'Perform recon',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+	                            <div class="col-sm-10">
+	                                {{ form_widget(import_form.recon,{'attr':{'class':'form-control'}}) }}
+	                                <span class="help-block m-b-none">{{ form_errors(import_form.recon) }}</span>
+	                            </div>
+	                        </div>
+	                        <div class="hr-dashed"></div>
+	                        <div class="form-group">
+	                            <div class="col-sm-8 col-sm-offset-2">
+	                                <button class="btn btn-primary" type="submit">Import</button>
+	                            </div>
+	                        </div>
+	                    {{ form_end(import_form) }}
+	                </div>
+	            </div>
+			</div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Add a range</div>
+                    <div class="panel-body">
+                        {{ form_start(range_form,{'attr':{'class':'form-horizontal'}}) }}
+                            {{ form_row(range_form._token) }}
+                            <div class="form-group">
+                                {{ form_label(range_form.project,'Project *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(range_form.project,{'attr':{'class':'form-control'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(range_form.project) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                {{ form_label(range_form.range_start,'Start IP *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(range_form.range_start,{'attr':{'class':'form-control','placeholder':'192.168.0.1'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(range_form.range_start) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                {{ form_label(range_form.range_end,'End IP *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(range_form.range_end,{'attr':{'class':'form-control','placeholder':'192.168.0.200'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(range_form.range_end) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                {{ form_label(range_form.recon,'Perform recon',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+                                <div class="col-sm-10">
+                                    {{ form_widget(range_form.recon,{'attr':{'class':'form-control'}}) }}
+                                    <span class="help-block m-b-none">{{ form_errors(range_form.recon) }}</span>
+                                </div>
+                            </div>
+                            <div class="hr-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">Add</button>
+                                </div>
+                            </div>
+                        {{ form_end(range_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#add_multiple_ips').focus();
+        });
+    </script>
+{% endblock %}

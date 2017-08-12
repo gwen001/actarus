@@ -423,6 +423,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$domain = $entity->getDomain();
 		$domain_name = $domain->getName();
 
+		if( strstr($output,'not found: 3(NXDOMAIN)') ) {
+			return false;
+		}
+		
 		foreach( $output as $k=>$l )
 		{
 			$l = trim( $l, '.' );
@@ -558,9 +562,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$service = trim( $matches[3][$i] );
 				$version = trim( $matches[4][$i] );
 
-				$new_task = null;
 				$t_port[] = $port;
-
+				/*
+				$new_task = null;
 				switch( $port ) {
 					case 21:
 						$new_task = 'hydra_ftp';
@@ -584,7 +588,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				if( !is_null($new_task) ) {
 					$container->get('entity_task')->create( $entity, $new_task, ['PORT'=>$port] );
 				}
-				
+				*/
 				$txt = $port;
 				if( $service != '' ) {
 					$txt .= ' ('.$service.')';

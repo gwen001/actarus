@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use ArusProjectBundle\Repository\ArusProjectRepository;
 
 
-class ArusServerAddType extends AbstractType
+class AddRangeType extends AbstractType
 {
 	public function __construct( $options=null ) {
 		$this->options = $options;
@@ -36,7 +36,8 @@ class ArusServerAddType extends AbstractType
 						return $er->createQueryBuilder('p')->orderBy('p.name', 'ASC');
 					})
 			)
-			->add( 'name', TextType::class, ['constraints'=>[new NotBlank()]] )
+			->add( 'range_start', TextType::class, ['constraints'=>[new NotBlank()]] )
+			->add( 'range_end', TextType::class, ['constraints'=>[new NotBlank()]] )
 			->add( 'recon', CheckboxType::class, ['required'=>false] )
 		;
     }

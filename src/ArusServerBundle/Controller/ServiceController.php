@@ -107,6 +107,8 @@ class ServiceController extends Controller
 		set_time_limit( 0 );
 
 		$cnt = 0;
+		array_walk( $t_server, create_function('&$val','$val=trim($val);') );
+		$t_server = array_unique( $t_server );
 
 		foreach( $t_server as $s )
 		{

@@ -12,15 +12,25 @@ server_view:
     defaults: { _controller: "ArusServerBundle:Default:view" }
     methods:  [GET]
 
-server_new:
-    path:     /server/new
-    defaults: { _controller: "ArusServerBundle:Default:new" }
+server_add:
+    path:     /server/add/{project_id}
+    defaults: { _controller: "ArusServerBundle:Default:add", project_id:0 }
     methods:  [GET, POST]
 
-server_import:
-    path:     /server/import/{project_id}
-    defaults: { _controller: "ArusServerBundle:Default:import", project_id: 0 }
-    methods:  [GET, POST]
+server_add_multiple:
+    path:     /server/addMultiple/{project_id}
+    defaults: { _controller: "ArusServerBundle:Default:addMultiple", project_id:0 }
+    methods:  [POST]
+
+server_add_range:
+    path:     /server/addRange/{project_id}
+    defaults: { _controller: "ArusServerBundle:Default:addRange", project_id:0 }
+    methods:  [POST]
+
+server_add_import:
+    path:     /server/addImport/{project_id}
+    defaults: { _controller: "ArusServerBundle:Default:addImport", project_id:0 }
+    methods:  [POST]
 
 server_edit:
     path:     /server/{id}/edit

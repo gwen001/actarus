@@ -13,6 +13,12 @@ use ArusServerBundle\Form\ArusServerAddType;
 use ArusServerBundle\Form\ArusServerEditType;
 use ArusServerBundle\Form\ArusServerQuickEditType;
 
+use ArusServerBundle\Entity\Multiple;
+use ArusServerBundle\Form\AddMultipleType;
+
+use ArusServerBundle\Entity\Range;
+use ArusServerBundle\Form\AddRangeType;
+
 use ArusServerBundle\Entity\Import;
 use ArusServerBundle\Form\ImportType;
 
@@ -119,7 +125,7 @@ class DefaultController extends Controller
 	 * Create a new ArusServer entity.
 	 *
 	 */
-	public function newAction(Request $request)
+	/*public function newAction(Request $request)
 	{
 		$server = new ArusServer();
 		$form = $this->createForm( new ArusServerAddType(), $server );
@@ -144,6 +150,113 @@ class DefaultController extends Controller
 			'server' => $server,
 			'form' => $form->createView(),
 		));
+	}*/
+
+
+	/**
+	 * Add new ArusServer entity.
+	 *
+	 */
+	public function addAction(Request $request, $project_id )
+	{
+		$multiple = new Multiple();
+		$range = new Range();
+		$import = new Import();
+
+		if( $project_id ) {
+			$project = $this->getDoctrine()->getRepository('ArusProjectBundle:ArusProject')->find( $project_id );
+			if( $project ) {
+				$multiple->setProject( $project );
+				$range->setProject( $project );
+				$import->setProject( $project );
+			}
+		}
+
+		$multiple_form = $this->createForm( new AddMultipleType(), $multiple, ['action'=>$this->generateUrl('server_add_multiple')] );
+		$range_form = $this->createForm( new AddRangeType(), $range, ['action'=>$this->generateUrl('server_add_range')] );
+		$import_form = $this->createForm( new ImportType(), $import, ['action'=>$this->generateUrl('server_add_import')] );
+
+		return $this->render('ArusServerBundle:Default:add.html.twig', array(
+			'multiple_form' => $multiple_form->createView(),
+			'range_form' => $range_form->createView(),
+			'import_form' => $import_form->createView(),
+		));
+	}
+
+	
+	/**
+	 * Create a new ArusServer entity.
+	 *
+	 */
+	public function addMultipleAction(Request $request)
+	{
+		$multiple = new Multiple();
+		$form = $this->createForm( new AddMultipleType(), $multiple );
+		$form->handleRequest( $request );
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $multiple->getProject();
+			$t_ips = explode( "\n", $multiple->getIps() );
+			$cnt = $this->get('server')->import( $project, $t_ips, $multiple->getRecon() );
+			$this->addFlash( 'success', $cnt.' server added!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'error', 'Error!' );
+		return $this->redirectToRoute( 'server_homepage' );
+	}
+
+	
+	/**
+	 * Create a new ArusServer entity.
+	 *
+	 */
+	public function addRangeAction(Request $request)
+	{
+		$range = new Range();
+		$form = $this->createForm( new AddRangeType(), $range );
+		$form->handleRequest( $request );
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $range->getProject();
+			$start = ip2long( $range->getRangeStart() );
+			$end = ip2long( $range->getRangeEnd() );
+			$t_ips = range( $start, $end, 1 );
+			array_walk( $t_ips, create_function('&$val','$val=long2ip($val);') );
+			$cnt = $this->get('server')->import( $project, $t_ips, $range->getRecon() );
+			$this->addFlash( 'success', $cnt.' server added!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'error', 'Error!' );
+		return $this->redirectToRoute( 'server_homepage' );
+	}
+
+
+	/**
+	 * Import Server from file
+	 *
+	 */
+	public function addImportAction( Request $request )
+	{
+		$rq = $this->getParameter('server');
+		$allowed_extension = implode( ',', $rq['allowed_extension'] );
+
+		$import = new Import();
+		$form = $this->createForm( new ImportType(), $import );
+		$form->handleRequest( $request );
+
+		if( $form->isSubmitted() && $form->isValid() ) {
+			$project = $import->getProject();
+			$source_file = $import->getSourceFile();
+			$t_ips = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
+			$cnt = $this->get('server')->import( $project, $t_ips, $import->getRecon() );
+			$this->addFlash( 'success', $cnt.' server imported!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'error', 'Error!' );
+		return $this->redirectToRoute( 'server_homepage' );
 	}
 
 
@@ -168,30 +281,7 @@ class DefaultController extends Controller
 		));
 	}
 
-
-	/**
-	 * Displays a form to edit an existing Server entity.
-	 *
-	 */
-	public function quickeditAction(Request $request, ArusServer $server)
-	{
-		$r = ['error'=>0];
-        $t_status = $this->getParameter('server')['status'];
-
-		$form = $this->createForm( new ArusServerQuickEditType(['t_status'=>$t_status]), $server, ['action'=>$this->generateUrl('server_quickedit',['id'=>$server->getId()])] );
-		$form->handleRequest($request);
-
-		if( $form->isSubmitted() && $form->isValid() ) {
-			$em = $this->getDoctrine()->getManager();
-			$em->persist( $server );
-			$em->flush();
-		}
-
-		$response = new Response( json_encode($r) );
-		return $response;
-	}
-
-
+	
 	/**
 	 * Displays a form to edit an existing ArusServer entity.
 	 *
@@ -224,6 +314,29 @@ class DefaultController extends Controller
 			't_status' => $t_status,
 			'techno_list' => $techno_list,
 		));
+	}
+
+
+	/**
+	 * Displays a form to edit an existing Server entity.
+	 *
+	 */
+	public function quickeditAction(Request $request, ArusServer $server)
+	{
+		$r = ['error'=>0];
+        $t_status = $this->getParameter('server')['status'];
+
+		$form = $this->createForm( new ArusServerQuickEditType(['t_status'=>$t_status]), $server, ['action'=>$this->generateUrl('server_quickedit',['id'=>$server->getId()])] );
+		$form->handleRequest($request);
+
+		if( $form->isSubmitted() && $form->isValid() ) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist( $server );
+			$em->flush();
+		}
+
+		$response = new Response( json_encode($r) );
+		return $response;
 	}
 
 
@@ -263,55 +376,5 @@ class DefaultController extends Controller
 		->setMethod('DELETE')
 		->getForm()
 			;
-	}
-
-
-	/**
-	 * Import Server from file
-	 *
-	 */
-	public function importAction(Request $request, $project_id )
-	{
-		$rq = $this->getParameter('server');
-		$allowed_extension = implode( ',', $rq['allowed_extension'] );
-
-		$import = new Import();
-
-		if( $project_id ) {
-			$project = $this->getDoctrine()->getRepository('ArusProjectBundle:ArusProject')->find( $project_id );
-			if( $project ) {
-				$import->setProject( $project );
-			}
-		}
-
-		$form = $this->createForm( new ImportType(), $import );
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$source_file = $import->getSourceFile();
-			$r = $this->doImport( $import->getProject(), $source_file, $import->getRecon() );
-			$this->addFlash( 'success', $r.' server imported!' );
-
-			if( $project_id && $project ) {
-				return $this->redirectToRoute('project_show',array('id'=>$project->getId()));
-			} else {
-				return $this->redirectToRoute('server_homepage');
-			}
-		}
-
-		return $this->render('ArusServerBundle:Default:import.html.twig', array(
-			'import' => $import,
-			'form' => $form->createView(),
-			'allowed_extension' => $allowed_extension,
-		));
-	}
-
-
-	private function doImport( $project, $sf, $recon=true )
-	{
-		$t_line = file( $sf, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
-		$cnt = $this->get('server')->import( $project, $t_line, $recon );
-
-		return $cnt;
 	}
 }
