@@ -12,15 +12,20 @@ host_view:
     defaults: { _controller: "ArusHostBundle:Default:view" }
     methods:  [GET]
 
-host_new:
-    path:     /host/new
-    defaults: { _controller: "ArusHostBundle:Default:new" }
+host_add:
+    path:     /host/add/{project_id}
+    defaults: { _controller: "ArusHostBundle:Default:add", project_id: 0 }
     methods:  [GET, POST]
 
-host_import:
-    path:     /host/import/{project_id}
-    defaults: { _controller: "ArusHostBundle:Default:import", project_id: 0 }
-    methods:  [GET, POST]
+host_add_multiple:
+    path:     /host/addMultiple
+    defaults: { _controller: "ArusHostBundle:Default:addMultiple"}
+    methods:  [POST]
+
+host_add_import:
+    path:     /host/addImport
+    defaults: { _controller: "ArusHostBundle:Default:addImport"}
+    methods:  [POST]
 
 host_edit:
     path:     /host/{id}/edit

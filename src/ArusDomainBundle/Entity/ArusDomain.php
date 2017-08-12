@@ -120,6 +120,7 @@ class ArusDomain
 	 */
 	public function __construct()
 	{
+        $this->survey = 0;
         $this->status = 0;
 
         $this->hosts = new ArrayCollection();

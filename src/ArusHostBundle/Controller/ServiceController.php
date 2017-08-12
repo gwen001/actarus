@@ -151,10 +151,9 @@ class ServiceController extends Controller
 	{
 		set_time_limit( 0 );
 
-		$em = $this->em;
-		$container = $this->container;
 		$cnt = 0;
 		$t_host = array_map( 'trim', $t_host );
+		$t_host = array_unique( $t_host );
 
 		foreach( $t_host as $h )
 		{

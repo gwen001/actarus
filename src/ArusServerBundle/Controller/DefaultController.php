@@ -122,38 +122,6 @@ class DefaultController extends Controller
 
 
 	/**
-	 * Create a new ArusServer entity.
-	 *
-	 */
-	/*public function newAction(Request $request)
-	{
-		$server = new ArusServer();
-		$form = $this->createForm( new ArusServerAddType(), $server );
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			if( !strlen($server->getName()) ) {
-				$server->setName( gethostbyaddr($server->getName()) );
-			}
-
-			$exist = $this->get('server')->exist( $server->getProject(), $server->getName() );
-			if( !$exist ) {
-				$server = $this->get('server')->create( $server->getProject(), $server->getName(), $server->getRecon() );
-				$this->addFlash( 'success', 'New server added!' );
-				return $this->redirectToRoute('server_show',array('id'=>$server->getId()));
-			} else {
-				$form->get('name')->addError( new FormError('This server already exist') );
-			}
-		}
-
-		return $this->render('ArusServerBundle:Default:new.html.twig', array(
-			'server' => $server,
-			'form' => $form->createView(),
-		));
-	}*/
-
-
-	/**
 	 * Add new ArusServer entity.
 	 *
 	 */
@@ -202,7 +170,7 @@ class DefaultController extends Controller
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
 
-		$this->addFlash( 'error', 'Error!' );
+		$this->addFlash( 'danger', 'Error!' );
 		return $this->redirectToRoute( 'server_homepage' );
 	}
 
@@ -228,7 +196,7 @@ class DefaultController extends Controller
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
 
-		$this->addFlash( 'error', 'Error!' );
+		$this->addFlash( 'danger', 'Error!' );
 		return $this->redirectToRoute( 'server_homepage' );
 	}
 
@@ -239,9 +207,6 @@ class DefaultController extends Controller
 	 */
 	public function addImportAction( Request $request )
 	{
-		$rq = $this->getParameter('server');
-		$allowed_extension = implode( ',', $rq['allowed_extension'] );
-
 		$import = new Import();
 		$form = $this->createForm( new ImportType(), $import );
 		$form->handleRequest( $request );
@@ -255,7 +220,7 @@ class DefaultController extends Controller
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
 
-		$this->addFlash( 'error', 'Error!' );
+		$this->addFlash( 'danger', 'Error!' );
 		return $this->redirectToRoute( 'server_homepage' );
 	}
 

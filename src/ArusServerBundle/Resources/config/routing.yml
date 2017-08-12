@@ -18,18 +18,18 @@ server_add:
     methods:  [GET, POST]
 
 server_add_multiple:
-    path:     /server/addMultiple/{project_id}
-    defaults: { _controller: "ArusServerBundle:Default:addMultiple", project_id:0 }
+    path:     /server/addMultiple
+    defaults: { _controller: "ArusServerBundle:Default:addMultiple"}
     methods:  [POST]
 
 server_add_range:
-    path:     /server/addRange/{project_id}
-    defaults: { _controller: "ArusServerBundle:Default:addRange", project_id:0 }
+    path:     /server/addRange
+    defaults: { _controller: "ArusServerBundle:Default:addRange"}
     methods:  [POST]
 
 server_add_import:
-    path:     /server/addImport/{project_id}
-    defaults: { _controller: "ArusServerBundle:Default:addImport", project_id:0 }
+    path:     /server/addImport
+    defaults: { _controller: "ArusServerBundle:Default:addImport"}
     methods:  [POST]
 
 server_edit:

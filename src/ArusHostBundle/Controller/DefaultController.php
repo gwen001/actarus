@@ -13,6 +13,9 @@ use ArusHostBundle\Form\ArusHostAddType;
 use ArusHostBundle\Form\ArusHostEditType;
 use ArusHostBundle\Form\ArusHostQuickEditType;
 
+use ArusHostBundle\Entity\Multiple;
+use ArusHostBundle\Form\AddMultipleType;
+
 use ArusHostBundle\Entity\Import;
 use ArusHostBundle\Form\ImportType;
 
@@ -120,33 +123,73 @@ class DefaultController extends Controller
 	 * Create a new ArusHost entity.
 	 *
 	 */
-	public function newAction(Request $request)
+	public function addAction(Request $request, $project_id )
 	{
-		$host = new ArusHost();
+		$multiple = new Multiple();
+		$import = new Import();
 
-		$form = $this->createForm( new ArusHostAddType(), $host );
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$exist = $this->get('host')->exist( $host->getProject(), $host->getName() );
-			if( !$exist ) {
-				$domain = $this->get('domain')->exist( $host->getProject(), $host->getDomain(), null, true );
-				if( !$domain ) {
-					$domain = $this->get('domain')->create( $host->getProject(), $host->getDomain(), $host->getRecon() );
-				}
-
-				$host = $this->get('host')->create( $host->getProject(), $domain, $host->getName(), $host->getRecon() );
-				$this->addFlash( 'success', 'New host added!' );
-				return $this->redirectToRoute('host_show',array('id'=>$host->getId()));
-			} else {
-				$form->get('name')->addError( new FormError('This host already exist') );
+		if( $project_id ) {
+			$project = $this->getDoctrine()->getRepository('ArusProjectBundle:ArusProject')->find( $project_id );
+			if( $project ) {
+				$multiple->setProject( $project );
+				$import->setProject( $project );
 			}
 		}
 
-		return $this->render('ArusHostBundle:Default:new.html.twig', array(
-			'host' => $host,
-			'form' => $form->createView(),
+		$multiple_form = $this->createForm( new AddMultipleType(), $multiple, ['action'=>$this->generateUrl('host_add_multiple')] );
+		$import_form = $this->createForm( new ImportType(), $import, ['action'=>$this->generateUrl('host_add_import')] );
+
+		return $this->render('ArusHostBundle:Default:add.html.twig', array(
+			'multiple_form' => $multiple_form->createView(),
+			'import_form' => $import_form->createView(),
 		));
+	}
+	
+	
+	/**
+	 * Create a new ArusHost entity.
+	 *
+	 */
+	public function addMultipleAction(Request $request)
+	{
+		$multiple = new Multiple();
+		$form = $this->createForm( new AddMultipleType(), $multiple );
+		$form->handleRequest( $request );
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $multiple->getProject();
+			$t_host = explode( "\n", $multiple->getNames() );
+			$cnt = $this->get('host')->import( $project, $t_host, $multiple->getRecon() );
+			$this->addFlash( 'success', $cnt.' host added!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'danger', 'Error!' );
+		return $this->redirectToRoute( 'host_homepage' );
+	}
+
+	
+	/**
+	 * Import Host from file
+	 *
+	 */
+	public function addImportAction(Request $request )
+	{
+		$import = new Import();
+		$form = $this->createForm( new ImportType(), $import );
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $import->getProject();
+			$source_file = $import->getSourceFile();
+			$t_host = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
+			$cnt = $this->get('host')->import( $project, $t_host, $import->getRecon() );
+			$this->addFlash( 'success', $cnt.' host imported!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'danger', 'Error!' );
+		return $this->redirectToRoute( 'host_homepage' );
 	}
 
 
@@ -273,56 +316,6 @@ class DefaultController extends Controller
 	{
 		echo $this->get('host')->getInfo( $request->get('host') );
 		exit();
-	}
-
-
-	/**
-	 * Import Host from file
-	 *
-	 */
-	public function importAction(Request $request, $project_id )
-	{
-		$rq = $this->getParameter('host');
-		$allowed_extension = implode( ',', $rq['allowed_extension'] );
-
-		$import = new Import();
-
-		if( $project_id ) {
-			$project = $this->getDoctrine()->getRepository('ArusProjectBundle:ArusProject')->find( $project_id );
-			if( $project ) {
-				$import->setProject( $project );
-			}
-		}
-
-		$form = $this->createForm( new ImportType(), $import );
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$source_file = $import->getSourceFile();
-			$r = $this->doImport( $import->getProject(), $source_file, $import->getRecon() );
-			$this->addFlash( 'success', $r.' host imported!' );
-
-			if( $project_id && $project ) {
-				return $this->redirectToRoute('project_show',array('id'=>$project->getId()));
-			} else {
-				return $this->redirectToRoute('host_homepage');
-			}
-		}
-
-		return $this->render('ArusHostBundle:Default:import.html.twig', array(
-			'import' => $import,
-			'form' => $form->createView(),
-			'allowed_extension' => $allowed_extension,
-		));
-	}
-
-
-	private function doImport( $project, $sf, $recon=true )
-	{
-		$t_line = file( $sf, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
-		$cnt = $this->get('host')->import( $project, $t_line, $recon );
-
-		return $cnt;
 	}
 
 
