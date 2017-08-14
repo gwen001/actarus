@@ -303,4 +303,54 @@ class Search
     {
         return $this->maxCreatedAt;
     }
+
+
+	
+    /************************************/
+    /* EXPORT FUNCTIONS                 */
+    /************************************/
+	private $export_id;
+	public function setExportId($export_id) {
+		$this->export_id = $export_id;
+		return $this;
+	}
+	public function getExportId() {
+		return $this->export_id;
+	}
+	
+	private $export_name;
+	public function setExportName($export_name) {
+		$this->export_name = $export_name;
+		return $this;
+	}
+	public function getExportName() {
+		return $this->export_name;
+	}
+	
+	private $export_project;
+	public function setExportProject($export_project) {
+		$this->export_project = $export_project;
+		return $this;
+	}
+	public function getExportProject() {
+		return $this->export_project;
+	}
+	
+	private $export_created_at;
+	public function setExportCreatedAt($export_created_at) {
+		$this->export_created_at = $export_created_at;
+		return $this;
+	}
+	public function getExportCreatedAt() {
+		return $this->export_created_at;
+	}
+	
+	private $export_full;
+	public function setExportFull($export_full) {
+		$this->export_full = $export_full;
+		return $this;
+	}
+	public function getExportFull() {
+		return $this->export_full;
+	}
 }

@@ -2,6 +2,11 @@ server_homepage:
     path:     /server
     defaults: { _controller: "ArusServerBundle:Default:index" }
 
+server_export:
+    path:     /server/export
+    defaults: { _controller: "ArusServerBundle:Default:export" }
+    methods:  [POST]
+
 server_show:
     path:     /server/{id}/show
     defaults: { _controller: "ArusServerBundle:Default:show" }

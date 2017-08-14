@@ -12,6 +12,7 @@
         <div class="col-sm-5 valign">
             <div>
                 Showing {{ p_showing }} to {{ p_to }} of {{ p_of }} entries
+                {% if btn_export %}&nbsp;&nbsp;&nbsp;[&nbsp<a href="javascript:;" class="btn-export">export csv</a>&nbsp;]&nbsp&nbsp{% endif %}
             </div>
         </div><!--
         --><div class="col-sm-7 valign">

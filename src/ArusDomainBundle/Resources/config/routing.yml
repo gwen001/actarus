@@ -2,6 +2,11 @@ domain_homepage:
     path:     /domain
     defaults: { _controller: "ArusDomainBundle:Default:index" }
 
+domain_export:
+    path:     /domain/export
+    defaults: { _controller: "ArusDomainBundle:Default:export" }
+    methods:  [POST]
+
 domain_show:
     path:     /domain/{id}/show
     defaults: { _controller: "ArusDomainBundle:Default:show" }

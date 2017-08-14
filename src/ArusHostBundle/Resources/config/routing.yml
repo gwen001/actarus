@@ -2,6 +2,11 @@ host_homepage:
     path:     /host
     defaults: { _controller: "ArusHostBundle:Default:index" }
 
+host_export:
+    path:     /host/export
+    defaults: { _controller: "ArusHostBundle:Default:export" }
+    methods:  [POST]
+
 host_show:
     path:     /host/{id}/show
     defaults: { _controller: "ArusHostBundle:Default:show" }

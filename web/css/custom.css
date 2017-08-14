@@ -536,3 +536,24 @@ table i.alert-none, table i.alert_level_0, table i.alert_level_1, table i.alert_
 	max-height: 190px;
 	width: 95%;
 }
+
+
+#modalExport .form-group {
+	margin-bottom: 0px;
+}
+#modalExport .form-horizontal .control-label {
+	padding-top: 7px;
+	text-align: left;
+}
+#modalExport #export_export_full {
+	/*float: none;*/
+	position: inherit;
+}
+#modalExport #export_export_full input {
+	margin-right: 10px !important;
+}
+#modalExport #export_export_full label {
+	margin-right: 70px;
+	margin-top: 20px;
+}
+

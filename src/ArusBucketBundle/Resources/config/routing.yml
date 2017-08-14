@@ -2,6 +2,11 @@ bucket_homepage:
     path:     /bucket
     defaults: { _controller: "ArusBucketBundle:Default:index" }
 
+bucket_export:
+    path:     /bucket/export
+    defaults: { _controller: "ArusBucketBundle:Default:export" }
+    methods:  [POST]
+
 bucket_add:
     path:     /bucket/add/{project_id}
     defaults: { _controller: "ArusBucketBundle:Default:add", project_id:0 }

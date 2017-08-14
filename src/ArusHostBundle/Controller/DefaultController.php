@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 use ArusHostBundle\Entity\ArusHost;
 use ArusHostBundle\Form\ArusHostEditType;
@@ -20,6 +21,7 @@ use ArusHostBundle\Form\ImportType;
 
 use ArusHostBundle\Entity\Search;
 use ArusHostBundle\Form\SearchType;
+use ArusHostBundle\Form\ExportType;
 
 use ArusDomainBundle\Entity\ArusDomain;
 use ArusServerBundle\Entity\ArusServer;
@@ -42,12 +44,14 @@ class DefaultController extends Controller
 		$t_status = $this->getParameter('host')['status'];
 
 		$search = new Search();
-		$form = $this->createForm( new SearchType(['t_status'=>$t_status]), $search );
-		$form->handleRequest($request);
+		$search_form = $this->createForm( new SearchType(['t_status'=>$t_status]), $search );
+		$search_form->handleRequest($request);
+
+		$export_form = $this->createForm( new ExportType(['t_status'=>$t_status]), $search, ['action'=>$this->generateUrl('host_export')] );
 
 		$data = null;
-		if( $form->isSubmitted() && $form->isValid() )  {
-			$data = $form->getData();
+		if( $search_form->isSubmitted() && $search_form->isValid() )  {
+			$data = $search_form->getData();
 		}
 
 		$page = 1;
@@ -72,10 +76,11 @@ class DefaultController extends Controller
 			$h->setEntityTechnologies( $this->get('entity_technology')->getListAction($h->getEntityId()) );
 		}
 
-		$pagination = $this->get('app')->paginate( $total_host, count($t_host), $page );
+		$pagination = $this->get('app')->paginate( $total_host, count($t_host), $page, true );
 
 		return $this->render('ArusHostBundle:Default:index.html.twig', array(
-			'form' => $form->createView(),
+			'search_form' => $search_form->createView(),
+			'export_form' => $export_form->createView(),
 			't_host' => $t_host,
 			't_status' => $t_status,
 			'pagination' => $pagination,
@@ -322,5 +327,90 @@ class DefaultController extends Controller
 	{
 		echo $this->get('entity_technology')->getListAction( $entity_id );
 		exit();
+	}
+
+
+	/**
+	 * Export search result
+	 *
+	 */
+	public function exportAction( Request $request )
+	{
+		$t_status = $this->getParameter('host')['status'];
+
+		$search = new Search();
+		$export_form = $this->createForm( new ExportType(['t_status'=>$t_status]), $search, ['action'=>$this->generateUrl('host_export')] );
+		$export_form->handleRequest( $request );
+
+		$data = null;
+		if( $export_form->isSubmitted() && $export_form->isValid() )  {
+			$data = $export_form->getData();
+		}
+
+		if( $data->getExportFull() == 'page' ) {
+			$page = 1;
+			$limit = $this->getParameter('results_per_page');
+			$total_host = $this->get('host')->search( $data, -1 );
+			$n_page = ceil( $total_host/$limit );
+	
+			if( is_array($data) || is_object($data) ) {
+				if (is_array($data) && isset($data['page'])) {
+					$page = $data['page'];
+				} else {
+					$page = $data->getPage();
+				}
+				if ($page <= 0 || $page > $n_page) {
+					$page = 1;
+				}
+			}
+			$limit = -1;
+		} else {
+			$page = 1;
+			$limit = null;
+		}
+		
+		$t_host = $this->get('host')->search( $data, $page, $limit );
+		
+		$response = new StreamedResponse();
+		$response->setCallback(function() use($data,$t_host) {
+			$t_field = [];
+			if( $data->getExportId() ) {
+				$t_field[] = 'id';
+			}
+			if( $data->getExportProject() ) {
+				$t_field[] = 'project';
+			}
+			if( $data->getExportName() ) {
+				$t_field[] = 'name';
+			}
+			if( $data->getExportCreatedAt() ) {
+				$t_field[] = 'created_date';
+			}
+			$handle = fopen( 'php://output', 'w+' );
+			fputcsv( $handle, $t_field, ';' );
+			foreach( $t_host as $o ) {
+				$tmp = [];
+				if( $data->getExportId() ) {
+					$tmp[] = $o->getId();
+				}
+				if( $data->getExportProject() ) {
+					$tmp[] = $o->getProject()->getName();
+				}
+				if( $data->getExportName() ) {
+					$tmp[] = $o->getName();
+				}
+				if( $data->getExportCreatedAt() ) {
+					$tmp[] = date( 'Y/m/d', $o->getCreatedAt()->getTimestamp() );
+				}
+				fputcsv( $handle, $tmp,';' );
+			}
+			fclose( $handle );
+		});
+		
+		$response->setStatusCode( 200 );
+		$response->headers->set( 'Content-Type', 'text/csv; charset=utf-8' );
+		$response->headers->set( 'Content-Disposition','attachment; filename="host.csv"' );
+		
+		return $response;            
 	}
 }
