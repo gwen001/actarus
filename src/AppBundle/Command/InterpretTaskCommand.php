@@ -411,12 +411,16 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	 */
 	private function host( $task )
 	{
+		if( strstr($task->getOutput(),'not found: 3(NXDOMAIN)') ) {
+			return false;
+		}
+
 		$cnt = 0;
 		$is_alias = 0;
 		$t_host = [];
 		$t_server = [];
 		$t_link = [];
-
+		
 		$container = $this->container;
 		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
 		$entity = $task->getEntity();
