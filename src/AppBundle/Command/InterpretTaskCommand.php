@@ -426,10 +426,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$entity = $task->getEntity();
 		$domain = $entity->getDomain();
 		$domain_name = $domain->getName();
-
-		if( strstr($output,'not found: 3(NXDOMAIN)') ) {
-			return false;
-		}
 		
 		foreach( $output as $k=>$l )
 		{
