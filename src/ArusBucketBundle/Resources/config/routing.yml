@@ -13,7 +13,7 @@ bucket_add:
     methods:  [GET, POST]
 
 bucket_add_multiple:
-    path:     /host/addMultiple
+    path:     /bucket/addMultiple
     defaults: { _controller: "ArusBucketBundle:Default:addMultiple"}
     methods:  [POST]
 
