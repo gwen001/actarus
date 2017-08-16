@@ -449,7 +449,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$t_server[] = $m[2];
 					$t_link[] = [ 'host'=>$m[1], 'server'=>$m[2] ];
 					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
-				} elseif( $container->get('host')->isWhiteListed($m[1]) ) {
+				} elseif( $container->get('host')->isWhiteListed($m[1]) ) { // mmmmmm should I remove that ? not sure...
                     //$t_host[] = $m[1];
 					$t_server[] = $m[2];
 					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
