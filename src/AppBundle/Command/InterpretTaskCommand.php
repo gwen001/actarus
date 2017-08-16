@@ -505,14 +505,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				// the host is an alias of a domain not in the project, third party service there
 				$t_alert_level = $container->getParameter('alert')['level'];
 				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
+				$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
 				break;
 				
 			case -2:
 				// the host is an alias of a domain not in the project (third party service) but whitelisted
 				$t_alert_level = $container->getParameter('alert')['level'];
 				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
-				//$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
+				$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
 				$container->get('entity_task')->create( $task->getEntity(), 'testhttp' );
 				break;
 				
