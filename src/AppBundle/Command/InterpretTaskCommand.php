@@ -437,7 +437,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 						// alias but in the same project
 						$is_alias = 1;
                     	$t_host[] = $m[2];
-					} elseif( Utils::isWhiteListed($m[2]) ) {
+					} elseif( $container->get('host')->isWhiteListed($m[2]) ) {
 						$is_alias = -2;
 					} else {
 						$is_alias = -1;
@@ -449,7 +449,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$t_server[] = $m[2];
 					$t_link[] = [ 'host'=>$m[1], 'server'=>$m[2] ];
 					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
-				} elseif( Utils::isWhiteListed($m[1]) ) {
+				} elseif( $container->get('host')->isWhiteListed($m[1]) ) {
                     //$t_host[] = $m[1];
 					$t_server[] = $m[2];
 					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];

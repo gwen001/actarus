@@ -123,4 +123,13 @@ class ServiceController extends Controller
 		
 		return $domain;
 	}
+	
+	
+	public function isWhiteListed( $domain )
+	{
+		$domain = Utils::extractDomain( $domain );
+		$t_whitelist = $this->getParameter('domain')['whitelist'];
+
+		return in_array($domain,$t_whitelist);
+	}
 }
