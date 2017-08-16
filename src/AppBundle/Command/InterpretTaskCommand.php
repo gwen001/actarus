@@ -659,6 +659,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function act_busterbucket( $task )
+	{
+		return $this->s3_buckets( $task );
+	}
 	private function act_fuzzbucket( $task )
 	{
 		return $this->s3_buckets( $task );
