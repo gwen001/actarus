@@ -98,9 +98,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$task->setStatus( $t_status['interpreted'] );
 		$em->persist( $task );
 
-        $t_status = array_flip( $container->getParameter('entity')['status'] );
+        //$t_status = array_flip( $container->getParameter('entity')['status'] );
         //$entity->setStatus( $t_status['todo'] );
-        $em->persist( $entity );
+        //$em->persist( $entity );
 
         $em->flush();
 
@@ -659,6 +659,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function act_mydirbbucket( $task )
+	{
+		return $this->s3_buckets( $task );
+	}
 	private function act_busterbucket( $task )
 	{
 		return $this->s3_buckets( $task );

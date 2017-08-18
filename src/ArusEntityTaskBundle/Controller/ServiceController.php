@@ -131,10 +131,10 @@ class ServiceController extends Controller
 		$em->persist( $task );
 		$em->flush( $task );
 
-        $t_status = array_flip( $container->getParameter('entity')['status'] );
-        $entity->setStatus( $t_status['nothing'] );
-		$em->persist( $entity );
-		$em->flush( $entity );
+        //$t_status = array_flip( $container->getParameter('entity')['status'] );
+        //$entity->setStatus( $t_status['nothing'] );
+		//$em->persist( $entity );
+		//$em->flush( $entity );
 
 		return $task;
 	}
