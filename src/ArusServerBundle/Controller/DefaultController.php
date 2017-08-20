@@ -194,7 +194,7 @@ class DefaultController extends Controller
 			$start = ip2long( $range->getRangeStart() );
 			$end = ip2long( $range->getRangeEnd() );
 			$t_server = range( $start, $end, 1 );
-			array_walk( $t_ips, create_function('&$val','$val=long2ip($val);') );
+			array_walk( $t_server, create_function('&$val','$val=long2ip($val);') );
 			$cnt = $this->get('server')->import( $project, $t_server, $range->getRecon() );
 			$this->addFlash( 'success', $cnt.' server added!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
