@@ -10,9 +10,14 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 use ArusDomainBundle\Entity\ArusDomain;
-use ArusDomainBundle\Form\ArusDomainAddType;
 use ArusDomainBundle\Form\ArusDomainEditType;
 use ArusDomainBundle\Form\ArusDomainQuickEditType;
+
+use ArusDomainBundle\Entity\Multiple;
+use ArusDomainBundle\Form\AddMultipleType;
+
+use ArusDomainBundle\Entity\Import;
+use ArusDomainBundle\Form\ImportType;
 
 use ArusDomainBundle\Entity\Search;
 use ArusDomainBundle\Form\SearchType;
@@ -102,35 +107,81 @@ class DefaultController extends Controller
 		));
 	}
 
-
+	
 	/**
 	 * Create a new ArusDomain entity.
 	 *
 	 */
-	public function newAction(Request $request)
+	public function addAction(Request $request, $project_id )
 	{
-		$domain = new ArusDomain();
-		$form = $this->createForm( new ArusDomainAddType(), $domain );
-		$form->handleRequest($request);
+		$multiple = new Multiple();
+		$import = new Import();
 
-		if ($form->isSubmitted() && $form->isValid()) {
-			$exist = $this->get('domain')->exist( $domain->getProject(), $domain->getName() );
-			if( !$exist ) {
-				$domain = $this->get('domain')->create( $domain->getProject(), $domain->getName(), $domain->getRecon() );
-				$this->addFlash( 'success', 'New domain added!' );
-				return $this->redirectToRoute('domain_show',array('id'=>$domain->getId()));
-			} else {
-				$form->get('name')->addError( new FormError('This domain already exist') );
+		if( $project_id ) {
+			$project = $this->getDoctrine()->getRepository('ArusProjectBundle:ArusProject')->find( $project_id );
+			if( $project ) {
+				$multiple->setProject( $project );
+				$import->setProject( $project );
 			}
 		}
 
-		return $this->render('ArusDomainBundle:Default:new.html.twig', array(
-			'domain' => $domain,
-			'form' => $form->createView(),
+		$multiple_form = $this->createForm( new AddMultipleType(), $multiple, ['action'=>$this->generateUrl('domain_add_multiple')] );
+		$import_form = $this->createForm( new ImportType(), $import, ['action'=>$this->generateUrl('domain_add_import')] );
+
+		return $this->render('ArusDomainBundle:Default:add.html.twig', array(
+			'multiple_form' => $multiple_form->createView(),
+			'import_form' => $import_form->createView(),
 		));
 	}
+	
+	
+	/**
+	 * Create a new ArusDomain entity.
+	 *
+	 */
+	public function addMultipleAction(Request $request)
+	{
+		$multiple = new Multiple();
+		$form = $this->createForm( new AddMultipleType(), $multiple );
+		$form->handleRequest( $request );
 
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $multiple->getProject();
+			$t_domain = explode( "\n", $multiple->getNames() );
+			$cnt = $this->get('domain')->import( $project, $t_domain, $multiple->getRecon() );
+			$this->addFlash( 'success', $cnt.' domain added!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
 
+		$this->addFlash( 'danger', 'Error!' );
+		return $this->redirectToRoute( 'domain_homepage' );
+	}
+
+	
+	/**
+	 * Import Domain from file
+	 *
+	 */
+	public function addImportAction(Request $request )
+	{
+		$import = new Import();
+		$form = $this->createForm( new ImportType(), $import );
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$project = $import->getProject();
+			$source_file = $import->getSourceFile();
+			$t_domain = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
+			$cnt = $this->get('domain')->import( $project, $t_domain, $import->getRecon() );
+			$this->addFlash( 'success', $cnt.' domain imported!' );
+			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
+		}
+
+		$this->addFlash( 'danger', 'Error!' );
+		return $this->redirectToRoute( 'domain_homepage' );
+	}
+
+	
 	/**
 	 * Finds and displays a ArusDomain entity.
 	 *

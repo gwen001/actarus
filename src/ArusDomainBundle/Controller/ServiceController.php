@@ -124,6 +124,33 @@ class ServiceController extends Controller
 		return $domain;
 	}
 	
+
+	public function import( $project, $t_domain, $recon=true )
+	{
+		set_time_limit( 0 );
+
+		$cnt = 0;
+		$t_domain = array_map( 'trim', $t_domain );
+		$t_domain = array_unique( $t_domain );
+
+		foreach( $t_domain as $d )
+		{
+			if( !Utils::isDomain($d) ) {
+				continue;
+			}
+
+			$domain = $this->exist( $project, $d );
+			if( $domain ) {
+				continue;
+			}
+
+			$this->create( $project, $d, $recon );
+			$cnt++;
+		}
+
+		return $cnt;
+	}
+	
 	
 	public function isWhiteListed( $domain )
 	{

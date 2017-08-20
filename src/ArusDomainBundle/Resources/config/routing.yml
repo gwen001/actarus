@@ -17,10 +17,20 @@ domain_view:
     defaults: { _controller: "ArusDomainBundle:Default:view" }
     methods:  [GET]
 
-domain_new:
-    path:     /domain/new
-    defaults: { _controller: "ArusDomainBundle:Default:new" }
+domain_add:
+    path:     /domain/add/{project_id}
+    defaults: { _controller: "ArusDomainBundle:Default:add", project_id:0 }
     methods:  [GET, POST]
+
+domain_add_multiple:
+    path:     /domain/addMultiple
+    defaults: { _controller: "ArusDomainBundle:Default:addMultiple"}
+    methods:  [POST]
+
+domain_add_import:
+    path:     /domain/addImport
+    defaults: { _controller: "ArusDomainBundle:Default:addImport"}
+    methods:  [POST]
 
 domain_edit:
     path:     /domain/{id}/edit
