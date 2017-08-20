@@ -80,14 +80,15 @@ class CronCommand extends ContainerAwareCommand
 	{
 		$cnt = 0;
 		$container = $this->container;
+		$t_parameters = $container->getParameter('cron');
 
 		// do not threat domain that have been disabled
 		$t_domain = $container->get('domain')->search( ['survey'=>'1','status'=>[4,'!=']], null, null );
 
 		foreach( $t_domain as $d ) {
 			$cnt++;
-			$container->get('entity_task')->create( $d, 'crtsh' );
-			$container->get('entity_task')->create( $d, 'subthreat' );
+			$container->get('entity_task')->create( $d, 'crtsh', [], null, $t_parameters['task_priority'] );
+			$container->get('entity_task')->create( $d, 'subthreat', [], null, $t_parameters['task_priority'] );
 		}
 
 		return $cnt;
@@ -105,7 +106,7 @@ class CronCommand extends ContainerAwareCommand
 
 		foreach( $t_domain as $d ) {
 			$cnt++;
-			$container->get('entity_task')->create( $d, 'crtsh' );
+			$container->get('entity_task')->create( $d, 'crtsh', [], null, $t_parameters['task_priority'] );
 		}
 
 		return $cnt;
@@ -123,7 +124,7 @@ class CronCommand extends ContainerAwareCommand
 
 		foreach( $t_domain as $d ) {
 			$cnt++;
-			$container->get('entity_task')->create( $d, 'subthreat' );
+			$container->get('entity_task')->create( $d, 'subthreat', [], null, $t_parameters['task_priority'] );
 		}
 
 		return $cnt;

@@ -10,6 +10,9 @@ parameters:
     actarus_id: 1
     actarus_entity_id: 157fb75461d2f3
     
+    cron:
+        task_priority: 99
+    
     entity:
         status:
             0: new
