@@ -43,6 +43,10 @@ class ArusEntityAlertRepository extends \Doctrine\ORM\EntityRepository
 				$query->andWhere('ea.project=:project_id');
 				$t_params['project_id'] = $data->getProject()->getId();
 			}
+			if ($data->getTask()) {
+				$query->andWhere('ea.task=:task_id');
+				$t_params['task_id'] = $data->getTask()->getId();
+			}
 			if ($data->getEntityType()) {
 				$query->andWhere('ea.entityId LIKE :entity_type');
 				$t_params['entity_type'] = $data->getEntityType().'%';

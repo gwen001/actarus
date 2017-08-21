@@ -4,9 +4,11 @@ namespace ArusEntityTaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use ArusProjectBundle\Entity\ArusProject;
 use ArusTaskBundle\Entity\ArusTask;
+use ArusEntityAlertBundle\Entity\ArusEntityAlert;
 
 use Actarus\Utils;
 
@@ -37,17 +39,17 @@ class ArusEntityTask
 	private $project;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="ArusTaskBundle\Entity\ArusTask")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $task;
-
-	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="entity_id", type="string", length=64, nullable=false, unique=false)
 	 */
 	private $entityId;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="ArusTaskBundle\Entity\ArusTask")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $task;
 
 	/**
      * @var string
@@ -133,6 +135,13 @@ class ArusEntityTask
      */
     private $killAt;
 
+	/**
+	 * @var ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="ArusEntityAlertBundle\Entity\ArusEntityAlert", mappedBy="task")
+	 */
+	private $alerts;
+
 
 	/*****************************************************/
 	/* special functions                                 */
@@ -143,6 +152,8 @@ class ArusEntityTask
 	public function __construct()
 	{
 		$this->status = 0;
+
+		$this->alerts   = new ArrayCollection();
 	}
 
 	/**
@@ -530,6 +541,21 @@ class ArusEntityTask
 	}
 	public function setTask( ArusTask $task ) {
 		$this->task = $task;
+		return $this;
+	}
+	
+	public function addAlert(ArusEntityAlert $alert) {
+		$this->alerts[] = $alert;
+		return $this;
+	}
+	public function removeAlert(ArusEntityAlert $alert) {
+		$this->alerts->removeElement( $alert );
+	}
+	public function getAlerts() {
+		return $this->alerts;
+	}
+	public function setAlerts($alerts) {
+		$this->alerts = $alerts;
 		return $this;
 	}
 

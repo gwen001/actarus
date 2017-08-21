@@ -113,7 +113,7 @@ class DefaultController extends Controller
 		$form->handleRequest( $request );
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->get('entity_alert')->create( $alert->getEntityId(), $alert->getDescr(), $alert->getLevel(), $t_status['confirmed'] );
+			$this->get('entity_alert')->create( $alert->getEntityId(), $alert->getDescr(), $alert->getLevel(), null, $t_status['confirmed'] );
 			//$this->addFlash( 'success', 'New alert added!' );
 			$response = new Response( json_encode(array('error'=>0)) );
 			return $response;

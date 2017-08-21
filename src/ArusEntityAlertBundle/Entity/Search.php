@@ -24,6 +24,11 @@ class Search
 	private $project;
 	
 	/**
+	 * @var ArusEntityTask
+	 */
+	private $task;
+	
+	/**
 	 * @var int
 	 */
 	private $entityType;
@@ -135,6 +140,30 @@ class Search
 	public function getProject()
 	{
 		return $this->project;
+	}
+	
+	/**
+	 * Set task
+	 *
+	 * @param ArusTask $task
+	 *
+	 * @return Search
+	 */
+	public function setTask($task)
+	{
+		$this->task = $task;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get task
+	 *
+	 * @return ArusTask
+	 */
+	public function getTask()
+	{
+		return $this->task;
 	}
 	
 	/**

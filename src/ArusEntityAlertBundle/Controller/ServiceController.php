@@ -35,7 +35,7 @@ class ServiceController extends Controller
 	}
 
 
-	public function create( $entity, $text, $alert_level, $alert_status=0 )
+	public function create( $entity, $text, $alert_level, $task=null, $alert_status=0 )
 	{
 		$container = $this->container;
 
@@ -49,6 +49,9 @@ class ServiceController extends Controller
 		$alert->setDescr( $text );
 		$alert->setLevel( $alert_level );
 		$alert->setStatus( $alert_status );
+		if( $task ) {
+			$alert->setTask( $task );
+		}
 
 		$em = $this->em;
 		$em->persist( $alert );
@@ -80,11 +83,11 @@ class ServiceController extends Controller
 	}
 
 
-	public function getModAction( $entity )
+	public function getModAction( $entity, $task=null )
 	{
 		$t_level = array_flip( $this->container->getParameter('alert')['level'] );
 
-		$alert_list = $this->get('entity_alert')->getListAction( $entity->getEntityId() );
+		$alert_list = $this->get('entity_alert')->getListAction( $entity->getEntityId(), $task );
 
 		$alert = new ArusEntityAlert();
 		$alert->setEntityId( $entity->getEntityId() );
@@ -98,23 +101,29 @@ class ServiceController extends Controller
 				'alert_list' => $alert_list,
 				'alert_add_form' => $alertAddForm->createView(),
 				'alert_edit_form' => $alertEditForm->createView(),
+				'task' => $task,
 			)
 		);
 	}
 
 
-	public function getListAction($entity_id)
+	public function getListAction( $entity_id, $task=null )
 	{
 		$em = $this->em;
 
 		$search = new Search();
-		$search->setEntityId( $entity_id );
+		if( $task ) {
+			$search->setTask( $task );
+		} else {
+			$search->setEntityId( $entity_id );
+		}
 		$t_alert = $em->getRepository('ArusEntityAlertBundle:ArusEntityAlert')->search( $search );
 
 		return $this->templating->render(
 			'ArusEntityAlertBundle:Default:list.html.twig', array(
 				'entity_id' => $entity_id,
 				't_alert' => $t_alert,
+				'task' => $task,
 			)
 		);
 	}

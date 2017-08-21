@@ -1,7 +1,7 @@
 <div class="mod mod-alerts panel panel-danger">
     <div class="panel-heading">
-        Alerts ({{ t_alert|length }})
-        <a href="#" class="pull-right btn btn-warning btn-xs alert-add">Add alert</a>
+        Alerts {% if task %}generated{% endif %} ({{ t_alert|length }})
+        {% if not task %}<a href="#" class="pull-right btn btn-warning btn-xs alert-add">Add alert</a>{% endif %}
     </div>
     <div class="panel-body">
         {% for alt in t_alert %}

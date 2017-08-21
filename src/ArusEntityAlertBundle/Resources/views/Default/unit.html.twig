@@ -37,6 +37,9 @@
         {% set aclass = aclass~' alert_level_'~alt.getLevel() %}
         <i class="fa {{ aclass }}"></i>
         <strong><span {% if not alt.isNew() %}class="text-{{ class }}"{% endif %}>{{ alt.getCreatedAt()|date('d/m/Y H:i:s') }}</span></strong>
+        {% if alt.getTask() %}
+        	(#<a href="#task-{{ alt.getTask().getId() }}">{{ alt.getTask().getid() }}</a>)
+        {% endif %}
     </div>
     <div class="alert-descr">{{ alt.getDescr()|raw }}</div>
 </div>

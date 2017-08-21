@@ -171,7 +171,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	{
 		$t_params = $callback->getParams();
 		$container = $this->container;
-		$container->get('entity_alert')->create( $task->getEntity(), $t_params['text'], $t_params['alert_level'] );
+		$container->get('entity_alert')->create( $task->getEntity(), $t_params['text'], $t_params['alert_level'], $task );
 
 		return true;
 	}
@@ -282,7 +282,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				if( $code < 200 || $code > 299 || !$size ) {
 					continue;
 				}
-
 			} elseif( ($b=preg_match( '#==> DIRECTORY: (.*/('.$cc->getRegex().'))/#i',$task->getOutput(),$match)) ) {
 				$code = $size = '';
 			}
@@ -294,17 +293,17 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 				if (isset($t_params['text']) && trim($t_params['text']) != '') {
 					$text = $t_params['text'];
-					$text = str_replace('__URL__', $url, $text);
-					$text = str_replace('__TERM__', $term, $text);
-					$text = str_replace('__CODE__', $code, $text);
-					$text = str_replace('__SIZE__', $size, $text);
+					$text = str_replace( '__URL__', $url, $text );
+					$text = str_replace( '__TERM__', $term, $text );
+					$text = str_replace( '__CODE__', $code, $text );
+					$text = str_replace( '__SIZE__', $size, $text );
 					$t_params['text'] = $text;
-					$cc->setParams($t_params);
+					$cc->setParams( $t_params );
 				}
 
 				$f = $cc->getAction();
 				if (is_callable([$this, $f])) {
-					$this->$f($task, $cc);
+					$this->$f( $task, $cc );
 				}
 			}
 		}
@@ -328,7 +327,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( count($t_dir) ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create($task->getEntity(), 'Directory listing found: ' . implode(', ', $t_dir) . '.', $t_alert_level['medium']);
+			$container->get('entity_alert')->create( $task->getEntity(), 'Directory listing found: ' . implode(', ', $t_dir) . '.', $t_alert_level['medium'], $task );
 		}
 
 		return -1;
@@ -398,7 +397,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
 			if( $cnt ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
 			}
 		}
 
@@ -479,7 +478,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
 			if( $cnt ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
 			}
 		}
 
@@ -504,14 +503,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			case -1:
 				// the host is an alias of a domain not in the project, third party service there
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
+				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'], $task );
 				$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
 				break;
 				
 			case -2:
 				// the host is an alias of a domain not in the project (third party service) but whitelisted
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'] );
+				$container->get('entity_alert')->create( $task->getEntity(), 'This host is an alias, check all domains in the chain for possible takeover.', $t_alert_level['info'], $task );
 				$container->get('entity_task')->create( $task->getEntity(), 'dnsexpire' );
 				$container->get('entity_task')->create( $task->getEntity(), 'testhttp' );
 				break;
@@ -601,7 +600,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$container->get('entity_task')->create( $entity, 'testhttp', ['PORT'=>implode(',',$t_port)] );
 			
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create( $task->getEntity(), 'Open ports are: '.implode(', ',$a_text).'.', $t_alert_level['info'] );
+			$container->get('entity_alert')->create( $task->getEntity(), 'Open ports are: '.implode(', ',$a_text).'.', $t_alert_level['info'], $task );
 		}
 
 		return $m;
@@ -708,7 +707,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$cnt_vuln = count( $t_vulnerable );
 			if( $cnt_vuln ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $project, 'S3 buckets seems to be misconfigured: '.implode(', ',$t_vulnerable).'.', $t_alert_level['high'] );
+				$container->get('entity_alert')->create( $project, 'S3 buckets seems to be misconfigured: '.implode(', ',$t_vulnerable).'.', $t_alert_level['high'], $task );
 			}
 		}
 		
@@ -747,7 +746,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	
 			if( $cnt ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'] );
+				$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
 			}
 		}
 		else {
@@ -805,7 +804,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( $cnt ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create($domain, $cnt.' new host added.', $t_alert_level['info']);
+			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
 		}
 
 		return $cnt;
@@ -917,7 +916,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		if( $cnt ) {
 			$t_alert_level = $container->getParameter('alert')['level'];
-			$container->get('entity_alert')->create($domain, $cnt.' new host added.', $t_alert_level['info']);
+			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
 		}
 
 		return $cnt;

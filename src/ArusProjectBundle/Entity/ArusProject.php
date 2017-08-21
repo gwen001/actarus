@@ -301,7 +301,7 @@ class ArusProject
      *
      * @param string $status
      *
-     * @return ArusEntityAlert
+     * @return ArusProject
      */
     public function setStatus( $status )
     {

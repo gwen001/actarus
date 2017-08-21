@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping\Index;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use ArusProjectBundle\Entity\ArusProject;
-use ArusTaskBundle\Entity\Arus;
+use ArusTaskBundle\Entity\ArusTask;
+use ArusEntityTaskBundle\Entity\ArusEntityTask;
 
 
 /**
@@ -34,6 +35,13 @@ class ArusEntityAlert
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $project;
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="ArusEntityTaskBundle\Entity\ArusEntityTask", inversedBy="alerts")
+	 * @ORM\JoinColumn(name="task_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+	private $task;
 	
 	/**
 	 * @var string
@@ -282,7 +290,7 @@ class ArusEntityAlert
 	 *
 	 * @param ArusProject $project
 	 *
-	 * @return ArusEntityTask
+	 * @return ArusEntityAlert
 	 */
 	public function setProject(ArusProject $project) {
 		$this->project = $project;
@@ -295,6 +303,26 @@ class ArusEntityAlert
 	 */
 	public function getProject() {
 		return $this->project;
+	}
+	
+	/**
+	 * Set task
+	 *
+	 * @param ArusEntityTask $task
+	 *
+	 * @return ArusEntityAlert
+	 */
+	public function setTask(ArusEntityTask $task) {
+		$this->task = $task;
+		return $this;
+	}
+	/**
+	 * Get task
+	 *
+	 * @return ArusEntityTask
+	 */
+	public function getTask() {
+		return $this->task;
 	}
 	
 	public function getEntity() {

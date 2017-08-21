@@ -87,6 +87,8 @@ class DefaultController extends Controller
         $deleteForm = $this->createDeleteForm($task);
 		$stopForm = $this->createStopForm($task);
 
+		//$alert_mod = $this->get('entity_alert')->getModAction( $entity, $task );
+
 		return $this->render('ArusEntityTaskBundle:Default:show.html.twig', array(
 			'task' => $task,
 			'entity' => $entity,
@@ -95,6 +97,7 @@ class DefaultController extends Controller
 			't_cluster' => $t_cluster,
 			'delete_form' => $deleteForm->createView(),
 			'stop_form' => $stopForm->createView(),
+			//'alert_mod' => $alert_mod,
 		));
 	}
 
