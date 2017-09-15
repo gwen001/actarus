@@ -45,7 +45,7 @@ parameters:
             4: disable
     
     domain:
-        whitelist: [cloudfront.net]
+        whitelist: [amazonaws.com,cloudfront.net]
         allowed_extension:
             txt: .txt
         status:

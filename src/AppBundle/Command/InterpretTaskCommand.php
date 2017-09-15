@@ -410,7 +410,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	 */
 	private function host( $task )
 	{
+		$container = $this->container;
+		$entity = $task->getEntity();
+		$t_status = array_flip( $container->getParameter('host')['status'] );
+
 		if( strstr($task->getOutput(),'not found: 3(NXDOMAIN)') ) {
+			$entity->setStatus( $t_status['ko'] );
+			$this->em->persist( $entity );
 			return false;
 		}
 
@@ -420,9 +426,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_server = [];
 		$t_link = [];
 		
-		$container = $this->container;
 		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
-		$entity = $task->getEntity();
 		$domain = $entity->getDomain();
 		$domain_name = $domain->getName();
 		
@@ -613,6 +617,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$udp = (stristr($command,'udp')===false) ? false : true;
 		$output = $task->getOutput();
 		$container = $this->container;
+		$t_status = array_flip( $container->getParameter('server')['status'] );
 
 		if( stristr($output,'Too much success') )
 		{
@@ -645,7 +650,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 			} else {
 				$server = $task->getEntity();
-				$server->setStatus( 2 ); // ko
+				$server->setStatus( $t_status['ko'] );
 				$this->em->persist( $server );
 			}
 			
@@ -762,9 +767,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$output = $task->getOutput();
 		$output = str_replace( "\r", '', $output );
 		$task->setOutput( $output );
+		$t_status = array_flip( $container->getParameter('request')['status'] );
 		
 		$request = $task->getEntity();
-		$request->setStatus( 1 );
+		$request->setStatus( $t_status['tested'] );
 
 		$em = $this->em;
 		$em->persist( $request );
@@ -820,6 +826,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
 		$container = $this->container;
 		$entity = $task->getEntity();
+		$t_status = array_flip( $container->getParameter('host')['status'] );
 
 		foreach( $output as $l )
 		{
@@ -845,6 +852,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$http = 'OK';
 				}
 			}
+			
 			if( $http == 'OK' ) {
 				$t_options = ['PORT'=>$port];
 				if( $port == 443 ) {
@@ -875,7 +883,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 
 		if( !$flag && $entity->getEntityType() == ArusHost::ENTITY_TYPE_ID ) {
-			$entity->setStatus( 2 ); // ko
+			$entity->setStatus( $t_status['ko'] );
 			$this->em->persist( $entity );
 		}
 
