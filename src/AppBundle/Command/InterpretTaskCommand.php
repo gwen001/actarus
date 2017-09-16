@@ -426,7 +426,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_server = [];
 		$t_link = [];
 		
-		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
+		$output = array_map( 'trim', explode("\n",strtolower($task->getOutput())) );
 		$domain = $entity->getDomain();
 		$domain_name = $domain->getName();
 		
@@ -458,10 +458,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					$t_link[] = [ 'host'=>$entity->getName(), 'server'=>$m[2] ];
 				}
 			} elseif( preg_match('#(.*) mail is handled by [0-9]+ (.*)#', $l, $m) ) {
-				if( $container->get('domain')->sameProject($domain,$m[1]) ) {
+				if( !Utils::isDomain($m[1]) && $container->get('domain')->sameProject($domain,$m[1]) ) {
                     $t_host[] = $m[1];
 				}
-				if( $container->get('domain')->sameProject($domain,$m[2]) ) {
+				if( !Utils::isDomain($m[2]) && $container->get('domain')->sameProject($domain,$m[2]) ) {
                     $t_host[] = $m[2];
 				}
 			}

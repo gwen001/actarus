@@ -135,7 +135,7 @@ class Utils
 	
 	public static function extractDomain( $host )
 	{
-		$t_host = explode( '.', $host );
+		$t_host = explode( '.', strtolower($host) );
 		//var_dump( $t_host );
 		$cnt = count($t_host) - 1;
 		//var_dump( $cnt );
