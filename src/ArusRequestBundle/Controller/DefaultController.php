@@ -146,7 +146,7 @@ class DefaultController extends Controller
 		$form = $this->createForm( new ImportType(array('t_format'=>$t_format)), $import );
 		$form->handleRequest($request);
 		
-		if ($form->isSubmitted() && $form->isValid()) {
+		if( $form->isSubmitted() && $form->isValid() ) {
 			$source_file = $import->getSourceFile()->getPathName();
 			$r = $this->get('arequest')->import( $import->getProject(), $source_file, $import->getFormat(), $import->getRecon() );
 			$this->addFlash( 'success', $r.' requests imported!' );

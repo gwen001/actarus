@@ -764,6 +764,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 	private function sqlmap_xss( $task )
 	{
+		$container = $this->container;
 		$output = $task->getOutput();
 		$output = str_replace( "\r", '', $output );
 		$task->setOutput( $output );

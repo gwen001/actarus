@@ -162,6 +162,10 @@ class ServiceController extends Controller
 					$this->get('app')->recon( $r, 'request' );
 				}
 			}
+			else
+			{
+				unset( $r );
+			}
 		}
 		
 		return $cnt;
