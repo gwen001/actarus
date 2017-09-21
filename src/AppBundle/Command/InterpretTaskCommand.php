@@ -702,7 +702,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			if( strstr($l,'Testing permissions:') )
 			{
 				$r = preg_match( '#Testing permissions: put ACL (failed|success)(, get ACL (failed|success), list (failed|success), HTTP list (failed|success), write (failed|success))?#', $l, $res );
-				var_dump( $res );
+				//var_dump( $res );
 				
 				if( $r )
 				{
