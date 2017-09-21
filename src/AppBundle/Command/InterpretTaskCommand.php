@@ -694,24 +694,36 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$l = trim( $l );
 			
 			if( preg_match('#Testing: (.*) FOUND!#',$l,$m) ) {
+				var_dump( $m );
 				$b_name = trim( $m[1] );
 				$t_buckets[] = $b_name;
 			}
 
 			if( strstr($l,'Testing permissions:') )
 			{
-				preg_match( '#Testing permissions: put ACL (failed|success), get ACL (failed|success), list (failed|success), HTTP list (failed|success), write (failed|success)#', $l, $res );
-				$tmp = [
-					($res[1]=='success') ? 1: 0,
-					($res[2]=='success') ? 1: 0,
-					($res[3]=='success') ? 1: 0,
-					($res[4]=='success') ? 1: 0,
-					($res[5]=='success') ? 1: 0,
-				];
-				$t_perms[ $b_name ] = $tmp;
-				if( in_array(1,$tmp) ) {
-					$link = '<a href="https://'.$b_name.'.s3.amazonaws.com" target="_blank">'.$b_name.'</a>';
-					$t_vulnerable[] = $link;
+				$r = preg_match( '#Testing permissions: put ACL (failed|success)(, get ACL (failed|success), list (failed|success), HTTP list (failed|success), write (failed|success))?#', $l, $res );
+				var_dump( $res );
+				
+				if( $r )
+				{
+					if( count($res) == 2 ) {
+						$tmp = [ 1, 0, 0, 0, 0 ];
+					} else {
+						$tmp = [
+							($res[1]=='success') ? 1: 0,
+							($res[2]=='success') ? 1: 0,
+							($res[3]=='success') ? 1: 0,
+							($res[4]=='success') ? 1: 0,
+							($res[5]=='success') ? 1: 0,
+						];
+					}
+					
+					$t_perms[ $b_name ] = $tmp;
+					
+					if( in_array(1,$tmp) ) {
+						$link = '<a href="https://'.$b_name.'.s3.amazonaws.com" target="_blank">'.$b_name.'</a>';
+						$t_vulnerable[] = $link;
+					}
 				}
 			}
 		}
