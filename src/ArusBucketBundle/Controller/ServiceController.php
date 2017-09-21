@@ -118,22 +118,6 @@ class ServiceController extends Controller
 
 		foreach( $t_bucket as $b )
 		{
-			$bucket = $this->exist( $project, $b );
-			if( $bucket ) {
-				continue;
-			}
-			else {
-				if( isset($t_perms[$b]) ) {
-					$bucket->setPermSetACL( $t_perms[$b][0] );
-					$bucket->setPermGetACL( $t_perms[$b][1] );
-					$bucket->setPermReadAPI( $t_perms[$b][2] );
-					$bucket->setPermReadHTTP( $t_perms[$b][3] );
-					$bucket->setPermWrite( $t_perms[$b][4] );
-					$em->persist( $bucket );
-					$em->flush( $bucket );
-				}
-			}
-
 			if( isset($t_perms[$b]) ) {
 				$set_acl = $t_perms[$b][0];
 				$get_acl = $t_perms[$b][1];
@@ -147,7 +131,23 @@ class ServiceController extends Controller
 				$read_http = 0;
 				$write = 0;
 			}
-			
+
+			$bucket = $this->exist( $project, $b );
+			if( $bucket ) {
+				continue;
+			}
+			else {
+				if( isset($t_perms[$b]) ) {
+					$bucket->setPermSetACL( $set_acl );
+					$bucket->setPermGetACL( $get_acl );
+					$bucket->setPermReadAPI( $read_api );
+					$bucket->setPermReadHTTP( $read_http );
+					$bucket->setPermWrite( $write );
+					$em->persist( $bucket );
+					$em->flush( $bucket );
+				}
+			}
+
 			$this->create( $project, $b, $set_acl, $get_acl, $read_api, $read_http, $write );
 			$cnt++;
 		}
