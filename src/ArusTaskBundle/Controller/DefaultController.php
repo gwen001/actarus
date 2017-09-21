@@ -6,6 +6,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 
+use ArusProjectBundle\Entity\ArusProject;
+use ArusDomainBundle\Entity\ArusDomain;
+use ArusHostBundle\Entity\ArusHost;
+use ArusServerBundle\Entity\ArusServer;
+use ArusRequestBundle\Entity\ArusRequest;
+
 use ArusTaskBundle\Entity\ArusTask;
 use ArusTaskBundle\Form\ArusTaskType;
 
@@ -37,13 +43,40 @@ class DefaultController extends Controller
 	public function newAction(Request $request)
 	{
 		$task = new ArusTask();
-		$form = $this->createForm(new ArusTaskType(), $task);
-		$form->handleRequest($request);
+		$form = $this->createForm( new ArusTaskType(), $task );
+		$form->handleRequest( $request );
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$em = $this->getDoctrine()->getManager();
-			$exist = $em->getRepository('ArusTaskBundle:ArusTask')->findByName($task->getName());
+			$exist = $em->getRepository('ArusTaskBundle:ArusTask')->findByName( $task->getName() );
 			if( !$exist ) {
+				$t_entities = [];
+				if( isset($_POST['entities_project']) ) {
+					$t_entities[ArusProject::ENTITY_TYPE_ID] = ArusProject::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusProject::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_domain']) ) {
+					$t_entities[ArusDomain::ENTITY_TYPE_ID] = ArusDomain::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusDomain::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_host']) ) {
+					$t_entities[ArusHost::ENTITY_TYPE_ID] = ArusHost::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusHost::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_server']) ) {
+					$t_entities[ArusServer::ENTITY_TYPE_ID] = ArusServer::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusServer::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_request']) ) {
+					$t_entities[ArusRequest::ENTITY_TYPE_ID] = ArusRequest::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusRequest::ENTITY_TYPE_ID] = 0;
+				}
+				$task->setEntities( $t_entities );
 				$em->persist($task);
 				$em->flush();
 				$this->addFlash('success', 'New task added!');
@@ -109,6 +142,33 @@ class DefaultController extends Controller
 			$em = $this->getDoctrine()->getManager();
 			$exist = $em->getRepository('ArusTaskBundle:ArusTask')->findByName( $task->getName() );
 			if( !$exist || (count($exist) && $exist[0]->getId()==$task->getId()) ) {
+				$t_entities = [];
+				if( isset($_POST['entities_project']) ) {
+					$t_entities[ArusProject::ENTITY_TYPE_ID] = ArusProject::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusProject::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_domain']) ) {
+					$t_entities[ArusDomain::ENTITY_TYPE_ID] = ArusDomain::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusDomain::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_host']) ) {
+					$t_entities[ArusHost::ENTITY_TYPE_ID] = ArusHost::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusHost::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_server']) ) {
+					$t_entities[ArusServer::ENTITY_TYPE_ID] = ArusServer::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusServer::ENTITY_TYPE_ID] = 0;
+				}
+				if( isset($_POST['entities_request']) ) {
+					$t_entities[ArusRequest::ENTITY_TYPE_ID] = ArusRequest::ENTITY_TYPE_ID;
+				} else {
+					$t_entities[ArusRequest::ENTITY_TYPE_ID] = 0;
+				}
+				$task->setEntities( $t_entities );
 				$em->persist($task);
 				$em->flush();
 				$this->addFlash( 'success', 'Your changes were saved!' );

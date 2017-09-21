@@ -43,6 +43,13 @@ class ArusTask
     /**
      * @var string
      *
+     * @ORM\Column(name="entities", type="object", nullable=true)
+     */
+    private $entities;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="default_options", type="object")
      */
     private $defaultOptions;
@@ -170,11 +177,46 @@ class ArusTask
     }
 
 	/**
+     * Set entities
+     *
+     * @param mixed $entities
+     *
+     * @return ArusTask
+     */
+    public function setEntities($entities)
+    {
+        $this->entities = $entities;
+
+        return $this;
+    }
+
+    /**
+     * Get entities
+     *
+     * @return mixed
+     */
+    public function getEntities( $entity=null )
+    {
+		$entities = $this->entities;
+
+		if( $entity ) {
+			if( isset($entities[$entity]) ) {
+				return $entities[ $entity ];
+			} else {
+				return false;
+			}
+		}
+		else {
+        	return (array)$entities;
+		}
+    }
+
+	/**
      * Set defaultOptions
      *
      * @param mixed $defaultOptions
      *
-     * @return ArusTaskCallback
+     * @return ArusTask
      */
     public function setDefaultOptions($defaultOptions)
     {

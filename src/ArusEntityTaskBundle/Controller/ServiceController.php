@@ -181,11 +181,11 @@ class ServiceController extends Controller
 
 	public function getModAction( $entity )
 	{
-		$task_list = $this->getListAction( $entity->getEntityId() );
+		$task_list = $this->getListAction( $entity );
 
 		$task = new ArusEntityTask();
 		$task->setEntityId( $entity->getEntityId() );
-		$taskAddForm = $this->formFactory->create( new ArusEntityTaskAddType(), $task, ['action'=>$this->router->generate('task_new')] );
+		$taskAddForm = $this->formFactory->create( new ArusEntityTaskAddType(['entity_type'=>$entity->getEntityType()]), $task, ['action'=>$this->router->generate('task_new')] );
 
 		return $this->templating->render(
 			'ArusEntityTaskBundle:Default:mod.html.twig', array(
@@ -198,22 +198,26 @@ class ServiceController extends Controller
 	}
 
 
-	public function getListAction($entity_id)
+	public function getListAction( $entity )
 	{
 		$em = $this->em;
-		$entity = $this->get('app')->getEntityById( $entity_id );
-		$t_task = $em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->search( ['entity_id'=>$entity_id] );
+		$tmp = [];
+		$t_task = $em->getRepository('ArusEntityTaskBundle:ArusEntityTask')->search( ['entity_id'=>$entity->getEntityId()] );
 		$t_task_list = $em->getRepository( 'ArusTaskBundle:ArusTask' )->findAll();
 
-		foreach( $t_task_list as &$t ) {
-			$cmd = $this->computeEntityDatas( $t->getCommand(), $entity );
-			$cmd = $this->computeOptions( $cmd, $t->getDefaultOptions() );
-			$tmp[ $t->getId() ] = ['name'=>$t->getName(),'command'=>$cmd];
+		foreach( $t_task_list as $k=>&$t ) {
+			if( $t->getEntities($entity->getEntityType()) == $entity->getEntityType() ) {
+				$cmd = $this->computeEntityDatas( $t->getCommand(), $entity );
+				$cmd = $this->computeOptions( $cmd, $t->getDefaultOptions() );
+				$tmp[ $t->getId() ] = ['name'=>$t->getName(),'command'=>$cmd];
+			} else {
+				unset( $t_task_list[$k] );
+			}
 		}
-
+		
 		return $this->templating->render(
 			'ArusEntityTaskBundle:Default:list.html.twig', array(
-				'entity_id' => $entity_id,
+				'entity_id' => $entity->getEntityId(),
 				't_task' => $t_task,
 				't_task_list' => json_encode($tmp),
 			)

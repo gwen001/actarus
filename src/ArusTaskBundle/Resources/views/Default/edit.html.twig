@@ -30,6 +30,42 @@
             <span class="help-block m-b-none">{{ form_errors(form.timeout) }}</span>
         </div>
     </div>
+	<div class="hr-dashed"></div>
+    <div class="form-group">
+        {{ form_label(form.timeout,'Entities *',{'label_attr':{'class':'col-sm-2 control-label'}}) }}
+        <div class="col-sm-10">
+        	<div class="col-sm-4">
+        		<label class="col-sm-4 control-label required" for="entities_project">Project</label>
+        		<div class="col-sm-3">
+            		<input type="checkbox" class="form-control" id="entities_project" name="entities_project" value="1" {% if task.getEntities(1) %}checked="checked"{% endif %} />
+            	</div>
+            </div>
+        	<div class="col-sm-4">
+        		<label class="col-sm-4 control-label required" for="entities_domain">Domain</label>
+        		<div class="col-sm-3">
+            		<input type="checkbox" class="form-control" id="entities_domain" name="entities_domain" value="3" {% if task.getEntities(3) %}checked="checked"{% endif %} />
+            	</div>
+            </div>
+        	<div class="col-sm-4">
+        		<label class="col-sm-4 control-label required" for="entities_host">Host</label>
+        		<div class="col-sm-3">
+            		<input type="checkbox" class="form-control" id="entities_host" name="entities_host" value="4" {% if task.getEntities(4) %}checked="checked"{% endif %} />
+            	</div>
+            </div>
+        	<div class="col-sm-4">
+        		<label class="col-sm-4 control-label required" for="entities_server">Server</label>
+        		<div class="col-sm-3">
+            		<input type="checkbox" class="form-control" id="entities_server" name="entities_server" value="2" {% if task.getEntities(2) %}checked="checked"{% endif %} />
+            	</div>
+            </div>
+        	<div class="col-sm-4">
+        		<label class="col-sm-4 control-label required" for="entities_request">Request</label>
+        		<div class="col-sm-3">
+            		<input type="checkbox" class="form-control" id="entities_request" name="entities_request" value="5" {% if task.getEntities(5) %}checked="checked"{% endif %} />
+            	</div>
+            </div>
+        </div>
+    </div>
     <div class="hr-dashed"></div>
     <div class="form-group">
         <label class="col-sm-2 control-label nopadding">Created date</label>

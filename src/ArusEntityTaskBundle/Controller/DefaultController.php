@@ -128,7 +128,7 @@ class DefaultController extends Controller
 	 * Create a new ArusEntityTask entity.
 	 *
 	 */
-	public function newAction(Request $request)
+	public function newAction( Request $request )
 	{
 		$r = ['error'=>0];
 
