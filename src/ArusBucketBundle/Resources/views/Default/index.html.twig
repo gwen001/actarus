@@ -129,6 +129,11 @@
                             <th width="70" style="text-align:center;">#</th>
                             <th width="200">Project</th>
                             <th>Name</th>
+                            <th style="text-align:center;">set ACL</th>
+                            <th style="text-align:center;">get ACL</th>
+                            <th style="text-align:center;">read API</th>
+                            <th style="text-align:center;">read HTTP</th>
+                            <th style="text-align:center;">write</th>
                             <th width="170"style="text-align:center;">Created date</th>
                         </tr>
                         </thead>
@@ -138,8 +143,41 @@
                                 <tr class="{{ class }}">
                                     <td align="right">{{ b.getId() }}</td>
                                     <td><a href="{{ path('project_show', { 'id': b.getProject().getId() }) }}" class="text-default">{{ b.getProject().getName()|capitalize }}</a></td>
-                                    <td>
-                                        {{ b.getName() }}
+                                    <td>{{ b.getName() }}</td>
+                                    <td align="center">
+                                    	{% if b.getPermSetACL() %}
+                                    		<img src="{{ asset('img/check-red.png') }}" width="22" />
+                                    	{% else %}
+                                    		<img src="{{ asset('img/cross-grey.png') }}" width="14" />
+                                    	{% endif %}
+                                    </td>
+                                    <td align="center">
+                                    	{% if b.getPermGetACL() %}
+                                    		<img src="{{ asset('img/check-orange.png') }}" width="22" />
+                                    	{% else %}
+                                    		<img src="{{ asset('img/cross-grey.png') }}" width="14" />
+                                    	{% endif %}
+                                    </td>
+                                    <td align="center">
+                                    	{% if b.getPermReadAPI() %}
+                                    		<img src="{{ asset('img/check-green.png') }}" width="22" />
+                                    	{% else %}
+                                    		<img src="{{ asset('img/cross-grey.png') }}" width="14" />
+                                    	{% endif %}
+                                    </td>
+                                    <td align="center">
+                                    	{% if b.getPermReadHTTP() %}
+                                    		<img src="{{ asset('img/check-green.png') }}" width="22" />
+                                    	{% else %}
+                                    		<img src="{{ asset('img/cross-grey.png') }}" width="14" />
+                                    	{% endif %}
+                                    </td>
+                                    <td align="center">
+                                    	{% if b.getPermWrite() %}
+                                    		<img src="{{ asset('img/check-red.png') }}" width="22" />
+                                    	{% else %}
+                                    		<img src="{{ asset('img/cross-grey.png') }}" width="14" />
+                                    	{% endif %}
                                     </td>
                                     <td align="center">{% if b.getCreatedAt() %}{{ b.getCreatedAt()|date('d/m/Y H:i:s') }}{% endif %}</td>
                                 </tr>

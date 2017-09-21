@@ -682,6 +682,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	private function s3_buckets( $task )
 	{
 		$b_name = null;
+		$t_perms = [];
 		$t_buckets = [];
 		$t_vulnerable = [];
 		$project = $task->getEntity();
@@ -697,17 +698,29 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$t_buckets[] = $b_name;
 			}
 
-			if( strstr($l,'success') ) {
-				$link = '<a href="https://'.$b_name.'.s3.amazonaws.com" target="_blank">'.$b_name.'</a>';
-				$t_vulnerable[] = $link;
+			if( strstr($l,'Testing permissions:') )
+			{
+				preg_match( '#Testing permissions: put ACL (failed|success), get ACL (failed|success), list (failed|success), HTTP list (failed|success), write (failed|success)#', $l, $res );
+				$tmp = [
+					($res[1]=='success') ? 1: 0,
+					($res[2]=='success') ? 1: 0,
+					($res[3]=='success') ? 1: 0,
+					($res[4]=='success') ? 1: 0,
+					($res[5]=='success') ? 1: 0,
+				];
+				$t_perms[ $b_name ] = $tmp;
+				if( in_array(1,$tmp) ) {
+					$link = '<a href="https://'.$b_name.'.s3.amazonaws.com" target="_blank">'.$b_name.'</a>';
+					$t_vulnerable[] = $link;
+				}
 			}
 		}
 		
 		$cnt = count( $t_buckets );
-		
+
 		if( $cnt )
 		{
-			$container->get('bucket')->doImport( $project, $t_buckets );
+			$container->get('bucket')->doImport( $project, $t_buckets, $t_perms );
 			
 			$cnt_vuln = count( $t_vulnerable );
 			if( $cnt_vuln ) {

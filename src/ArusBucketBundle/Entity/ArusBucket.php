@@ -45,6 +45,41 @@ class ArusBucket
     /**
      * @var int
      *
+     * @ORM\Column(name="perm_set_acl", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $permSetACL;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="perm_get_acl", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $permGetACL;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="perm_list_api", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $permReadAPI;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="perm_list_http", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $permReadHTTP;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="perm_write", type="smallint", options={"unsigned"=true,"default":0})
+     */
+    private $permWrite;
+
+    /**
+     * @var int
+     *
      * @ORM\Column(name="status", type="smallint", options={"unsigned"=true,"default":0})
      */
     private $status;
@@ -160,11 +195,131 @@ class ArusBucket
     }
 
     /**
+     * Set setPermSetACL
+     *
+     * @param integer $v
+     *
+     * @return ArusBucket
+     */
+    public function setPermSetACL($v)
+    {
+        $this->permSetACL = (int)$v;
+
+        return $this;
+    }
+
+    /**
+     * Get permSetACL
+     *
+     * @return string
+     */
+    public function getPermSetACL()
+    {
+        return $this->permSetACL;
+    }
+
+    /**
+     * Set setPermGetACL
+     *
+     * @param integer $v
+     *
+     * @return ArusBucket
+     */
+    public function setPermGetACL($v)
+    {
+        $this->permGetACL = (int)$v;
+
+        return $this;
+    }
+
+    /**
+     * Get permGetACL
+     *
+     * @return string
+     */
+    public function getPermGetACL()
+    {
+        return $this->permGetACL;
+    }
+
+    /**
+     * Set setPermReadAPI
+     *
+     * @param integer $v
+     *
+     * @return ArusBucket
+     */
+    public function setPermReadAPI($v)
+    {
+        $this->permReadAPI = (int)$v;
+
+        return $this;
+    }
+
+    /**
+     * Get permReadAPI
+     *
+     * @return string
+     */
+    public function getPermReadAPI()
+    {
+        return $this->permReadAPI;
+    }
+
+    /**
+     * Set setPermReadHTTP
+     *
+     * @param integer $v
+     *
+     * @return ArusBucket
+     */
+    public function setPermReadHTTP($v)
+    {
+        $this->permReadHTTP = (int)$v;
+
+        return $this;
+    }
+
+    /**
+     * Get permReadHTTP
+     *
+     * @return string
+     */
+    public function getPermReadHTTP()
+    {
+        return $this->permReadHTTP;
+    }
+
+    /**
+     * Set setPermWrite
+     *
+     * @param integer $v
+     *
+     * @return ArusBucket
+     */
+    public function setPermWrite($v)
+    {
+        $this->permWrite = (int)$v;
+
+        return $this;
+    }
+
+    /**
+     * Get permWrite
+     *
+     * @return string
+     */
+    public function getPermWrite()
+    {
+        return $this->permWrite;
+    }
+
+    /**
      * Set status
      *
-     * @param string $status
+     * @param integer $status
      *
-     * @return ArusEntityAlert
+     * @return ArusBucket
      */
     public function setStatus($status)
     {

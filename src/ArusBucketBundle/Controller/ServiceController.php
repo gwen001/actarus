@@ -76,11 +76,16 @@ class ServiceController extends Controller
 	}
 
 
-	public function create( $project, $name )
+	public function create( $project, $name, $set_acl=0, $get_acl=0, $read_api=0, $read_http=0, $write=0 )
 	{
 		$bucket = new ArusBucket();
 		$bucket->setProject( $project );
 		$bucket->setName( $name );
+		$bucket->setPermSetACL( $set_acl );
+		$bucket->setPermGetACL( $get_acl );
+		$bucket->setPermReadAPI( $read_api );
+		$bucket->setPermReadHTTP( $read_http );
+		$bucket->setPermWrite( $write );
 
 		$em = $this->em;
 		$em->persist( $bucket );
@@ -102,10 +107,11 @@ class ServiceController extends Controller
 	}
 
 	
-	public function doImport( $project, $t_bucket )
+	public function doImport( $project, $t_bucket, $t_perms=array() )
 	{
 		set_time_limit( 0 );
 
+		$em = $this->em;
 		$cnt = 0;
 		$t_bucket = array_map( 'trim', $t_bucket );
 		$t_bucket = array_unique( $t_bucket );
@@ -116,8 +122,33 @@ class ServiceController extends Controller
 			if( $bucket ) {
 				continue;
 			}
+			else {
+				if( isset($t_perms[$b]) ) {
+					$bucket->setPermSetACL( $t_perms[$b][0] );
+					$bucket->setPermGetACL( $t_perms[$b][1] );
+					$bucket->setPermReadAPI( $t_perms[$b][2] );
+					$bucket->setPermReadHTTP( $t_perms[$b][3] );
+					$bucket->setPermWrite( $t_perms[$b][4] );
+					$em->persist( $bucket );
+					$em->flush( $bucket );
+				}
+			}
 
-			$this->create( $project, $b );
+			if( isset($t_perms[$b]) ) {
+				$set_acl = $t_perms[$b][0];
+				$get_acl = $t_perms[$b][1];
+				$read_api = $t_perms[$b][2];
+				$read_http = $t_perms[$b][3];
+				$write = $t_perms[$b][4];
+			} else {
+				$set_acl = 0;
+				$get_acl = 0;
+				$read_api = 0;
+				$read_http = 0;
+				$write = 0;
+			}
+			
+			$this->create( $project, $b, $set_acl, $get_acl, $read_api, $read_http, $write );
 			$cnt++;
 		}
 
