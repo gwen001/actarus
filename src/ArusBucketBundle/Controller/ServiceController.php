@@ -133,6 +133,7 @@ class ServiceController extends Controller
 			}
 
 			$bucket = $this->exist( $project, $b );
+			
 			if( $bucket ) {
 				continue;
 			}
