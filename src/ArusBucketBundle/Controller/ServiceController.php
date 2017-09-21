@@ -132,7 +132,7 @@ class ServiceController extends Controller
 				$write = 0;
 			}
 
-			$bucket = $this->exist( $project, $b );
+			$bucket = $this->exist( $project, $b, null, true );
 			
 			if( $bucket )
 			{
