@@ -702,7 +702,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			if( strstr($l,'Testing permissions:') )
 			{
 				$r = preg_match( '#Testing permissions: put ACL (failed|success)(, get ACL (failed|success), list (failed|success), HTTP list (failed|success), write (failed|success))?#', $l, $res );
-				//var_dump( $res );
+				var_dump( $res );
 				
 				if( $r )
 				{
@@ -711,10 +711,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 					} else {
 						$tmp = [
 							($res[1]=='success') ? 1: 0,
-							($res[2]=='success') ? 1: 0,
 							($res[3]=='success') ? 1: 0,
 							($res[4]=='success') ? 1: 0,
 							($res[5]=='success') ? 1: 0,
+							($res[6]=='success') ? 1: 0,
 						];
 					}
 					
@@ -728,6 +728,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 		
+		var_dump($t_perms);
 		$cnt = count( $t_buckets );
 
 		if( $cnt )
