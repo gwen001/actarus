@@ -134,23 +134,21 @@ class ServiceController extends Controller
 
 			$bucket = $this->exist( $project, $b );
 			
-			if( $bucket ) {
-				continue;
+			if( $bucket )
+			{
+				$bucket->setPermSetACL( $set_acl );
+				$bucket->setPermGetACL( $get_acl );
+				$bucket->setPermReadAPI( $read_api );
+				$bucket->setPermReadHTTP( $read_http );
+				$bucket->setPermWrite( $write );
+				$em->persist( $bucket );
+				$em->flush( $bucket );
 			}
-			else {
-				if( isset($t_perms[$b]) ) {
-					$bucket->setPermSetACL( $set_acl );
-					$bucket->setPermGetACL( $get_acl );
-					$bucket->setPermReadAPI( $read_api );
-					$bucket->setPermReadHTTP( $read_http );
-					$bucket->setPermWrite( $write );
-					$em->persist( $bucket );
-					$em->flush( $bucket );
-				}
+			else
+			{
+				$this->create( $project, $b, $set_acl, $get_acl, $read_api, $read_http, $write );
+				$cnt++;				
 			}
-
-			$this->create( $project, $b, $set_acl, $get_acl, $read_api, $read_http, $write );
-			$cnt++;
 		}
 
 		return $cnt;
