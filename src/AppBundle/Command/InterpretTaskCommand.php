@@ -694,7 +694,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$l = trim( $l );
 			
 			if( preg_match('#Testing: (.*) FOUND!#',$l,$m) ) {
-				var_dump( $m );
+				//var_dump( $m );
 				$b_name = trim( $m[1] );
 				$t_buckets[] = $b_name;
 			}
