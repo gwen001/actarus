@@ -39,7 +39,12 @@ class ArusEntityTaskAddType extends AbstractType
 					'property' => 'name',
 					'class' => 'ArusTaskBundle\\Entity\\ArusTask',
 					'query_builder' => function(ArusTaskRepository $er){
-						return $er->createQueryBuilder('t')->where("t.entities LIKE '%i:".$this->options['entity_type'].";i:".$this->options['entity_type']."%'")->orderBy('t.name', 'ASC');
+						$q = $er->createQueryBuilder('t');
+						if( $this->options && isset($this->options['entity_type']) && $this->options['entity_type']!=0 ) {
+							$q->where("t.entities LIKE '%i:".$this->options['entity_type'].";i:".$this->options['entity_type']."%'");
+						}
+						$q->orderBy('t.name', 'ASC');
+						return $q;
 					})
 			)
 		;
