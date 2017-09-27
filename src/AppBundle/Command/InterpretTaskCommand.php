@@ -728,7 +728,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 		
-		var_dump($t_perms);
+		//var_dump($t_perms);
 		$cnt = count( $t_buckets );
 
 		if( $cnt )
