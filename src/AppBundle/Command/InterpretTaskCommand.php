@@ -333,7 +333,12 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		return -1;
 	}
 
+	
+	private function dirbsearch( $task )
+	{
+	}
 
+	
 	/**
 	 * Add discovered hosts
 	 */
