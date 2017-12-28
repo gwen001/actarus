@@ -492,8 +492,7 @@ class DefaultController extends Controller
 			$str = '<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
-<nmaprun scanner="nmap" version="7.01" xmloutputversion="1.04">
-	<host>';
+<nmaprun scanner="nmap" version="7.01" xmloutputversion="1.04">';
 			foreach( $t_server as $s ) {
 				$str .= "<host>\n";
 				$str .= '<address addr="'.$s->getName().'" addrtype="ipv4"/>';
