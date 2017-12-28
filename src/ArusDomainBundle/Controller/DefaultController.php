@@ -65,7 +65,8 @@ class DefaultController extends Controller
 			$d->setEntityAlerts( $this->get('entity_alert')->search(['entity_id'=>$d->getEntityId()]) );
 		}
 
-		$pagination = $this->get('app')->paginate( $total_domain, count($t_domain), $page, true );
+		$t_actions = [ 'export csv'=>'javascript:;' ];
+		$pagination = $this->get('app')->paginate( $total_domain, count($t_domain), $page, $t_actions );
 
 		return $this->render('ArusDomainBundle:Default:index.html.twig', array(
 			'search_form' => $search_form->createView(),

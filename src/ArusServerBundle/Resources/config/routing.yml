@@ -7,6 +7,11 @@ server_export:
     defaults: { _controller: "ArusServerBundle:Default:export" }
     methods:  [POST]
 
+server_export_msf:
+    path:     /server/exportMetasploit
+    defaults: { _controller: "ArusServerBundle:Default:exportMetasploit" }
+    methods:  [POST]
+
 server_show:
     path:     /server/{id}/show
     defaults: { _controller: "ArusServerBundle:Default:show" }

@@ -76,7 +76,7 @@ class ServiceController extends Controller
 	}
 
 
-	public function paginate( $total, $count, $page, $export=false )
+	public function paginate( $total, $count, $page, $t_actions=array() )
 	{
 		if( (int)$total <= 0 ) {
 			return '';
@@ -96,7 +96,7 @@ class ServiceController extends Controller
 				'p_of' => $p_of,
 				'page' => $page,
 				'n_page' => $n_page,
-				'btn_export' =>$export,
+				't_actions' =>$t_actions,
 			)
 		);
 	}

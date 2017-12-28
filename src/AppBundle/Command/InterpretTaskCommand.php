@@ -567,7 +567,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			{
 				$port = (int)trim( $matches[1][$i] );
 				$type = trim( $matches[2][$i] );
-				$service = trim( $matches[3][$i] );
+				$service = trim( $matches[3][$i], ' ?' );
 				$version = trim( $matches[4][$i] );
 
 				$t_port[] = $port;

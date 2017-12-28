@@ -23,12 +23,17 @@ class DefaultController extends Controller
 	{
 		$t_cluster = $this->getParameter( 'daemon' )['cluster'];
 
-		$t_status = array_flip($this->getParameter('task')['status']);
 		$t_entity_type = array_flip( $this->getParameter('entity')['type'] );
+		$t_status = array_flip($this->getParameter('task')['status']);
+		$t_status2 = $t_status;
+		foreach( $t_status2 as $k=>$v ) {
+			$t_status2[$k] = $k. ' - '.$v;
+			//$t_status2[$k] = $v.' ('.$k.')';
+		}
 
 		$search = new Search();
 		$search->setStatus( 0 );
-		$form = $this->createForm(new SearchType(['t_status'=>$t_status,'t_entity_type'=>$t_entity_type,'t_cluster'=>$t_cluster]), $search);
+		$form = $this->createForm(new SearchType(['t_status'=>$t_status2,'t_entity_type'=>$t_entity_type,'t_cluster'=>$t_cluster]), $search);
 		$form->handleRequest($request);
 
 		$data = null;

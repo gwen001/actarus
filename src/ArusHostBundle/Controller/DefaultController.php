@@ -76,7 +76,8 @@ class DefaultController extends Controller
 			$h->setEntityTechnologies( $this->get('entity_technology')->getListAction($h->getEntityId()) );
 		}
 
-		$pagination = $this->get('app')->paginate( $total_host, count($t_host), $page, true );
+		$t_actions = [ 'export csv'=>'javascript:;' ];
+		$pagination = $this->get('app')->paginate( $total_host, count($t_host), $page, $t_actions );
 
 		return $this->render('ArusHostBundle:Default:index.html.twig', array(
 			'search_form' => $search_form->createView(),

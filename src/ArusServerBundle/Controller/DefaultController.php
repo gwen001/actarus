@@ -25,6 +25,7 @@ use ArusServerBundle\Form\ImportType;
 use ArusServerBundle\Entity\Search;
 use ArusServerBundle\Form\SearchType;
 use ArusServerBundle\Form\ExportType;
+use ArusServerBundle\Form\ExportMetasploitType;
 
 use ArusEntityTaskBundle\Entity\ArusEntityTask;
 use ArusEntityTaskBundle\Entity\Search as EntityTaskSearch;
@@ -50,6 +51,7 @@ class DefaultController extends Controller
 		$search_form->handleRequest($request);
 
 		$export_form = $this->createForm( new ExportType(['t_status'=>$t_status]), $search, ['action'=>$this->generateUrl('server_export')] );
+		$export_msf_form = $this->createForm( new ExportMetasploitType(['t_status'=>$t_status]), $search, ['action'=>$this->generateUrl('server_export_msf')] );
 
 		$data = null;
 		if( $search_form->isSubmitted() && $search_form->isValid() )  {
@@ -77,11 +79,14 @@ class DefaultController extends Controller
 			$s->setEntityAlerts( $this->get('entity_alert')->search(['entity_id'=>$s->getEntityId()]) );
 			$s->setEntityTechnologies( $this->get('entity_technology')->getListAction($s->getEntityId()) );
 		}
-		$pagination = $this->get('app')->paginate( $total_server, count($t_server), $page, true );
+		
+		$t_actions = [ 'export csv'=>'javascript:;', 'export metasploit'=>'javascript:;' ];
+		$pagination = $this->get('app')->paginate( $total_server, count($t_server), $page, $t_actions );
 
 		return $this->render('ArusServerBundle:Default:index.html.twig', array(
 			'search_form' => $search_form->createView(),
 			'export_form' => $export_form->createView(),
+			'export_msf_form' => $export_msf_form->createView(),
 			't_server' => $t_server,
 			't_status' => $t_status,
 			'pagination' => $pagination,
@@ -436,6 +441,84 @@ class DefaultController extends Controller
 		$response->headers->set( 'Content-Type', 'text/csv; charset=utf-8' );
 		$response->headers->set( 'Content-Disposition','attachment; filename="server.csv"' );
 		
-		return $response;            
+		return $response;
+	}
+	
+
+	
+	/**
+	 * Export search result
+	 *
+	 */
+	public function exportMetasploitAction( Request $request )
+	{
+		$t_status = $this->getParameter('server')['status'];
+
+		$search = new Search();
+		$export_msf_form = $this->createForm( new ExportMetasploitType(['t_status'=>$t_status]), $search, ['action'=>$this->generateUrl('server_export_msf')] );
+		$export_msf_form->handleRequest( $request );
+
+		$data = null;
+		if( $export_msf_form->isSubmitted() && $export_msf_form->isValid() )  {
+			$data = $export_msf_form->getData();
+		}
+
+		if( $data->getExportFull() == 'page' ) {
+			$page = 1;
+			$limit = $this->getParameter('results_per_page');
+			$total_server = $this->get('server')->search( $data, -1 );
+			$n_page = ceil( $total_server/$limit );
+	
+			if( is_array($data) || is_object($data) ) {
+				if (is_array($data) && isset($data['page'])) {
+					$page = $data['page'];
+				} else {
+					$page = $data->getPage();
+				}
+				if ($page <= 0 || $page > $n_page) {
+					$page = 1;
+				}
+			}
+			$limit = -1;
+		} else {
+			$page = 1;
+			$limit = null;
+		}
+		
+		$t_server = $this->get('server')->search( $data, $page, $limit );
+		
+		$response = new StreamedResponse();
+		$response->setCallback(function() use($data,$t_server) {
+			$str = '<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
+<nmaprun scanner="nmap" version="7.01" xmloutputversion="1.04">
+	<host>';
+			foreach( $t_server as $s ) {
+				$str .= "<host>\n";
+				$str .= '<address addr="'.$s->getName().'" addrtype="ipv4"/>';
+				$str .= "\n";
+				$str .= '<hostnames>';
+				if( strlen($s->getAlias()) ) {
+					$str .= '<hostname name="'.$s->getAlias().'" type="PTR"/>';
+				}
+				$str .= "</hostnames>\n";
+				$str .= "<ports>\n";
+				foreach( $s->getServices() as $ss ) {
+					$str .= '<port protocol="'.$ss->getType().'" portid="'.$ss->getPort().'"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="'.$ss->getService().'" version="'.$ss->getVersion().'" method="table" conf="3"/></port>';
+					$str .= "\n";
+				}
+				$str .= "</ports>\n";
+				$str .= "</host>\n";
+			}
+			$str .= '</nmaprun>';
+			echo $str;
+		});
+		
+		$response->setStatusCode( 200 );
+		$response->headers->set( 'Content-Type', 'text/csv; charset=utf-8' );
+		$response->headers->set( 'Content-Disposition','attachment; filename="server.xml"' );
+		
+		return $response;
 	}
 }

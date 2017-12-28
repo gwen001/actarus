@@ -58,7 +58,8 @@ class DefaultController extends Controller
 		}
 
 		$t_bucket = $this->get('bucket')->search( $data, $page );
-		$pagination = $this->get('app')->paginate( $total_bucket, count($t_bucket), $page, true );
+		$t_actions = [ 'export csv'=>'javascript:;' ];
+		$pagination = $this->get('app')->paginate( $total_bucket, count($t_bucket), $page, $t_actions );
 
 		return $this->render('ArusBucketBundle:Default:index.html.twig', array(
 			'search_form' => $search_form->createView(),
