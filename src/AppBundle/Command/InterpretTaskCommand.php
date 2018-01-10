@@ -534,7 +534,65 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		return $cnt;
 	}
 
+	
+	private function masscan( $task )
+	{
+		$output = $task->getOutput();
+		$container = $this->container;
+		$entity = $task->getEntity();
+		$command = $task->getCommand();
+		$udp = (stristr($command,'udp')===false) ? false : true;
+		$m = preg_match_all( '#Discovered open port ([0-9]+)/(tcp|udp) on (.*)#', $output, $matches );
+		$t_ip = [];
+		$cnt = 0;
 
+		if( $m )
+		{
+			$cnt = count( $matches[0] );
+			
+			for( $i=0 ; $i<$m ; $i++ )
+			{
+				$port = (int)$matches[1][$i];
+				$prot = $matches[2][$i];
+				$ip = trim( $matches[3][$i] );
+
+				if( !isset($t_ip[$ip]) ) {
+					$t_ip[$ip] = [ 'tcp'=>[], 'udp'=>[] ];
+				}
+				
+				$t_ip[$ip][ $prot ][] = $port;
+				
+			}
+		}
+		//var_dump( $t_ip );
+
+		foreach( $t_ip as $ip=>$v )
+		{
+			$server = $container->get('server')->search( ['name'=>$ip] );
+			if( !$server || !is_array($server) || !count($server) ) {
+				continue;
+			}
+			$server = $server[0];
+
+			foreach( $v as $prot=>$t_port ) {
+				if( count($t_port) > 0 && count($t_port) < 50 ) {
+					sort( $t_port, SORT_NUMERIC );
+					$s_port = implode( ',', $t_port );
+					$t_options = ['PORT'=>$s_port];
+					if( $udp ) {
+						$t_options['TYPE'] = '-sU';
+					}
+				}
+			}
+			//var_dump( $t_options );
+			
+			$container->get('entity_task')->create( $server, 'nmap_custom', $t_options );
+		}
+
+		return $cnt;
+	}
+
+	
 	private function nmap_udp( $task )
 	{
         return $this->nmap_full( $task );
