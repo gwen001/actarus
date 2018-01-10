@@ -18,9 +18,9 @@ class Import
 	private $source_file;
 
 	/**
-	 * @var boolean
+	 * @var integer
 	 */
-	private $recon = true;
+	private $recon;
 
 
 	/**
@@ -73,7 +73,7 @@ class Import
 
 
 	public function setRecon( $recon ) {
-		$this->recon = (bool)$recon;
+		$this->recon = (int)$recon;
 		return $this;
 	}
 	public function getRecon() {

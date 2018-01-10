@@ -39,7 +39,7 @@ class ImportType extends AbstractType
 				})
 			)
             ->add( 'source_file', FileType::class, ['required'=>true] )
-			->add( 'recon', CheckboxType::class, ['required'=>false] )
+			->add( 'recon', ChoiceType::class, ['empty_value' =>null,'data'=>'1','choices'=>['0'=>'None','1'=>'Classic','2'=>'Masscan'],'multiple'=>false,'expanded'=>true,'required'=>false] )
 		;
     }
 }

@@ -224,7 +224,14 @@ class DefaultController extends Controller
 			$project = $import->getProject();
 			$source_file = $import->getSourceFile();
 			$t_server = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
-			$cnt = $this->get('server')->import( $project, $t_server, $import->getRecon() );
+			$cnt = 0;
+			//$cnt = $this->get('server')->import( $project, $t_server, (($import->getRecon()==1)?true:false) );
+			if( $import->getRecon() == 2 )  {
+				// masscan
+				$src = $source_file.'m';
+				copy( $source_file, $src );
+				$this->get('entity_task')->create( $project, 'masscan', ['SRC'=>$src] );
+			}
 			$this->addFlash( 'success', $cnt.' server imported!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
 		}
@@ -493,6 +500,7 @@ class DefaultController extends Controller
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/share/nmap/nmap.xsl" type="text/xsl"?>
 <nmaprun scanner="nmap" version="7.01" xmloutputversion="1.04">';
+			$str .= "\n";
 			foreach( $t_server as $s ) {
 				$str .= "<host>\n";
 				$str .= '<address addr="'.$s->getName().'" addrtype="ipv4"/>';
