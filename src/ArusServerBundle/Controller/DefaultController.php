@@ -224,8 +224,7 @@ class DefaultController extends Controller
 			$project = $import->getProject();
 			$source_file = $import->getSourceFile();
 			$t_server = file( $source_file, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES );
-			$cnt = 0;
-			//$cnt = $this->get('server')->import( $project, $t_server, (($import->getRecon()==1)?true:false) );
+			$cnt = $this->get('server')->import( $project, $t_server, (($import->getRecon()==1)?true:false) );
 			if( $import->getRecon() == 2 )  {
 				// masscan
 				$src = $source_file.'m';
