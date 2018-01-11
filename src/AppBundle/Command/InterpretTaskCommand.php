@@ -541,7 +541,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$entity = $task->getEntity();
 		$command = $task->getCommand();
-		$udp = (stristr($command,'udp')===false) ? false : true;
+		$udp = (stristr($command,'U:')===false) ? false : true;
 		$m = preg_match_all( '#Discovered open port ([0-9]+)/(tcp|udp) on (.*)#', $output, $matches );
 		$t_ip = [];
 		$cnt = 0;

@@ -230,6 +230,7 @@ class DefaultController extends Controller
 				$src = $source_file.'m';
 				copy( $source_file, $src );
 				$this->get('entity_task')->create( $project, 'masscan', ['SRC'=>$src] );
+				$this->get('entity_task')->create( $project, 'masscan', ['SRC'=>$src,'UDP'=>'U:'] );
 			}
 			$this->addFlash( 'success', $cnt.' server imported!' );
 			return $this->redirectToRoute( 'project_show',array('id'=>$project->getId()) );
