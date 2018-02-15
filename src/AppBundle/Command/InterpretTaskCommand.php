@@ -537,6 +537,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	
 	private function masscan( $task )
 	{
+		$project = $task->getProject();
 		$output = $task->getOutput();
 		$container = $this->container;
 		$entity = $task->getEntity();
@@ -564,12 +565,15 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				
 			}
 		}
+		
+		$container->get('server')->import( $project, array_keys($t_ip), false );
 		//var_dump( $t_ip );
 
 		foreach( $t_ip as $ip=>$v )
 		{
 			$server = $container->get('server')->search( ['name'=>$ip] );
 			if( !$server || !is_array($server) || !count($server) ) {
+				// impossible!
 				continue;
 			}
 			$server = $server[0];
