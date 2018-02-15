@@ -566,12 +566,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 		
-		$container->get('server')->import( $project, array_keys($t_ip), false );
+		// useless?
+		//$container->get('server')->import( $project, array_keys($t_ip), false );
 		//var_dump( $t_ip );
 
 		foreach( $t_ip as $ip=>$v )
 		{
-			$server = $container->get('server')->search( ['name'=>$ip] );
+			$server = $container->get('server')->search( ['name'=>[$ip,'=']] );
 			if( !$server || !is_array($server) || !count($server) ) {
 				// impossible!
 				continue;
