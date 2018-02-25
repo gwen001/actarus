@@ -89,7 +89,7 @@ class ArusEntityTask
 	/**
 	 * @var int
 	 *
-	 * @ORM\Column(name="priority", type="smallint", nullable=true, options={"unsigned"=true})
+	 * @ORM\Column(name="priority", type="smallint", nullable=true)
 	 */
 	private $priority;
 

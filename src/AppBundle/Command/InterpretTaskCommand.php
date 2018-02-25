@@ -235,7 +235,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
         $project = $domain->getProject();
         
 		$altdns = $container->get('entity_task')->search( ['project'=>$project,'command'=>'altdns','status'=>['13','<']] );
-		$s3bucket = $container->get('entity_task')->search( ['project'=>$project,'command'=>'buckets','status'=>['13','<']] );
+		$s3bucket = $container->get('entity_task')->search( ['project'=>$project,'command'=>'bucket','status'=>['13','<']] );
 		$subthreat = $container->get('entity_task')->search( ['project'=>$project,'command'=>'subthreat','status'=>['13','<']] );
 		
 		if( !$altdns && !$subthreat ) {
@@ -965,16 +965,16 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$flag = true;
 				$container->get('entity_task')->create( $entity, 'whatweb', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'dirsearch', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'act_wfuzz', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options, null, -1 );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options, null, -1 );
+				$container->get('entity_task')->create( $task->getEntity(), 'dirsearch', $t_options, null, -1 );
+				$container->get('entity_task')->create( $task->getEntity(), 'act_wfuzz', $t_options, null, -1 );
 			}
 		}
 
