@@ -249,31 +249,35 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 	
-	private function aquatone-discover( $task )
+	private function aquatone_discover( $task )
 	{
         $container = $this->container;
         $domain = $task->getEntity();
 		
-		$container->get('entity_task')->create( $domain, 'aquatone-scan' );
+		$container->get('entity_task')->create( $domain, 'aquatone_scan' );
 
 		return true;
 	}
-	private function aquatone-scan( $task )
+	private function aquatone_scan( $task )
 	{
         $container = $this->container;
         $domain = $task->getEntity();
 		
-		$container->get('entity_task')->create( $domain, 'aquatone-gather' );
+		$container->get('entity_task')->create( $domain, 'aquatone_gather' );
 
 		return true;
 	}
-	private function aquatone-gather( $task )
+	private function aquatone_gather( $task )
 	{
         $container = $this->container;
         $domain = $task->getEntity();
 		
-		$container->get('entity_task')->create( $domain, 'aquatone-takeover' );
+		$container->get('entity_task')->create( $domain, 'aquatone_takeover' );
 
+		return true;
+	}
+	private function aquatone_takeover( $task )
+	{
 		return true;
 	}
 
