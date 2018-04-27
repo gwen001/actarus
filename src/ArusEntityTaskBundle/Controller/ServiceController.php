@@ -97,7 +97,7 @@ class ServiceController extends Controller
 
 
 
-	public function create( $entity, $task_name, $options=array(), $cmd=null, $priority=0 )
+	public function create( $entity, $task_name, $options=array(), $cmd=null, $priority=0, $cluster_id=null )
 	{
 		$em = $this->em;
 		$container = $this->container;
@@ -127,6 +127,10 @@ class ServiceController extends Controller
 		$task->setProject( $container->get('app')->getEntityProject($entity) );
 		$task->setEntityId( $entity->getEntityId() );
 		$task->setCommand( $cmd );
+		$task->setPriority( $priority );
+		if( !is_null($cluster_id) ) {
+			$task->setClusterId( $cluster_id );
+		}
 		$task->setPriority( $priority );
 		$em->persist( $task );
 		$em->flush( $task );
