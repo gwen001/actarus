@@ -1261,7 +1261,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$t_new_domains[] = Utils::extractDomain( $d );
 		}
 		//var_dump( $t_new_domains );
-		$cnt1 = $container->get('domain')->import( $project, $t_new_domains, true );
+		if( count($t_new_domains) ) {
+			$cnt1 = $container->get('domain')->import( $project, $t_new_domains, true );
+		}
 		
 		// add new hosts within the same domain, yes yes redondant
 		$t_new_hosts = [];
@@ -1274,7 +1276,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$t_new_hosts[] = $d;
 		}
 		//var_dump( $t_new_hosts );
-		$cnt2 = $container->get('host')->import( $project, $t_new_hosts, true );
+		if( count($t_new_hosts) ) {
+			$cnt2 = $container->get('host')->import( $project, $t_new_hosts, true );
+		}
 		
 		// add new urls within the same host
 		$t_new_urls = [];
@@ -1287,7 +1291,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$t_new_urls[] = $d;
 		}
 		//var_dump( $t_new_urls );
-		$cnt3 = $container->get('arequest')->import( $project, $t_new_urls, 'array', true );
+		if( count($t_new_urls) ) {
+			$cnt3 = $container->get('arequest')->import( $project, $t_new_urls, 'array', true );
+		}
 
 		$t_output = array_slice( explode("\n",$matches[0][3]), 1, -1 );
 		$t_bucket_aws = array_unique( $t_output );
@@ -1300,7 +1306,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 				$t_links[] = '<a href="https://'.$b.'.s3.amazonaws.com" target="_blank">'.$b.'</a>';
 			}
-			$container->get('entity_alert')->create( $project, 'Amazon S3 buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+			if( count($t_links) ) {
+				$container->get('entity_alert')->create( $project, 'Amazon S3 buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+			}
 		}
 		
 		$t_output = array_slice( explode("\n",$matches[0][4]), 1, -1 );
@@ -1314,7 +1322,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 				$t_links[] = '<a href="https://'.$b.'.storage.googleapis.com" target="_blank">'.$b.'</a>';
 			}
-			$container->get('entity_alert')->create( $project, 'Google Cloud buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+			if( count($t_links) ) {
+				$container->get('entity_alert')->create( $project, 'Google Cloud buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+			}
 		}
 		
 		return $cnt1+$cnt2+$cnt3+$cnt4+$cnt5;
