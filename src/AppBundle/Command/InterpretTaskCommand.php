@@ -1255,6 +1255,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_output = array_slice( explode("\n",$matches[0][0]), 1, -1 );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
+			if( stristr($d,'PHP Warning') ) {
+				continue;
+			}
 			$t_new_domains[] = Utils::extractDomain( $d );
 		}
 		//var_dump( $t_new_domains );
@@ -1265,6 +1268,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_output = array_slice( explode("\n",$matches[0][1]), 1, -1 );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
+			if( stristr($d,'PHP Warning') ) {
+				continue;
+			}
 			$t_new_hosts[] = $d;
 		}
 		//var_dump( $t_new_hosts );
@@ -1275,6 +1281,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_output = array_slice( explode("\n",$matches[0][2]), 1, -1 );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
+			if( stristr($d,'PHP Warning') ) {
+				continue;
+			}
 			$t_new_urls[] = $d;
 		}
 		//var_dump( $t_new_urls );
@@ -1286,6 +1295,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( $cnt4 ) {
 			$t_links = [];
 			foreach( $t_bucket_aws as $b ) {
+				if( stristr($b,'PHP Warning') ) {
+					continue;
+				}
 				$t_links[] = '<a href="https://'.$b.'.s3.amazonaws.com" target="_blank">'.$b.'</a>';
 			}
 			$container->get('entity_alert')->create( $project, 'Amazon S3 buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
@@ -1297,6 +1309,9 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		if( $cnt5 ) {
 			$t_links = [];
 			foreach( $t_bucket_gc as $b ) {
+				if( stristr($b,'PHP Warning') ) {
+					continue;
+				}
 				$t_links[] = '<a href="https://'.$b.'.storage.googleapis.com" target="_blank">'.$b.'</a>';
 			}
 			$container->get('entity_alert')->create( $project, 'Google Cloud buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
