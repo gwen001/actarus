@@ -68,6 +68,7 @@ parameters:
     request:
         default_port: 80
         default_method: GET
+        default_scheme: https
         http_protocol:
             http: http
             https: https

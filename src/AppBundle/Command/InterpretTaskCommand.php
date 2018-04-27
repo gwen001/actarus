@@ -889,7 +889,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 	
 
-	private function sqlmap_xss( $task )
+	private function sqlmap_smart( $task )
 	{
 		$container = $this->container;
 		$output = $task->getOutput();
@@ -1003,6 +1003,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'urlgrabber', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'nikto', $t_options, null, -1 );
 				//$container->get('entity_task')->create( $task->getEntity(), 'dirb', $t_options, null, -1 );
@@ -1219,5 +1220,88 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 		
 		return $cnt;
+	}
+	
+	
+	private function urlgrabber( $task )
+	{
+		$em = $this->em;
+		$container = $this->container;
+		$entity = $task->getEntity();
+		
+		$t_options = [];
+		$t_options['DIR'] = '/tmp/'.$entity->getName();
+		$container->get('entity_task')->create( $entity, 'extract_datas', $t_options );
+		
+		return true;
+	}
+	
+	
+	private function extract_datas( $task )
+	{
+		$em = $this->em;
+		$container = $this->container;
+		$entity = $task->getEntity();
+		$project = $entity->getProject();
+		$output = trim( $task->getOutput() );
+		$t_alert_level = $container->getParameter('alert')['level'];
+		
+		//var_dump( $output );
+		$m = preg_match_all( '|###########.*?######################|is', $output, $matches );
+		//var_dump( $matches );
+		
+		// add new domains with the same extension
+		$t_new_domains = [];
+		$t_output = array_slice( explode("\n",$matches[0][0]), 1, -1 );
+		//var_dump( $t_new_domains );
+		foreach( $t_output as $d ) {
+			$t_new_domains[] = Utils::extractDomain( $d );
+		}
+		//var_dump( $t_new_domains );
+		$cnt1 = $container->get('domain')->import( $project, $t_new_domains, true );
+		
+		// add new hosts within the same domain, yes yes redondant
+		$t_new_hosts = [];
+		$t_output = array_slice( explode("\n",$matches[0][1]), 1, -1 );
+		//var_dump( $t_new_domains );
+		foreach( $t_output as $d ) {
+			$t_new_hosts[] = $d;
+		}
+		//var_dump( $t_new_hosts );
+		$cnt2 = $container->get('host')->import( $project, $t_new_hosts, true );
+		
+		// add new urls within the same host
+		$t_new_urls = [];
+		$t_output = array_slice( explode("\n",$matches[0][2]), 1, -1 );
+		//var_dump( $t_new_domains );
+		foreach( $t_output as $d ) {
+			$t_new_urls[] = $d;
+		}
+		//var_dump( $t_new_urls );
+		$cnt3 = $container->get('arequest')->import( $project, $t_new_urls, 'array', true );
+
+		$t_output = array_slice( explode("\n",$matches[0][3]), 1, -1 );
+		$t_bucket_aws = array_unique( $t_output );
+		$cnt4 = count( $t_bucket_aws );
+		if( $cnt4 ) {
+			$t_links = [];
+			foreach( $t_bucket_aws as $b ) {
+				$t_links[] = '<a href="https://'.$b.'.s3.amazonaws.com" target="_blank">'.$b.'</a>';
+			}
+			$container->get('entity_alert')->create( $project, 'Amazon S3 buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+		}
+		
+		$t_output = array_slice( explode("\n",$matches[0][4]), 1, -1 );
+		$t_bucket_gc = array_unique( $t_output );
+		$cnt5 = count( $t_bucket_gc );
+		if( $cnt5 ) {
+			$t_links = [];
+			foreach( $t_bucket_gc as $b ) {
+				$t_links[] = '<a href="https://'.$b.'.storage.googleapis.com" target="_blank">'.$b.'</a>';
+			}
+			$container->get('entity_alert')->create( $project, 'Google Cloud buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+		}
+		
+		return $cnt1+$cnt2+$cnt3+$cnt4+$cnt5;
 	}
 }

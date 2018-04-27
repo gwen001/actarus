@@ -98,11 +98,13 @@ class ServiceController extends Controller
 	}
 	*/
 	
-	public function import( $project, $sf, $format, $recon )
+	public function import( $project, $sf, $format, $recon=true )
 	{
 		set_time_limit( 0 );
 
 		switch( $format ) {
+			case 'array';
+				return $this->doImportArray( $project, $sf, $recon );
 			case 'raw_txt';
 				return $this->doImportRawTxt( $project, $sf, $recon );
 			case 'bs_xml';
@@ -115,21 +117,27 @@ class ServiceController extends Controller
 	}
 	
 	
-	private function doImportRawTxt( $project, $sf, $recon )
+	private function doImportArray( $project, $t_urls, $recon )
 	{
 		$cnt = 0;
 		$rq = $this->getParameter('request');
-		$t_urls = file( $sf, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 		$em = $this->getDoctrine()->getManager();
-		
+		$t_urls = array_unique( $t_urls );
+		//var_dump( $t_urls );
+
 		foreach( $t_urls as $url )
 		{
 			if( trim($url) == '' ) {
 				continue;
 			}
 			
+			$sign = $this->createSign( $url );
+			
+			if( $this->exist($sign) ) {
+				continue;
+			}
+
 			$t_info = parse_url( $url );
-			//var_dump( $t_info );
 			
 			$r = new ArusRequest();
 			$r->setUrl( $url );
@@ -152,21 +160,24 @@ class ServiceController extends Controller
 
 			$r->setName( $r->getHost().$r->getPath() );
 
-			if( !$this->exist($r->getSign(),true) )
-			{
-				$cnt++;
-				$em->persist( $r );
-				$em->flush();
-				
-				if( $recon ) {
-					$this->get('app')->recon( $r, 'request' );
-				}
-			}
-			else
-			{
-				unset( $r );
+			$cnt++;
+			$em->persist( $r );
+			$em->flush();
+			
+			if( $recon ) {
+				$this->get('app')->recon( $r, 'request' );
 			}
 		}
+				
+		return $cnt;
+	}
+	
+	
+	private function doImportRawTxt( $project, $sf, $recon )
+	{
+		$t_urls = file( $sf, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
+		
+		$cnt = $this->doImportArray( $project, $t_urls, $recon );
 		
 		return $cnt;
 	}
@@ -224,8 +235,9 @@ class ServiceController extends Controller
 				$r->setQuery( $t_info['query'] );
 			}
 			
-			if( !$this->exist($r->getSign(),true) ) {
+			if( !$this->exist($r->getSign(),false,true) ) {
 				$cnt++;
+				//var_dump($cnt);
 				$em->persist( $r );
 				$em->flush();
 				
@@ -239,7 +251,7 @@ class ServiceController extends Controller
 	}
 	
 	
-	public function createSign( $url )
+	public function createSign( $url, $consider_param_value=false, $https_equal=true )
 	{
 	    $url = urldecode( trim($url,' /') );
 	    
@@ -262,14 +274,32 @@ class ServiceController extends Controller
 	    }
 	    //var_dump( $t_parse );
 	    //var_dump( $t_params );
-	
-	    $str = str_replace( 's', '', $t_parse['scheme'] );
-	    $str .= $t_parse['host'];
-	    $str .= $t_parse['path'];
-	
+		
+	    $str = '';
+
+	    if( !isset($t_parse['scheme']) ) {
+	    	$t_parse['scheme'] = 'http';
+	    }
+	    if( $https_equal ) {
+	    	$str .= str_replace( ['https','sftp'], ['http','ftp'], $t_parse['scheme'] );
+	    } else {
+	    	$str .= $t_parse['scheme'];
+	    }
+	    if( isset($t_parse['host']) ) {
+		    $str .= $t_parse['host'];
+	    }
+	    if( isset($t_parse['path']) ) {
+	    	$str .= $t_parse['path'];
+	    }
+	    if( isset($t_parse['port']) && $t_parse['port']!=80 && $t_parse['port'] != 443 ) {
+	    	$str .= $t_parse['port'];
+	    }
+	    
 	    foreach( $t_params as $k=>$v ) {
 	        $str .= $k;
-	        $str .= $v;
+	        if( $consider_param_value ) {
+	        	$str .= $v;
+	        }
 	    }
 	    
 	    //echo $str."\n";

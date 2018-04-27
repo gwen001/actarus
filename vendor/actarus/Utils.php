@@ -133,7 +133,7 @@ class Utils
 	}
 	*/
 	
-	public static function extractDomain( $host )
+	public static function extractDomain( $host, &$tld=null )
 	{
 		$t_host = explode( '.', strtolower($host) );
 		//var_dump( $t_host );
@@ -141,13 +141,16 @@ class Utils
 		//var_dump( $cnt );
 		
 		if( in_array('.'.$t_host[$cnt-1].'.'.$t_host[$cnt],self::T_TLD_2) ) {
-		  $domain = $t_host[$cnt-2].'.'.$t_host[$cnt-1].'.'.$t_host[$cnt];
+			$tld = $t_host[$cnt-1].'.'.$t_host[$cnt];
+			$domain = $t_host[$cnt-2].'.'.$t_host[$cnt-1].'.'.$t_host[$cnt];
 		} else if( in_array('.'.$t_host[$cnt],self::T_TLD_1) ) {
-		  $domain = $t_host[$cnt-1].'.'.$t_host[$cnt];
-		 } else {
-		  $domain = false;
-		 }
-		
+			$tld = $t_host[$cnt];
+			$domain = $t_host[$cnt-1].'.'.$t_host[$cnt];
+		} else {
+			$tld = false;
+			$domain = false;
+		}
+
 		//var_dump( $domain );
 		return $domain;
 	}
