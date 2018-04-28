@@ -249,8 +249,21 @@ class RunTask extends Daemon
 		if( isset($this->config->db) && $this->config->db ) {
 			@$this->config->db->close();
 		}
-
-		$this->config->db = mysqli_connect( $this->config->parameters['database_host'], $this->config->parameters['database_user'], $this->config->parameters['database_password'], $this->config->parameters['database_name'] );
+		
+		$n = 5;
+		do {
+			sleep( 2 );
+			$conn = mysqli_connect( 
+				$this->config->parameters['database_host'], 
+				$this->config->parameters['database_user'], 
+				$this->config->parameters['database_password'], 
+				$this->config->parameters['database_name'] 
+			);
+			$n++;
+		} while( $n < 5 && !$conn );
+		
+		$this->config->db = $conn;
+		
 		if( !$this->config->db ) {
 			$this->logger->write( 'Cannot connect to database' );
 		}
