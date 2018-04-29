@@ -68,7 +68,7 @@ class RunTask extends Daemon
 	public function run()
 	{
 		$this->addTic( 50, array($this,'renew_logfile') );
-		$this->addTic( 50, array($this,'open_db_connection') );
+		//$this->addTic( 50, array($this,'open_db_connection') );
 
 		$this->open_db_connection();
 
