@@ -1230,6 +1230,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$entity = $task->getEntity();
 		$project = $entity->getProject();
+		$output = $task->getOutput();
 		
 		if( stristr($output,'JSONDecodeError') ) {
 			return false;
