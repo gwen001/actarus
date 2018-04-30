@@ -1230,12 +1230,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$container = $this->container;
 		$entity = $task->getEntity();
 		$project = $entity->getProject();
-		$output = explode( "\n", $task->getOutput() );
-		$t_urls = [];
 		
 		if( stristr($output,'JSONDecodeError') ) {
 			return false;
 		}
+		
+		$output = explode( "\n", $task->getOutput() );
+		$t_urls = [];
 		
 		foreach( $output as $line )
 		{
