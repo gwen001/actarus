@@ -1233,6 +1233,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$output = explode( "\n", $task->getOutput() );
 		$t_urls = [];
 		
+		if( stristr($output,'JSONDecodeError') ) {
+			return false;
+		}
+		
 		foreach( $output as $line )
 		{
 			$line = trim( $line );
@@ -1274,10 +1278,6 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$project = $entity->getProject();
 		$output = trim( $task->getOutput() );
 		$t_alert_level = $container->getParameter('alert')['level'];
-		
-		if( stristr($output,'JSONDecodeError') ) {
-			return false;
-		}
 		
 		//var_dump( $output );
 		$m = preg_match_all( '|###########.*?######################|is', $output, $matches );
