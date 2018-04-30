@@ -53,9 +53,9 @@ class ServiceController extends Controller
 	}
 	
 	
-	public function exist( $sign, $return_object=false )
+	public function exist( $project, $sign, $return_object=false )
 	{
-		$t_params = ['sign'=>[$sign,'=']];
+		$t_params = [ 'project'=>$project, 'sign'=>[$sign,'='] ];
 
 		if( $return_object ) {
 			$offset = 1;
@@ -133,7 +133,7 @@ class ServiceController extends Controller
 			
 			$sign = $this->createSign( $url );
 			
-			if( $this->exist($sign) ) {
+			if( $this->exist($project,$sign) ) {
 				continue;
 			}
 
@@ -235,7 +235,7 @@ class ServiceController extends Controller
 				$r->setQuery( $t_info['query'] );
 			}
 			
-			if( !$this->exist($r->getSign(),false,true) ) {
+			if( !$this->exist($project,$r->getSign(),false,true) ) {
 				$cnt++;
 				//var_dump($cnt);
 				$em->persist( $r );
