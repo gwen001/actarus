@@ -11,7 +11,7 @@ use ArusProjectBundle\Entity\ArusProject;
 /**
  * ArusRequest
  *
- * @ORM\Table(name="arus_request")
+ * @ORM\Table(name="arus_request", uniqueConstraints={@ORM\UniqueConstraint(columns={"project_id", "sign"})})
  * @ORM\Entity(repositoryClass="ArusRequestBundle\Repository\ArusRequestRepository")
  * @ORM\HasLifecycleCallbacks()
  */
