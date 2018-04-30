@@ -55,7 +55,7 @@ class ServiceController extends Controller
 	
 	public function exist( $project, $sign, $return_object=false )
 	{
-		$t_params = [ 'project'=>$project, 'sign'=>[$sign,'='] ];
+		$t_params = [ 'project'=>$project, 'sign'=>[$sign,'LIKE'] ];
 
 		if( $return_object ) {
 			$offset = 1;

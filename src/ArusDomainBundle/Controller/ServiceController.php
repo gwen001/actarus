@@ -61,7 +61,7 @@ class ServiceController extends Controller
 
 	public function exist( $project, $name, $id=null, $return_object=false )
 	{
-		$t_params = ['project'=>$project, 'name'=>[$name,'=']];
+		$t_params = ['project'=>$project, 'name'=>[$name,'LIKE']];
 
 		if( $id ) {
 			$t_params['id'] = [$id,'!='];
