@@ -10,11 +10,10 @@ else
   source_dir=$(dirname $(echo $bash_source | awk -F " " '{print $(NF)}'))"/"
 fi
 
-
 cd $source_dir
 
 rm *.stop *.lock
 
 $source_dir/daemon_run_task.php
-$source_dir/daemon_interpret_task.php
 $source_dir/daemon_kill_task.php
+$source_dir/daemon_interpret_task.php

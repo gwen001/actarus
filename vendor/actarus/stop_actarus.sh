@@ -9,7 +9,6 @@ else
   source_dir=$(dirname $(echo $bash_source | awk -F " " '{print $(NF)}'))"/"
 fi
 
-
 cd $source_dir
 
 touch daemon_run_task.php.stop
