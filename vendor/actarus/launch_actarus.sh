@@ -17,4 +17,4 @@ rm *.stop *.lock
 
 $source_dir/daemon_run_task.php
 $source_dir/daemon_interpret_task.php
-#$source_dir/daemon_kill_task.php
+$source_dir/daemon_kill_task.php
