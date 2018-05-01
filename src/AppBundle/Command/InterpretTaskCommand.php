@@ -1287,10 +1287,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		
 		// add new domains with the same extension
 		$t_new_domains = [];
-		$t_output = array_slice( explode("\n",$matches[0][0]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][0] );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
-			if( stristr($d,'PHP Warning') ) {
+			if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 				continue;
 			}
 			$t_new_domains[] = Utils::extractDomain( $d );
@@ -1302,10 +1302,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		
 		// add new hosts within the same domain, yes yes redondant
 		$t_new_hosts = [];
-		$t_output = array_slice( explode("\n",$matches[0][1]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][1] );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
-			if( stristr($d,'PHP Warning') ) {
+			if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 				continue;
 			}
 			$t_new_hosts[] = $d;
@@ -1317,10 +1317,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		
 		// add new urls within the same host
 		$t_new_urls = [];
-		$t_output = array_slice( explode("\n",$matches[0][2]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][2] );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
-			if( stristr($d,'PHP Warning') ) {
+			if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 				continue;
 			}
 			$t_new_urls[] = $d;
@@ -1332,10 +1332,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		// add new urls within the same host, yes yes this normal!
 		$t_new_urls = [];
-		$t_output = array_slice( explode("\n",$matches[0][3]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][3] );
 		//var_dump( $t_new_domains );
 		foreach( $t_output as $d ) {
-			if( stristr($d,'PHP Warning') ) {
+			if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 				continue;
 			}
 			$t_new_urls[] = $d;
@@ -1346,13 +1346,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 
 		// amazon s3 buckets
-		$t_output = array_slice( explode("\n",$matches[0][4]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][4] );
 		$t_bucket_aws = array_unique( $t_output );
 		$cnt4 = count( $t_bucket_aws );
 		if( $cnt4 ) {
 			$t_links = [];
 			foreach( $t_bucket_aws as $b ) {
-				if( stristr($b,'PHP Warning') ) {
+				if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 					continue;
 				}
 				$t_links[] = '<a href="https://'.$b.'.s3.amazonaws.com" target="_blank">'.$b.'</a>';
@@ -1363,13 +1363,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 		
 		// google cloud buckets
-		$t_output = array_slice( explode("\n",$matches[0][5]), 1, -1 );
+		$t_output = explode( "\n", $matches[0][5] );
 		$t_bucket_gc = array_unique( $t_output );
 		$cnt5 = count( $t_bucket_gc );
 		if( $cnt5 ) {
 			$t_links = [];
 			foreach( $t_bucket_gc as $b ) {
-				if( stristr($b,'PHP Warning') ) {
+				if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
 					continue;
 				}
 				$t_links[] = '<a href="https://'.$b.'.storage.googleapis.com" target="_blank">'.$b.'</a>';
