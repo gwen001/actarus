@@ -32,10 +32,17 @@ class ArusServerServiceRepository extends \Doctrine\ORM\EntityRepository
 
 		if( $data )
 		{
-			/*if ($data->getServer()) {
-				$query->andWhere('ss.project=:project_id');
-				$t_params['project_id'] = $data->getProject()->getId();
-			}*/
+			if( $data->getServer() ) {
+				$query->andWhere('ss.server=:server_id');
+				$t_params['server_id'] = $data->getServer()->getId();
+			}
+			if( ($port=$data->getPort()) ) {
+				if( !is_array($port) ) {
+					$port = [ $port, '=' ];
+				}
+				$query->andWhere('ss.port '.$port[1].' :port');
+				$t_params['port'] = $port[0];
+			}
 			if( ($service=$data->getService()) ) {
 				if( !is_array($service) ) {
 					$service = [ '%'.$service.'%', 'LIKE' ];

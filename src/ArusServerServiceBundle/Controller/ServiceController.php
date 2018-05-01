@@ -41,9 +41,32 @@ class ServiceController extends Controller
 		}
 		$offset = $limit * ($page-1);
 
+		//var_dump($data);
 		$t_service = $this->em->getRepository('ArusServerServiceBundle:ArusServerService')->search( $data, $offset, $limit );
 
 		return $t_service;
+	}
+	
+
+	public function exist( $server, $port, $return_object=false )
+	{
+		$t_params = ['server'=>$server,'port'=>$port];
+
+		if( $return_object ) {
+			$offset = 1;
+		} else {
+			$offset = -1;
+		}
+
+		$exist = $this->search( $t_params, $offset );
+
+		if( !$return_object ) {
+			return $exist;
+		} elseif( is_array($exist) && count($exist) ) {
+			return $exist[0];
+		} else {
+			return false;
+		}
 	}
 
 	

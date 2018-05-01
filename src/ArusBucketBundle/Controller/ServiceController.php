@@ -53,11 +53,13 @@ class ServiceController extends Controller
 	public function exist( $project, $name, $id=null, $return_object=false )
 	{
 		$t_params = ['project'=>$project, 'name'=>[$name,'LIKE']];
+		//var_dump( $t_params );
+		var_dump( $project->getId() );
 
 		if( $id ) {
 			$t_params['id'] = [$id,'!='];
 		}
-
+		
 		if( $return_object ) {
 			$offset = 1;
 		} else {
@@ -65,6 +67,7 @@ class ServiceController extends Controller
 		}
 
 		$exist = $this->search( $t_params, $offset );
+		var_dump( $exist );
 
 		if( !$return_object ) {
 			return $exist;

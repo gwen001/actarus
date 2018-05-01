@@ -699,7 +699,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				}
 				$a_text[] = $txt;
 
-				$container->get('server_service')->create( $entity, $port, $type, $service, $version );
+				$exist = $container->get('server_service')->exist( $entity, $port );
+				if( !$exist ) {
+					$container->get('server_service')->create( $entity, $port, $type, $service, $version );
+				}
 			}
 
 			$container->get('entity_task')->create( $entity, 'testhttp', ['PORT'=>implode(',',$t_port)] );
