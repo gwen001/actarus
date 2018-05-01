@@ -30,6 +30,7 @@ if( is_array($config->parameters['daemon_run_task_ignore']) && count($config->pa
 	$config->taskIgnore = 0;
 }
 
+
 // logger
 $logger = Logger::getInstance();
 $logger->setPrefix( 'cmd_' );

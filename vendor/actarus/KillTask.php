@@ -124,13 +124,13 @@ class KillTask extends Daemon
 		while( ($cmd=$result->fetch_object()) )
 		{
 			try {
-				$this->fork( $this->config->consolePath, array('arus:task:kill','-t',$cmd->id) );
+				$this->fork( $this->config->consolePath, array('arus:task:stop','-t',$cmd->id) );
 				continue;
 			} catch( Exception $e) {
 				$this->logger->write( 'error: %s', $e->getMessage() );
 			}
 		}
-		
+		/*
 		$q = "SELECT id FROM arus_entity_task WHERE cluster_id='".$this->config->parameters['daemon_cluster_id']."' AND status='".$this->config->parameters['task']['status']['waiting']."' AND command LIKE 'task_killer%' LIMIT 0,".$this->getFreePlace();
 		$result = $this->config->db->query( $q );
 		if( !$result ) {
@@ -147,7 +147,7 @@ class KillTask extends Daemon
 				$this->logger->write( 'error: %s', $e->getMessage() );
 			}
 		}
-
+		*/
 		//$this->logger->write( 'memory: %s | peak: %s', memory_get_usage(true), memory_get_peak_usage(true) );
 	}
 

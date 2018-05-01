@@ -20,6 +20,7 @@ $config->loadParameters( $config->configPath.'/act_parameters.yml', 'parameters'
 $config->daemonDelay = 3000000; // 3 seconds
 $config->daemonChild = $config->parameters['daemon_kill_max_child'];
 
+
 // logger
 $logger = Logger::getInstance();
 $logger->setPrefix( 'cmd_' );
