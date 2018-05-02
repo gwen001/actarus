@@ -1268,7 +1268,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$entity = $task->getEntity();
 		
 		$t_options = [];
-		$t_options['DIR'] = '/tmp/'.$entity->getName();
+		$t_options['DIR'] = '/var/www/'.$entity->getName();
 		$new_task = $container->get('entity_task')->create( $entity, 'extract_datas', $t_options, null, 0, $task->getClusterId() );
 		
 		return true;
