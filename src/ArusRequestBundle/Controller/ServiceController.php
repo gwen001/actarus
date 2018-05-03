@@ -146,7 +146,9 @@ class ServiceController extends Controller
 			$r->setHost( $t_info['host'] );
 			$r->setProtocol( $t_info['scheme'] );
 			$r->setMethod( $rq['default_method'] );
-			$r->setPath( $t_info['path'] );
+			if( isset($t_info['path']) ) {
+				$r->setPath( $t_info['path'] );
+			}
 			
 			if( $r->getProtocol() == 'https' ) {
 				$r->setPort( 443 );
@@ -230,7 +232,9 @@ class ServiceController extends Controller
 			
 			$r->setSign( $this->createSign($r->getUrl()) );
 			$t_info = parse_url( $r->getUrl() );
-			$r->setPath( $t_info['path'] );
+			if( isset($t_info['path']) ) {
+				$r->setPath( $t_info['path'] );
+			}
 			if( isset($t_info['query']) ) {
 				$r->setQuery( $t_info['query'] );
 			}
