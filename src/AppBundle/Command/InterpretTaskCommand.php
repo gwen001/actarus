@@ -1235,7 +1235,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$project = $entity->getProject();
 		$output = $task->getOutput();
 		
-		if( stristr($output,'JSONDecodeError') ) {
+		if( stristr($output,'JSONDecodeError') || stristr($output,'Traceback (most recent call last)') || stristr($output,'Connection timed out') ) {
 			return false;
 		}
 		
@@ -1245,7 +1245,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		foreach( $output as $line )
 		{
 			$line = trim( $line );
-			if( $line == '' ) {
+			if( $line == '' || $line == 'The end.' ) {
 				continue;
 			}
 			
