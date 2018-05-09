@@ -894,18 +894,23 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 	private function sqlmap_smart( $task )
 	{
+		return $this->sqlmap( $task );
+	}
+	private function sqlmap( $task )
+	{
 		$container = $this->container;
 		$output = $task->getOutput();
 		$output = str_replace( "\r", '', $output );
 		$task->setOutput( $output );
-		$t_status = array_flip( $container->getParameter('request')['status'] );
+		
+		/*$t_status = array_flip( $container->getParameter('request')['status'] );
 		
 		$request = $task->getEntity();
 		$request->setStatus( $t_status['tested'] );
 
 		$em = $this->em;
 		$em->persist( $request );
-		$em->flush();
+		$em->flush();*/
 		
 		return 1;
 	}
