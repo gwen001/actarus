@@ -7,7 +7,7 @@
                     - {{ t.getDuration() }}
                 {% endif %}
                 <div class="pull-right">
-                    <a href="javascript:;" title="Copy" class="task-copy"><i class="fa fa-fw fa-files-o"></i></a>
+                    <a href="javascript:;" title="Copy" class="task-copy text-muted"><i class="fa fa-fw fa-files-o"></i></a>
                     &nbsp;
                     {% if t.getStatus() < 3 %}
                         <a href="{{ url('task_stop',{'id':t.getId()}) }}" title="Stop" class="task-stop text-muted"><i class="fa fa-fw fa-hand-stop-o"></i></a>
