@@ -8,6 +8,23 @@
     t_task = {{ t_task_list|raw }};
     $(document).ready(function() {
         $('#modalTaskAdd').unbind();
+        $('.task-copy').unbind();
+        $('.task-copy').on('click', function(e) {
+            e.preventDefault();
+            var $temp = $("<input>");
+            $("body").append($temp);
+            txt = $(this).parents('.panel').find('.command').text();
+            $temp.val( txt ).select();
+            document.execCommand( 'copy' );
+            $temp.remove();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    t_task = {{ t_task_list|raw }};
+    $(document).ready(function() {
+        $('#modalTaskAdd').unbind();
         $('.task-add').unbind();
         $('.task-add').on('click', function(e) {
             e.preventDefault();

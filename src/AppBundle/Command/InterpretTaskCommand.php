@@ -249,6 +249,34 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 	
+	private function amass( $task )
+	{
+        $container = $this->container;
+        $domain = $task->getEntity();
+		$domain_name = $domain->getName();
+		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
+
+		foreach( $output as $h )
+		{
+			if( $h == '' ) {
+				continue;
+			}
+			if( Utils::extractDomain($h) == $domain_name ) {
+				$t_host[] = $h;
+			}
+		}
+
+		$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
+
+		if( $cnt ) {
+			$t_alert_level = $container->getParameter('alert')['level'];
+			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
+		}
+
+		return $cnt;
+	}
+
+
 	private function aquatone_discover( $task )
 	{
         $container = $this->container;
@@ -846,6 +874,39 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 		
+		return $cnt;
+	}
+
+
+	private function subfinder( $task )
+	{
+        $container = $this->container;
+        $domain = $task->getEntity();
+		$domain_name = $domain->getName();
+		$output = array_map( 'trim', explode("\n",$task->getOutput()) );
+		$flag = false;
+
+		foreach( $output as $h )
+		{
+			if( stristr($h,'Unique subdomains found for') ) {
+				$flag = true;
+				continue;
+			}
+			if( !$flag || $h == '' ) {
+				continue;
+			}
+			if( Utils::extractDomain($h) == $domain_name ) {
+				$t_host[] = $h;
+			}
+		}
+
+		$cnt = $container->get('host')->import( $domain->getProject(), $t_host );
+
+		if( $cnt ) {
+			$t_alert_level = $container->getParameter('alert')['level'];
+			$container->get('entity_alert')->create( $domain, $cnt.' new host added.', $t_alert_level['info'], $task );
+		}
+
 		return $cnt;
 	}
 
