@@ -1462,6 +1462,23 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			}
 		}
 		
-		return $cnt1+$cnt2+$cnt3+$cnt4+$cnt5;
+		// digitalocean buckets
+		$t_output = explode( "\n", $matches[0][6] );
+		$t_bucket_do = array_unique( $t_output );
+		$cnt6 = count( $t_bucket_do );
+		if( $cnt6 ) {
+			$t_links = [];
+			foreach( $t_bucket_do as $b ) {
+				if( stristr($d,'PHP Warning') !== false || stristr($d,'###') !== false ) {
+					continue;
+				}
+				$t_links[] = '<a href="https://'.$b.'.digitaloceanspaces.com" target="_blank">'.$b.'</a>';
+			}
+			if( count($t_links) ) {
+				$container->get('entity_alert')->create( $project, 'DigitalOcean buckets found: '.implode(', ',$t_links).'.', $t_alert_level['low'], $task );
+			}
+		}
+		
+		return $cnt1+$cnt2+$cnt3+$cnt4+$cnt5+$cnt6;
 	}
 }
