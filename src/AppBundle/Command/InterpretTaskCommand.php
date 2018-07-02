@@ -595,8 +595,13 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		return $cnt;
 	}
 
+
 	
-	private function masscan( $task )
+	private function masscan_single( $task )
+	{
+		return $this->masscan( $task, true );
+	}	
+	private function masscan( $task, $single=false )
 	{
 		$project = $task->getProject();
 		$output = $task->getOutput();
@@ -633,12 +638,16 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		foreach( $t_ip as $ip=>$v )
 		{
-			$server = $container->get('server')->search( ['name'=>[$ip,'=']] );
-			if( !$server || !is_array($server) || !count($server) ) {
-				// impossible!
-				continue;
+			if( $single ) {
+				$server = $entity;
+			} else {
+				$server = $container->get('server')->search( ['name'=>[$ip,'=']] );
+				if( !$server || !is_array($server) || !count($server) ) {
+					// impossible!
+					continue;
+				}
+				$server = $server[0];
 			}
-			$server = $server[0];
 
 			foreach( $v as $prot=>$t_port ) {
 				if( count($t_port) > 0 && count($t_port) < 50 ) {
@@ -655,10 +664,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 			$container->get('entity_task')->create( $server, 'nmap_custom', $t_options );
 		}
 
+		if( $single && !$udp ) {
+			$container->get('entity_task')->create( $entity, 'masscan_single', ['UDP'=>'U:'], null, -1 );
+		}
+
 		return $cnt;
 	}
 
-	
+
 	private function nmap_udp( $task )
 	{
         return $this->nmap_full( $task );
@@ -1071,7 +1084,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				//$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options, null, -2 );
 				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
+				$container->get('entity_task')->create( $task->getEntity(), 'eyewitness', $t_options );
+				//$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'urlgrabber', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'urlgrabber_wget', $t_options, null, -1 );
 				//$container->get('entity_task')->create( $task->getEntity(), 'open_redirect', $t_options );
