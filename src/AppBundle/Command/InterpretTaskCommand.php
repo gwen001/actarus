@@ -1367,7 +1367,10 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		//var_dump( $output );
 		$m = preg_match_all( '|###########.*?######################|is', $output, $matches );
 		//var_dump( $matches );
-		
+		if( !$m ) {
+			return 0;
+		}
+
 		// add new domains with the same extension
 		$t_new_domains = [];
 		$t_output = explode( "\n", $matches[0][0] );
