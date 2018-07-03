@@ -114,7 +114,7 @@ class RunTask extends Daemon
 	private function loop()
 	{
 		$cnt = 0;
-		$test_workaround_offset = $this->config->parameters['daemon_cluster_id'] * $this->config->parameters['daemon_run_max_child'] * 10;
+		$test_workaround_offset = $this->config->parameters['daemon_cluster_id'] * $this->config->parameters['daemon_run_max_child'] * 1;
 
 		if( $this->config->taskPriority )
 		{
