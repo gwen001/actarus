@@ -1115,7 +1115,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 				$container->get('entity_task')->create( $task->getEntity(), 'wappalyzer', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'testcrlf', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'testcors', $t_options );
-				$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options, null, -2 );
+				$container->get('entity_task')->create( $task->getEntity(), 'gobuster', $t_options, null, -2 );
+				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_myhardw', $t_options, null, -2 );
 				//$container->get('entity_task')->create( $task->getEntity(), 'dirb_forbidden', $t_options );
 				$container->get('entity_task')->create( $task->getEntity(), 'eyewitness', $t_options );
 				//$container->get('entity_task')->create( $task->getEntity(), 'httpscreenshot', $t_options );
