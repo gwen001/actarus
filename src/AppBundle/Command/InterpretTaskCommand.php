@@ -841,6 +841,39 @@ class InterpretTaskCommand extends ContainerAwareCommand
 	}
 
 
+	private function quick_hits( $task )
+	{
+		$em = $this->em;
+		$container = $this->container;
+		$output = $task->getOutput();
+		//var_dump( $output );
+		$t_files = [];
+
+		$m = preg_match_all( '#(.*)\s+C=200\s+L=([0-9]+)\s+T=.*#i', $output, $matches );
+		//var_dump( $matches );
+		$cnt = count( $matches );
+
+		if( $m )
+		{
+			for( $i=0 ; $i<$cnt ; $i++ )
+			{
+				if( (int)$matches[2][$i] != 0 ) {
+					$url = $matches[1][$i];
+					$file = basename( $url );
+					$t_files[] = '<a href="'.$url.'" target="_blank">'.$file.'</a>';
+				}
+			}
+
+			if( count($t_files) ) {
+				$t_alert_level = $container->getParameter('alert')['level'];
+				$container->get('entity_alert')->create( $task->getEntity(), 'Interesting files found: ' . implode(', ', $t_files) . '.', $t_alert_level['medium'], $task );
+			}
+		}
+
+		return -1;
+	}
+
+
 	private function act_mydirbbucket( $task )
 	{
 		return $this->s3_buckets( $task );
