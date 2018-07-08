@@ -850,7 +850,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$t_files = [];
 
 		$m = preg_match_all( '#(.*)\s+C=200\s+L=([0-9]+)\s+T=.*#i', $output, $matches );
-		var_dump( $matches );
+		//var_dump( $matches );
 		$cnt = count( $matches[0] );
 
 		if( $m )
