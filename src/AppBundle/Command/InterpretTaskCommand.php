@@ -481,14 +481,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		$m = preg_match_all( '#(.*) \(Status: 200\) \[Size: (.*)\]#i', $output, $matches );
 		//var_dump( $matches );
-		$cnt = count( $matches );
+		$cnt = count( $matches[0] );
 
 		if( $m )
 		{
 			for( $i=0 ; $i<$cnt ; $i++ )
 			{
 				if( (int)$matches[2][$i] != 0 ) {
-					$url = $matches[1][$i];
+					$url = trim( $matches[1][$i] );
 					$file = basename( $url );
 					$t_files[] = '<a href="'.$url.'" target="_blank">'.$file.'</a>';
 				}
@@ -851,14 +851,14 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 		$m = preg_match_all( '#(.*)\s+C=200\s+L=([0-9]+)\s+T=.*#i', $output, $matches );
 		var_dump( $matches );
-		$cnt = count( $matches );
+		$cnt = count( $matches[0] );
 
 		if( $m )
 		{
 			for( $i=0 ; $i<$cnt ; $i++ )
 			{
 				if( (int)$matches[2][$i] != 0 ) {
-					$url = $matches[1][$i];
+					$url = trim( $matches[1][$i] );
 					$file = basename( $url );
 					$t_files[] = '<a href="'.$url.'" target="_blank">'.$file.'</a>';
 				}
