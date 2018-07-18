@@ -496,7 +496,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 			if( count($t_files) ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $task->getEntity(), 'Interesting files found: ' . implode(', ', $t_files) . '.', $t_alert_level['medium'], $task );
+				$container->get('entity_alert')->create( $task->getEntity(), 'Interesting files found: ' . implode(', ', $t_files) . '.', $t_alert_level['low'], $task );
 			}
 		}
 
@@ -866,7 +866,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 
 			if( count($t_files) ) {
 				$t_alert_level = $container->getParameter('alert')['level'];
-				$container->get('entity_alert')->create( $task->getEntity(), 'Interesting files found: ' . implode(', ', $t_files) . '.', $t_alert_level['medium'], $task );
+				$container->get('entity_alert')->create( $task->getEntity(), 'Interesting files found: ' . implode(', ', $t_files) . '.', $t_alert_level['low'], $task );
 			}
 		}
 
@@ -1430,7 +1430,8 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		$project = $entity->getProject();
 		$output = trim( $task->getOutput() );
 		$t_alert_level = $container->getParameter('alert')['level'];
-		
+		$cnt1 = $cnt2 = $cnt3 = $cnt4 = $cnt5 = $cnt6 = 0;
+
 		//var_dump( $output );
 		$m = preg_match_all( '|###########.*?######################|is', $output, $matches );
 		//var_dump( $matches );
@@ -1450,7 +1451,7 @@ class InterpretTaskCommand extends ContainerAwareCommand
 		}
 		//var_dump( $t_new_domains );
 		if( count($t_new_domains) ) {
-			$cnt1 = $container->get('domain')->import( $project, $t_new_domains, true );
+			//$cnt1 = $container->get('domain')->import( $project, $t_new_domains, true );
 		}
 		
 		// add new hosts within the same domain, yes yes redondant
